@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+
+# Python execution environment for backend agents
+# Installs: pip, poetry, common development tools
+
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip poetry
+
+WORKDIR /workspace

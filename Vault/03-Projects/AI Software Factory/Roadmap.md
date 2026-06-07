@@ -6,7 +6,7 @@ Last Updated: 2026-06-07
 
 | Phase | Name | Status |
 |---|---|---|
-| 1 | Foundation | Not Started |
+| 1 | Foundation | In Progress |
 | 2 | Knowledge System | Not Started |
 | 3 | Requirements Management | Not Started |
 | 4 | Fact vs Session Separation | Not Started |
@@ -22,12 +22,21 @@ Last Updated: 2026-06-07
 
 ## Next Actions
 
-- [ ] Phase 1: Configure VS Code workspace and extensions
-- [ ] Phase 1: Initialize Git branching strategy
-- [ ] Phase 1: Stand up Docker Compose environment
-- [ ] Phase 2: Write first categorized ADRs
-- [ ] Phase 2: Write standards documents
-- [ ] Phase 3: Define initial requirements for this project
+### Phase 1 Foundation (In Progress)
+- [x] Configure VS Code workspace and extensions ([[../../../.vscode/extensions.json|config]], [[../../../.vscode/settings.json|settings]])
+- [ ] Initialize Git branching strategy (see [[../../../WORKFLOW.md|WORKFLOW.md]]; rename master → main pending)
+- [x] Stand up Docker Compose environment ([[../../../docker-compose.yml|docker-compose.yml]], [[../../../docker|Dockerfile templates]])
+- [x] Create infrastructure ADR ([[ADR-INFRA-001.md|ADR-INFRA-001]])
+
+### Phase 2 Knowledge System
+- [ ] Write first categorized ADRs (use [[ADR-INFRA-001.md|ADR-INFRA-001]] as template)
+- [ ] Write standards documents (coding, security, documentation)
+- [ ] Create prompt library structure in [[../../05-Prompts|05-Prompts/]]
+
+### Phase 3+ 
+- [ ] Define initial requirements
+- [ ] Chroma persistence and schema management
+- [ ] MCP server integrations
 
 ## Related
 
