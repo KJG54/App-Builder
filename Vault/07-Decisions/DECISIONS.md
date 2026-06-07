@@ -275,8 +275,29 @@
 These decisions define system structure:
 
 - Decision 1: Knowledge-first architecture → [[ADR-ARCH-001]]
-- Decision 2: Facts/sessions separation → [[ADR-DATA-001]] (future)
 - Decision 8: Phases prioritization → [[Roadmap]]
+- [Future: Microservices patterns (ADR-ARCH-002), caching strategy (ADR-ARCH-003)]
+
+### Data (ADR-DATA-xxx)
+
+These decisions define data storage and retrieval:
+
+- Decision 2: Facts/sessions separation → [[ADR-DATA-001]]
+- [Future: Database migration strategy (ADR-DATA-002), backup and recovery (ADR-DATA-003)]
+
+### API (ADR-API-xxx)
+
+These decisions define API design and evolution:
+
+- RESTful API Design Conventions → [[ADR-API-001]]
+- [Future: Pagination strategy (ADR-API-002), versioning deprecation (ADR-API-003)]
+
+### Integration (ADR-INT-xxx)
+
+These decisions define external system integration:
+
+- MCP Server Integration Policy → [[ADR-INT-001]]
+- [Future: Webhook strategy (ADR-INT-002), rate limiting (ADR-INT-003)]
 
 ### Infrastructure (ADR-INFRA-xxx)
 
@@ -284,7 +305,7 @@ These decisions define deployment and operations:
 
 - Decision 4: Obsidian + Chroma
 - Decision 5: Docker containerization
-- [Future: Networking, backup, monitoring]
+- [Future: Networking (ADR-INFRA-002), monitoring (ADR-INFRA-003), backup (ADR-INFRA-004)]
 
 ### Security (ADR-SEC-xxx)
 
@@ -295,11 +316,12 @@ These decisions define security posture:
 
 ### Process (ADR-PROC-xxx)
 
-These decisions define workflow:
+These decisions define workflow and governance:
 
-- Decision 6: ADR categories
-- Decision 7: Agent roles
-- [Future: Approval workflows, escalation]
+- ADR Authoring and Review Workflow → [[ADR-PROC-001]]
+- Decision 6: ADR categories (operationalized in ADR-PROC-001)
+- Decision 7: Agent roles → [[AI_SKILLS.md]]
+- [Future: Approval workflows (ADR-PROC-002), escalation (ADR-PROC-003)]
 
 ---
 
