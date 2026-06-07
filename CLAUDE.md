@@ -260,6 +260,117 @@ Knowledge should be discoverable later.
 
 ---
 
+# File Organization and Storage Rules
+
+## Directory Structure and Purpose
+
+Files must be stored in appropriate directories for consistency, discoverability, and seamless knowledge transfer.
+
+### Vault Directory (`Vault/`) — Permanent Knowledge
+
+**Purpose:** Source of truth for project knowledge. Discoverable via Chroma semantic search. Persists across sessions and projects.
+
+**What goes here:**
+* All standards documents (01-Standards/)
+* All technology guides (02-Technologies/)
+* All project architecture and planning (03-Projects/)
+* All workflows and processes (04-Workflows/)
+* All agent skills and prompts (05-Prompts/)
+* All architectural decisions (07-Decisions/)
+* All session summaries and retrospectives (08-Retrospectives/)
+* All requirements documents (09-Requirements/)
+* All known problems and solutions (10-Known-Problems/)
+* All templates (Templates/)
+
+**Rules:**
+* Every significant deliverable MUST have a Vault copy
+* Phase plans (Phase-1-Foundation.md, Phase-2-Knowledge-System.md, etc.) must be saved to `Vault/03-Projects/AI Software Factory/`
+* Documents must be discoverable via backlinks and Chroma indexing
+* Never leave work product only in `.claude/` directories
+
+### Project Directory (`./ ` root) — Operational Configuration
+
+**Purpose:** Runtime configuration and operational files needed for immediate project execution.
+
+**What goes here:**
+* CLAUDE.md (governance document, read before every task)
+* WORKFLOW.md (git workflow and discipline)
+* docker-compose.yml (service orchestration)
+* .mcp.json (MCP server configuration)
+* .gitignore (version control exclusions)
+* Project source code (if any: src/, app/, agents/, etc.)
+
+**Rules:**
+* Files here are committed to Git
+* Changes require approval per Approval Requirements
+* Keep minimal; prefer Vault for documentation
+
+### Claude Working Directory (`.claude/`) — Session Artifacts
+
+**Purpose:** Temporary working files that aid planning but aren't permanent deliverables.
+
+**What goes here:**
+* `.claude/plans/` — Working versions of phase plans (before Vault copy created)
+* `.claude/projects/.../memory/` — Session-persistent memory (MEMORY.md, feedback_*.md, etc.)
+* Temporary analysis files (marked with `_` prefix, e.g., `_analysis.json`)
+
+**Rules:**
+* Files here are NOT committed to Git (excluded by .gitignore)
+* Working plans go here FIRST, then copied to Vault for permanence
+* Memory files are persistent across sessions; use MEMORY.md as index
+* Temporary analysis files should be prefixed with `_` and excluded from git
+
+### Docker Directory (`docker/`) — Infrastructure as Code
+
+**Purpose:** Container definitions and infrastructure code.
+
+**What goes here:**
+* Dockerfile templates (Dockerfile.base, Dockerfile.python, etc.)
+* Docker-related configuration
+* Volume mount points (docker/volumes/chroma/)
+
+**Rules:**
+* Part of project infrastructure; committed to Git
+* docker/volumes/ contents are Git-ignored but mount point should exist
+* Changes require approval per Approval Requirements
+
+---
+
+## Phase Plans and Documentation Storage Pattern
+
+**All phase plans follow this two-location pattern:**
+
+1. **Working location:** `.claude/plans/phase-N-*.md` — Used during planning and implementation
+2. **Reference location:** `Vault/03-Projects/AI Software Factory/Phase-N-*.md` — Permanent record for future sessions
+
+**Why both?**
+* Working location: Keeps active planning in session context
+* Reference location: Ensures knowledge transfers to future sessions and is discoverable via Chroma
+
+**Implementation:**
+* Create working plan in `.claude/plans/` during planning phase
+* After user approval, create mirror copy in Vault location
+* Both files maintained in sync during implementation
+* After phase completion, primary reference is Vault copy
+
+---
+
+## Knowledge Transfer Checklist
+
+Before completing any significant work:
+
+- [ ] All deliverables have Vault copies (not just working copies)
+- [ ] Phase plans saved to both `.claude/plans/` (working) AND `Vault/03-Projects/` (permanent)
+- [ ] Session learnings recorded in memory files (MEMORY.md updated)
+- [ ] Decisions documented in Vault/07-Decisions/ (ADRs or DECISIONS.md)
+- [ ] Architecture changes documented in Vault/03-Projects/
+- [ ] Session summary created in Vault/08-Retrospectives/ (if significant work)
+- [ ] All backlinks functional (Vault files reference related documents)
+- [ ] No orphaned documentation (all new files linked from parent categories)
+- [ ] Temporary analysis files excluded from Git (start with `_` prefix)
+
+---
+
 # Documentation Rules
 
 Documentation must stay synchronized with implementation.
