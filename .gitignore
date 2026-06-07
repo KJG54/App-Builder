@@ -33,3 +33,11 @@ docker/volumes/
 
 # Logs
 *.log
+
+# Temporary analysis and ingestion files
+_*.json
+_*.py
+
+# Reference material (external vault, not part of this project)
+Obsidian reference/
+Obsidian Reference/
