@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "chroma": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["chroma-mcp@v0.2.6"],
+      "env": {
+        "CHROMA_CLIENT_TYPE": "persistent",
+        "CHROMA_DATA_DIR": "C:\\Users\\kryst\\Code\\App Builder\\.chroma"
+      }
+    }
+  }
+}

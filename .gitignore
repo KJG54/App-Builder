@@ -25,5 +25,11 @@ node_modules/
 # Docker volumes
 docker/volumes/
 
+# Chroma vector database (local persistent storage)
+.chroma/
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
+
 # Logs
 *.log
