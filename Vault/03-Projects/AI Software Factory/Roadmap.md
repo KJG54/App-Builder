@@ -1,6 +1,8 @@
 # AI Software Factory — Roadmap
 
-Last Updated: 2026-06-07
+**See also:** [[../../INDEX.md|Vault INDEX]] | [[../../STATUS.md|STATUS Dashboard]]
+
+**Last Updated:** 2026-06-07
 
 ## Phase Status
 
@@ -73,6 +75,11 @@ Stream D: Chroma Indexing
 - Updated CLAUDE.md governance (235 lines)
 
 **Total Phase 2:** 6,068+ lines of documentation and governance
+
+### Session Summaries
+- [[../../08-Retrospectives/Session-Summary-2026-06-07.md|2026-06-07]] — Phase 2.2 Streams A-D completion (standards, ADRs, prompts, Chroma indexing, vault improvement)
+
+---
 
 ## Next Actions
 
