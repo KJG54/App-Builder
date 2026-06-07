@@ -1,0 +1,34 @@
+{
+  "editor.rulers": [80, 120],
+  "editor.formatOnSave": true,
+  "editor.trimAutoWhitespace": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "files.exclude": {
+    ".chroma/**": true,
+    "docker/volumes/**": true,
+    "node_modules/**": true,
+    ".DS_Store": true,
+    "Thumbs.db": true
+  },
+  "files.associations": {
+    "*.md": "markdown",
+    "docker-compose.yml": "yaml",
+    ".mcp.json": "json"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.formatOnSave": true
+  },
+  "git.ignoreLimitWarning": true,
+  "search.exclude": {
+    ".chroma/**": true,
+    "docker/volumes/**": true,
+    ".git/**": true
+  }
+}

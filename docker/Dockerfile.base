@@ -1,0 +1,13 @@
+FROM ubuntu:22.04
+
+# Base image for all agent environments
+# Installs common tools: git, curl, jq, ca-certificates
+
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    jq \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace

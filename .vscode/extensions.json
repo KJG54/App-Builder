@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "eamodio.gitlens",
+    "yzhang.markdown-all-in-one",
+    "ms-vscode.makefile-tools",
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker",
+    "redhat.vscode-yaml",
+    "ms-python.python",
+    "DavidAnson.vscode-markdownlint"
+  ]
+}
