@@ -1,10 +1,12 @@
 ---
-name: 
-version: 1.0.0
-skill: architect | backend | frontend | qa | security | devops | documentation
-model: opus | sonnet | haiku
-status: active | validated | deprecated
-last-updated: YYYY-MM-DD
+type: Prompt
+phase: null
+status: Draft
+authority: facts
+chroma_collection: global-prompts
+tags: [agent-role, prompt]
+related: []
+last_updated: YYYY-MM-DD
 ---
 
 # Prompt

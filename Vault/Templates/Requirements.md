@@ -1,3 +1,14 @@
+---
+type: Requirement
+phase: 3
+status: Draft
+authority: facts
+chroma_collection: {project}-facts
+tags: [requirement, business | functional | non-functional]
+related: []
+last_updated: YYYY-MM-DD
+---
+
 # [Requirement ID] — [Short Title]
 
 Date: YYYY-MM-DD

@@ -1,3 +1,14 @@
+---
+type: Project
+phase: 1
+status: Active
+authority: facts
+chroma_collection: {project}-facts
+tags: [project, planning]
+related: []
+last_updated: YYYY-MM-DD
+---
+
 # [Project Name]
 
 Created: YYYY-MM-DD
