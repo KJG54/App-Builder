@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostCompact": [
+      {
+        "matcher": "auto|manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/create-session-note.js",
+            "timeout": 30,
+            "statusMessage": "📝 Creating session note..."
+          }
+        ]
+      }
+    ]
+  }
+}
