@@ -290,6 +290,19 @@
 
 ---
 
+## Related Decisions
+
+**ADRs discussed in this session:**
+- [[../07-Decisions/ADR-DATA-001]] — Chroma ingestion, collection schema, fact vs. session separation for semantic retrieval
+- [[../07-Decisions/ADR-ARCH-001]] — Vault as knowledge system foundation; Knowledge-First Pipeline architecture
+
+**Vault structure validated:**
+- 13-phase roadmap with Phase 1-2 complete
+- All standards, ADRs, and prompts indexed in Chroma
+- Metadata annotations prepared for Phase 5 Chroma integration
+
+---
+
 **Session completed:** 2026-06-07
 **Status:** All planned work completed; project ready for Phase 1 Foundation work
 **Next review:** After Phase 1 completion or when Phase 2 begins

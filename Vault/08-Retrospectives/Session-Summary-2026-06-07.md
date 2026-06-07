@@ -75,3 +75,15 @@ None. Session was entirely planning and documentation.
 - Models used: Haiku 4.5 (primary), Sonnet 4.6 (brief)
 - Retrieval quality notes: N/A (no retrieval system built yet)
 - Confidence levels: High — all outputs were planning/documentation with no ambiguity
+
+## Related Decisions
+
+**ADRs discussed in this session:**
+- [[../07-Decisions/ADR-ARCH-001]] — Knowledge as primary asset; Knowledge-First Pipeline architecture
+- [[../07-Decisions/ADR-DATA-001]] — Facts/Sessions separation; Chroma collection schema and retrieval strategy
+- [[../07-Decisions/ADR-SEC-001]] — Verification Agent; Human approval gates; 5-tier approval system
+- [[../07-Decisions/ADR-PROC-001]] — ADR categorization system (ARCH, SEC, DATA, INFRA, API, INT, PROC)
+
+**Standards referenced:**
+- [[../01-Standards/Architecture Standards]] — System design principles and versioning strategy
+- [[../01-Standards/Documentation Standards]] — Specification and ADR quality requirements

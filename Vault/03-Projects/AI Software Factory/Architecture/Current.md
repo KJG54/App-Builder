@@ -4,7 +4,21 @@ Date: 2026-06-07
 Previous Version: None (initial)
 Changes: Initial architecture definition
 Reason: Project inception
-Linked ADRs: To be created in Phase 2
+
+## Linked ADRs
+
+**Core Architecture:**
+- [[../../07-Decisions/ADR-ARCH-001]] — Knowledge-First Pipeline Design (informs entire system design)
+- [[../../07-Decisions/ADR-DATA-001]] — Chroma Collection Schema (informs data layer and semantic retrieval)
+- [[../../07-Decisions/ADR-SEC-001]] — Human Approval Gates (informs verification layer and agent authority)
+
+**Infrastructure & Integration:**
+- [[../../07-Decisions/ADR-INFRA-001]] — VS Code Workspace Configuration (informs operational environment)
+- [[../../07-Decisions/ADR-INT-001]] — MCP Server Integration Policy (informs tool access layer)
+
+**API & Workflows:**
+- [[../../07-Decisions/ADR-API-001]] — RESTful API Design Conventions (informs API component)
+- [[../../07-Decisions/ADR-PROC-001]] — ADR Authoring Workflow (informs decision process)
 
 ## System Overview
 
