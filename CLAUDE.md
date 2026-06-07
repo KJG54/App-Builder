@@ -168,6 +168,241 @@ Provide reasoning before requesting approval.
 
 ---
 
+# Additional Governance Rules
+
+## Decision Priority
+
+When rules conflict, follow this order:
+
+1. Direct user instructions
+2. Safety and system constraints
+3. CLAUDE.md governance
+4. Approved architectural decisions ([[07-Decisions/DECISIONS.md]])
+5. Existing architecture ([[Architecture/Current.md]])
+6. Project documentation
+7. Optimization suggestions
+
+Never violate a higher-priority rule to satisfy a lower-priority rule.
+
+If a conflict is detected, explicitly identify the conflict before proceeding.
+
+---
+
+## Complexity Budget
+
+Prefer:
+
+* Existing code
+* Existing services
+* Existing dependencies
+* Existing patterns
+
+Before introducing:
+
+* New frameworks
+* New libraries
+* New abstractions
+* New services
+* New infrastructure
+
+Explain:
+
+* Why existing solutions are insufficient
+* Benefits of the proposed addition
+* Long-term maintenance implications
+
+The simplest solution that satisfies requirements is preferred. Avoid architectural growth without clear justification.
+
+---
+
+## Scope Control
+
+Implement only the requested change.
+
+Do not:
+
+* Fix unrelated issues
+* Refactor unrelated systems
+* Reorganize files without approval
+* Upgrade dependencies without approval
+* Introduce unrelated improvements
+
+If additional issues are discovered:
+
+1. Document them.
+2. Inform the user.
+3. Continue focusing on the requested task unless approval is granted.
+
+Favor small, focused changes.
+
+---
+
+## Recommendation Standards
+
+When recommending significant technical changes, provide:
+
+### Current Situation
+
+Describe the existing implementation.
+
+### Problem
+
+Identify the specific issue being solved.
+
+### Evidence
+
+Provide observations, findings, measurements, or reasoning supporting the problem statement.
+
+### Proposed Solution
+
+Describe the recommended approach.
+
+### Tradeoffs
+
+Explain advantages and disadvantages.
+
+### Alternatives
+
+Describe reasonable alternatives that were considered.
+
+Avoid recommendations based solely on personal preference.
+
+---
+
+## Architectural Decision Records (ADR)
+
+Significant architectural decisions must be documented in [[Vault/07-Decisions/]].
+
+Recommended ADR format (use [[ADR-INFRA-001]] as precedent):
+
+* Date
+* Status
+* Context
+* Problem Statement
+* Options Considered
+* Decision
+* Consequences
+* Follow-Up Actions
+
+Examples of decisions requiring ADRs:
+
+* Major architectural changes
+* New frameworks
+* Database strategy changes
+* Deployment strategy changes
+* AI provider strategy changes
+* Cross-project standards
+
+Architecture should be explainable from ADR history. All significant decisions should be traceable via:
+- ADRs in [[Vault/07-Decisions/]]
+- [[DECISIONS.md]] (index of all decisions)
+- Architecture versioning in [[Vault/03-Projects/AI Software Factory/]]
+
+Related: [[ADR-ARCH-001]] (Knowledge-First Pipeline Design), [[ADR-SEC-001]] (Human Approval Gate Requirements)
+
+---
+
+## Documentation Update Criteria
+
+Documentation updates are REQUIRED when:
+
+* Behavior changes
+* Architecture changes
+* Requirements change
+* Operational procedures change
+* New systems are introduced
+* Existing systems are removed
+
+Documentation updates are OPTIONAL for:
+
+* Minor bug fixes
+* Cosmetic changes
+* Internal implementation details with no external impact
+
+Avoid documentation churn that does not improve future maintainability.
+
+---
+
+## Historical Research Guidelines
+
+Search implementation history when:
+
+* Modifying an existing subsystem
+* Revisiting a previous decision
+* Investigating a regression
+* Replacing an existing implementation
+* Resolving recurring issues
+
+Do not perform extensive historical research for isolated, low-risk changes.
+
+Balance context gathering with execution efficiency.
+
+---
+
+## Risk Classification
+
+Before significant work, classify risk level. Risk level determines approval gate per [[ADR-SEC-001]].
+
+### Low Risk (Tier 1: No Approval Required)
+
+Examples:
+
+* Bug fixes
+* Documentation updates
+* Small isolated features
+* Test additions
+
+May proceed after normal review.
+
+**Related:** Tier 1 in [[ADR-SEC-001]] — Agent Authority: No Approval Required
+
+### Medium Risk (Tier 2-3: Review or Approval)
+
+Examples:
+
+* Cross-module changes
+* New integrations
+* Internal refactors
+* API changes
+
+Require planning and impact analysis.
+
+**Related:** Tier 2 (Code Review) and Tier 3 (Approval Required) in [[ADR-SEC-001]]
+
+### High Risk (Tier 4-5: Human Decision or Irreversible Operations)
+
+Examples:
+
+* Architectural changes
+* Database changes
+* Dependency strategy changes
+* Infrastructure changes
+* Breaking changes
+
+Require explicit approval before implementation.
+
+**Related:** Tier 4 (Human-Only Decisions) and Tier 5 (Irreversible Operations) in [[ADR-SEC-001]]
+
+---
+
+## Completion Checklist
+
+Before considering work complete:
+
+- [ ] Requested task completed
+- [ ] Scope remained controlled
+- [ ] No unnecessary complexity introduced
+- [ ] Existing functionality preserved
+- [ ] Validation completed
+- [ ] Required documentation updated
+- [ ] Decisions recorded (ADRs or [[DECISIONS.md]]) if applicable
+- [ ] Risks communicated
+- [ ] Follow-up work identified if necessary
+
+Completion means the change is understandable, maintainable, and documented appropriately.
+
+---
+
 # Command Execution Rules
 
 ## Detect Environment First
