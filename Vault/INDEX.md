@@ -165,6 +165,12 @@ You review code, architecture, and decisions for quality and standards complianc
 ### "How does Chroma indexing work?"
 → [[02-Technologies/Chroma-Indexing.md|Chroma-Indexing.md]] (indexing strategy, metadata schema, retrieval rules)
 
+### "What are the requirements for the AI Software Factory?"
+→ [[09-Requirements/README.md|Requirements Management Guide]] (overview) or [[09-Requirements/AI Software Factory/|Project Requirements]] (Business, Functional, Non-Functional)
+
+### "How do I write a new requirement?"
+→ [[09-Requirements/README.md|Requirements Management Guide]] (step-by-step process and template link)
+
 ---
 
 ## Navigation Guides (By Folder)

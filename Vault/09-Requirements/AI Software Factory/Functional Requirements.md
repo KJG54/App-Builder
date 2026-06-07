@@ -1,6 +1,17 @@
+---
+type: Requirement
+phase: 3
+status: Approved
+authority: facts
+chroma_collection: ai-software-factory-facts
+tags: [requirement, functional]
+related: [ADR-ARCH-001, ADR-DATA-001, Coding Standards]
+last_updated: 2026-06-07
+---
+
 # Functional Requirements — AI Software Factory
 
-Status: Draft
+Status: Approved
 Last Updated: 2026-06-07
 
 ## FR-001 — Context Assembly
@@ -55,7 +66,35 @@ A Verification Agent must run after the Architect and before Implementation on a
 - Blocking issues stop implementation until resolved
 - Verification report includes Confidence Report
 
-## Related
+## Related ADRs
 
-- [[Business Requirements]]
-- [[Non-Functional Requirements]]
+### FR-001 — Context Assembly
+Implemented by:
+- [[../../../07-Decisions/ADR-ARCH-001|ADR-ARCH-001]] — Knowledge-First Pipeline (Phase 2 context assembly)
+- [[../../../07-Decisions/ADR-DATA-001|ADR-DATA-001]] — Chroma Collection Schema (retrieval of relevant facts)
+
+### FR-002 — Fact and Session Separation
+Implemented by:
+- [[../../../07-Decisions/ADR-DATA-001|ADR-DATA-001]] — Chroma Collection Schema (separate collections, classification rules)
+- [[../../../01-Standards/Documentation Standards|Documentation Standards]] — Authority field in YAML metadata
+
+### FR-003 — Verification Before Implementation
+Implemented by:
+- [[../../../07-Decisions/ADR-SEC-001|ADR-SEC-001]] — Human Approval Gate Requirements (Verification Agent as Tier 4 gate)
+- [[../../../01-Standards/Architecture Standards|Architecture Standards]] — Design review criteria
+
+---
+
+## Related Standards
+
+- [[../../../01-Standards/Coding Standards|Coding Standards]] — Implementation patterns
+- [[../../../01-Standards/Architecture Standards|Architecture Standards]] — Design constraints
+- [[../../../01-Standards/Security Standards|Security Standards]] — Security verification
+
+---
+
+## Cross-Links
+
+- [[Business Requirements]] — Why are these functional capabilities needed?
+- [[Non-Functional Requirements]] — How should these functions perform?
+- [[../../../04-Workflows/README.md|Workflows]] — Implementation choreography for these functions

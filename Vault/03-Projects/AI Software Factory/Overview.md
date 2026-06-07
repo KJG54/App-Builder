@@ -21,18 +21,28 @@ Combines VS Code, Claude CLI, Obsidian, Chroma, MCP Servers, Docker, and Git int
 
 ## Status
 
-Phase 1 — Foundation (not yet started)
+Phase 1 — Foundation ✅ (2026-06-07)  
+Phase 2 — Knowledge System ✅ (2026-06-07)  
+Phase 3 — Requirements Management ⏳ (in progress)
 
 ## Key Links
 
 - Specification: [[AI Software Factory/AI Software Factory]]
 - Architecture: [[Architecture/Current]]
-- Requirements: [[09-Requirements/AI Software Factory/Business Requirements]]
+- Requirements: [[09-Requirements/README.md|Requirements Management]] (3 BR, 3 FR, 3 NFR)
 - Session Summary: [[08-Retrospectives/Session-Summary-2026-06-07]]
 
 ## Key ADRs
 
-None yet — to be created in Phase 2.
+8 ADRs completed in Phase 2:
+- [[../../07-Decisions/ADR-ARCH-001|ADR-ARCH-001]] — Knowledge-First Pipeline Design
+- [[../../07-Decisions/ADR-SEC-001|ADR-SEC-001]] — Human Approval Gate Requirements
+- [[../../07-Decisions/ADR-DATA-001|ADR-DATA-001]] — Chroma Collection Schema & Facts/Sessions Separation
+- [[../../07-Decisions/ADR-API-001|ADR-API-001]] — RESTful API Design Conventions
+- [[../../07-Decisions/ADR-INT-001|ADR-INT-001]] — MCP Server Integration Policy
+- [[../../07-Decisions/ADR-PROC-001|ADR-PROC-001]] — ADR Authoring and Review Workflow
+- [[../../07-Decisions/ADR-INFRA-001|ADR-INFRA-001]] — VS Code Workspace Configuration
+- Plus supporting standards and prompts
 
 ## Health Metrics
 
