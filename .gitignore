@@ -1,0 +1,29 @@
+# Obsidian workspace settings (machine-specific)
+Vault/.obsidian/workspace.json
+Vault/.obsidian/workspace-mobile.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+
+# Docker volumes
+docker/volumes/
+
+# Logs
+*.log
