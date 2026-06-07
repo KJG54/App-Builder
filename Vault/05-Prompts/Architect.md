@@ -1,3 +1,14 @@
+---
+type: Prompt
+phase: 2
+status: Draft
+authority: facts
+chroma_collection: global-prompts
+tags: [agent-architect, system-design, decisions]
+related: [ADR-ARCH-001, ADR-API-001, Architecture Standards]
+last_updated: 2026-06-07
+---
+
 # Architect Agent Prompt
 
 **Agent Name:** Architect  

@@ -1,3 +1,14 @@
+---
+type: Decision
+phase: 3
+status: Accepted
+authority: facts
+chroma_collection: global-standards
+tags: [integration, mcp, agents, authorization]
+related: [ADR-ARCH-001, ADR-SEC-001, Architect.md, Backend.md, Frontend.md, DevOps.md]
+last_updated: 2026-06-07
+---
+
 # ADR-INT-001: MCP Server Integration Policy
 
 **Date:** 2026-06-07  

@@ -1,3 +1,14 @@
+---
+type: Decision
+phase: 1
+status: Accepted
+authority: facts
+chroma_collection: global-standards
+tags: [infrastructure, docker, obsidian, foundation]
+related: [ADR-ARCH-001]
+last_updated: 2026-06-07
+---
+
 # ADR-INFRA-001: VS Code Workspace Configuration for Multi-Agent Development
 
 **Date:** 2026-06-07  

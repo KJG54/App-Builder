@@ -1,3 +1,14 @@
+---
+type: Prompt
+phase: 2
+status: Draft
+authority: facts
+chroma_collection: global-prompts
+tags: [agent-frontend, ui, components, accessibility]
+related: [Coding Standards, ADR-API-001, Architecture Standards]
+last_updated: 2026-06-07
+---
+
 # Frontend Agent Prompt
 
 **Agent Name:** Frontend  

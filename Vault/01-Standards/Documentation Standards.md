@@ -1,3 +1,14 @@
+---
+type: Standard
+phase: global
+status: Active
+authority: facts
+chroma_collection: global-standards
+tags: [documentation, standards, adr, readme]
+related: [ADR-PROC-001, Documentation Standards README]
+last_updated: 2026-06-07
+---
+
 # Documentation Standards
 
 **Status:** Active  

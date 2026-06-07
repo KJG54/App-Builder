@@ -1,3 +1,14 @@
+---
+type: Decision
+phase: 3
+status: Accepted
+authority: facts
+chroma_collection: global-standards
+tags: [api, rest, versioning, conventions]
+related: [ADR-ARCH-001, Backend.md, Architecture Standards]
+last_updated: 2026-06-07
+---
+
 # ADR-API-001: RESTful API Design Conventions
 
 **Date:** 2026-06-07  

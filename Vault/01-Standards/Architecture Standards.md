@@ -1,3 +1,14 @@
+---
+type: Standard
+phase: global
+status: Active
+authority: facts
+chroma_collection: global-standards
+tags: [architecture, modularity, versioning, standards]
+related: [ADR-ARCH-001, ADR-API-001, Architect.md]
+last_updated: 2026-06-07
+---
+
 # Architecture Standards
 
 **Status:** Active  

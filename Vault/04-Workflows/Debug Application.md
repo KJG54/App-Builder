@@ -1,3 +1,14 @@
+---
+type: Workflow
+phase: null
+status: Active
+authority: facts
+chroma_collection: global-standards
+tags: [workflow, debugging, troubleshooting]
+related: [Known-Problems README, Logging Standards]
+last_updated: 2026-06-07
+---
+
 # Workflow — Debug Application
 
 ## Steps

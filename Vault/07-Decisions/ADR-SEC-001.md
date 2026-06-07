@@ -1,3 +1,14 @@
+---
+type: Decision
+phase: 2
+status: Accepted
+authority: facts
+chroma_collection: global-standards
+tags: [security, approval-gates, governance, human-authority]
+related: [ADR-ARCH-001, ADR-PROC-001, Security Standards]
+last_updated: 2026-06-07
+---
+
 # ADR-SEC-001: Human Approval Gate Requirements
 
 **Date:** 2026-06-07  

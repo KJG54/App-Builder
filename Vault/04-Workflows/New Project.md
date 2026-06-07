@@ -1,3 +1,14 @@
+---
+type: Workflow
+phase: 1
+status: Active
+authority: facts
+chroma_collection: global-standards
+tags: [workflow, project-creation, planning]
+related: [Architect.md, 03-Projects README, Documentation Standards]
+last_updated: 2026-06-07
+---
+
 # Workflow — New Project
 
 ## Trigger

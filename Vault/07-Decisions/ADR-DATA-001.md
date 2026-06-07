@@ -1,3 +1,14 @@
+---
+type: Decision
+phase: 2
+status: Accepted
+authority: facts
+chroma_collection: global-standards
+tags: [data, chroma, facts-sessions-separation, critical-decision]
+related: [ADR-ARCH-001, Chroma-Indexing.md]
+last_updated: 2026-06-07
+---
+
 # ADR-DATA-001: Chroma Collection Schema & Facts/Sessions Separation
 
 **Date:** 2026-06-07  

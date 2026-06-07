@@ -1,3 +1,14 @@
+---
+type: Standard
+phase: global
+status: Active
+authority: facts
+chroma_collection: global-standards
+tags: [security, authentication, secrets, standards]
+related: [ADR-SEC-001, All Agent Prompts]
+last_updated: 2026-06-07
+---
+
 # Security Standards
 
 **Status:** Active  

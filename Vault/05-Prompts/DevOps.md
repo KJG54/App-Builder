@@ -1,3 +1,14 @@
+---
+type: Prompt
+phase: 2
+status: Draft
+authority: facts
+chroma_collection: global-prompts
+tags: [agent-devops, infrastructure, deployment, monitoring]
+related: [ADR-INFRA-001, Security Standards, Coding Standards]
+last_updated: 2026-06-07
+---
+
 # DevOps Agent Prompt
 
 **Agent Name:** DevOps  

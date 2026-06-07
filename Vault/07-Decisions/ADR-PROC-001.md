@@ -1,3 +1,14 @@
+---
+type: Decision
+phase: 2
+status: Accepted
+authority: facts
+chroma_collection: global-standards
+tags: [process, adr-workflow, governance, documentation]
+related: [ADR-ARCH-001, Documentation Standards]
+last_updated: 2026-06-07
+---
+
 # ADR-PROC-001: ADR Authoring and Review Workflow
 
 **Date:** 2026-06-07  

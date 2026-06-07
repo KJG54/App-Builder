@@ -1,3 +1,14 @@
+---
+type: Standard
+phase: global
+status: Active
+authority: facts
+chroma_collection: global-standards
+tags: [coding, testing, naming, standards]
+related: [Backend.md, Frontend.md, DevOps.md]
+last_updated: 2026-06-07
+---
+
 # Coding Standards
 
 **Status:** Active  

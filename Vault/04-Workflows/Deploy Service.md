@@ -1,3 +1,14 @@
+---
+type: Workflow
+phase: 6
+status: Active
+authority: facts
+chroma_collection: global-standards
+tags: [workflow, deployment, devops, release]
+related: [ADR-INFRA-001, DevOps.md, ADR-SEC-001]
+last_updated: 2026-06-07
+---
+
 # Workflow — Deploy Service
 
 ## Steps

@@ -1,3 +1,14 @@
+---
+type: Decision
+phase: 2
+status: Accepted
+authority: facts
+chroma_collection: global-standards
+tags: [architecture, knowledge-first, pipeline, core-decision]
+related: [ADR-SEC-001, ADR-DATA-001, Architect.md, Backend.md, Frontend.md, DevOps.md]
+last_updated: 2026-06-07
+---
+
 # ADR-ARCH-001: Knowledge-First Pipeline Design
 
 **Date:** 2026-06-07  

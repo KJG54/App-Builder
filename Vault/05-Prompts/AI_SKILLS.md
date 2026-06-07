@@ -1,3 +1,14 @@
+---
+type: Prompt
+phase: 2
+status: Active
+authority: facts
+chroma_collection: global-prompts
+tags: [agent-capabilities, skills, reference]
+related: [Architect.md, Backend.md, Frontend.md, DevOps.md, ADR-INT-001]
+last_updated: 2026-06-07
+---
+
 # AI Skills and Agent Capabilities
 
 **Purpose:** Inventory of AI agent skills and capabilities for the AI Software Factory.

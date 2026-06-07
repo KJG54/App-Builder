@@ -1,3 +1,14 @@
+---
+type: Workflow
+phase: 5
+status: Active
+authority: facts
+chroma_collection: global-standards
+tags: [workflow, api, backend, development]
+related: [ADR-API-001, Backend.md, Coding Standards]
+last_updated: 2026-06-07
+---
+
 # Workflow — Build API Endpoint
 
 ## Steps

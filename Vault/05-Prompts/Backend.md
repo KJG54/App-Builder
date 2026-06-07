@@ -1,3 +1,14 @@
+---
+type: Prompt
+phase: 2
+status: Draft
+authority: facts
+chroma_collection: global-prompts
+tags: [agent-backend, api, database, implementation]
+related: [ADR-API-001, Coding Standards, ADR-DATA-001]
+last_updated: 2026-06-07
+---
+
 # Backend Agent Prompt
 
 **Agent Name:** Backend  
