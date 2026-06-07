@@ -47,6 +47,8 @@
 
 **Status:** Active
 
+**Related ADR:** [[ADR-ARCH-001]] — Knowledge-First Pipeline Design
+
 ---
 
 ### Decision 2: Facts and Sessions Must Be Separate
@@ -84,6 +86,8 @@
 **Validation:** Monitor retrieval quality metrics; audit for mixed content
 
 **Status:** Active
+
+**Related ADR:** [[ADR-DATA-001]] — Chroma Collection Schema & Facts/Sessions Separation (future)
 
 ---
 
@@ -123,6 +127,8 @@
 **Validation:** Track decisions that would have been wrong; monitor approval latency
 
 **Status:** Active
+
+**Related ADR:** [[ADR-SEC-001]] — Human Approval Gate Requirements
 
 ---
 
@@ -268,9 +274,9 @@
 
 These decisions define system structure:
 
-- Decision 1: Knowledge-first architecture
-- Decision 2: Facts/sessions separation
-- Decision 8: Phases prioritization
+- Decision 1: Knowledge-first architecture → [[ADR-ARCH-001]]
+- Decision 2: Facts/sessions separation → [[ADR-DATA-001]] (future)
+- Decision 8: Phases prioritization → [[Roadmap]]
 
 ### Infrastructure (ADR-INFRA-xxx)
 
@@ -284,8 +290,8 @@ These decisions define deployment and operations:
 
 These decisions define security posture:
 
-- Decision 3: Human authority preservation
-- [Future: Authentication, authorization, encryption]
+- Decision 3: Human authority preservation → [[ADR-SEC-001]]
+- [Future: Authentication (ADR-SEC-002), authorization (ADR-SEC-003), encryption (ADR-SEC-004)]
 
 ### Process (ADR-PROC-xxx)
 
