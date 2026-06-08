@@ -1,0 +1,51 @@
+{
+  "id": "review-20260608-ae5cdd97",
+  "timestamp": "2026-06-08T03:30:27.652Z",
+  "agent_role": "frontend",
+  "prompt_version": "test-v1.0.0",
+  "verification": {
+    "status": "FEEDBACK",
+    "compliance_score": 100,
+    "issues": [
+      {
+        "id": "input-validation",
+        "category": "Security",
+        "severity": "Major",
+        "message": "Missing input validation",
+        "suggestion": "Validate all user inputs at system boundaries"
+      },
+      {
+        "id": "integration-tests",
+        "category": "Testing",
+        "severity": "Minor",
+        "message": "Missing integration tests",
+        "suggestion": "Add integration tests for critical paths"
+      }
+    ],
+    "categories": {
+      "security": 0,
+      "architecture": 0,
+      "testing": 0,
+      "coding": 0,
+      "documentation": 0
+    }
+  },
+  "scores": {
+    "compliance": 100,
+    "overall": 91
+  },
+  "approval": {
+    "tier": "tier-2",
+    "status": "pending",
+    "reviewer": null,
+    "decision_date": null,
+    "feedback": null
+  },
+  "performance": {
+    "response_time_ms": 2000,
+    "token_usage": 1500,
+    "cost_usd": 0.05
+  },
+  "output_summary": "Test output 1",
+  "input_summary": "Test input 1"
+}
