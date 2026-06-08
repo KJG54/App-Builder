@@ -38,6 +38,9 @@ class Phase13Validator {
       this.testResults.push({ name, status: 'FAIL', error: err.message });
       this.log(`✗ Test ${this.totalTests}: ${name}`);
       this.log(`  Error: ${err.message}`);
+      if (err.stack) {
+        this.log(`  Stack: ${err.stack.split('\n').slice(0, 3).join('\n  ')}`);
+      }
     }
   }
 
@@ -69,6 +72,7 @@ class Phase13Validator {
 
   // Test 2: Dependencies are respected (B waits for A)
   testDependencies() {
+    console.log('[DEBUG] Starting testDependencies');
     this.test('Dependencies are respected; getNextSubtask returns in order', async () => {
       const o = new AgentOrchestrator(this.testDir);
 
@@ -83,15 +87,17 @@ class Phase13Validator {
       this.assert(next.subtask.agent === 'a1', 'First subtask is a1');
       this.assert(next.subtask.index === 0, 'First subtask index is 0');
 
-      // Complete first subtask
-      o.completeSubtask(task.id, next.subtask.id, 'Output from step 1');
+      // Assign then complete first subtask
+      await o.assignSubtask(task.id, next.subtask.id);
+      await o.completeSubtask(task.id, next.subtask.id, 'Output from step 1');
 
       // Second subtask should now be available
       next = await o.getNextSubtask(task.id);
       this.assert(next.subtask.agent === 'a2', 'Second subtask is a2');
 
-      // Complete second subtask
-      o.completeSubtask(task.id, next.subtask.id, 'Output from step 2');
+      // Assign then complete second subtask
+      await o.assignSubtask(task.id, next.subtask.id);
+      await o.completeSubtask(task.id, next.subtask.id, 'Output from step 2');
 
       // Third subtask should now be available
       next = await o.getNextSubtask(task.id);
@@ -112,7 +118,8 @@ class Phase13Validator {
       // Architect completes
       let next = await o.getNextSubtask(task.id);
       const architectOutput = '# API Design\n\nGET /users\nPOST /users\nPUT /users/{id}';
-      o.completeSubtask(task.id, next.subtask.id, architectOutput);
+      await o.assignSubtask(task.id, next.subtask.id);
+      await o.completeSubtask(task.id, next.subtask.id, architectOutput);
 
       // Backend gets next subtask with architect's context
       next = await o.getNextSubtask(task.id);
@@ -215,7 +222,8 @@ class Phase13Validator {
 
       // Complete task 1
       const next1 = await o.getNextSubtask(task1.id);
-      o.completeSubtask(task1.id, next1.subtask.id, 'Done');
+      await o.assignSubtask(task1.id, next1.subtask.id);
+      await o.completeSubtask(task1.id, next1.subtask.id, 'Done');
 
       // Assign task 2 (mark in_progress but don't complete)
       const next2 = await o.getNextSubtask(task2.id);
@@ -272,20 +280,23 @@ class Phase13Validator {
       // Architect designs
       let next = await o.getNextSubtask(task.id);
       this.assert(next.subtask.agent === 'architect', 'Architect gets first subtask');
-      o.completeSubtask(task.id, next.subtask.id, '# API Design\nGET /feature\nPOST /feature');
+      await o.assignSubtask(task.id, next.subtask.id);
+      await o.completeSubtask(task.id, next.subtask.id, '# API Design\nGET /feature\nPOST /feature');
 
       // Backend implements (receives architect context)
       next = await o.getNextSubtask(task.id);
       this.assert(next.subtask.agent === 'backend', 'Backend gets second subtask');
       this.assert(next.context.completed_by && next.context.completed_by.includes('architect'), 'Backend sees architect work');
-      o.completeSubtask(task.id, next.subtask.id, '// Implement GET and POST endpoints');
+      await o.assignSubtask(task.id, next.subtask.id);
+      await o.completeSubtask(task.id, next.subtask.id, '// Implement GET and POST endpoints');
 
       // QA tests (receives both prior contexts)
       next = await o.getNextSubtask(task.id);
       this.assert(next.subtask.agent === 'qa', 'QA gets third subtask');
       this.assert(next.context.completed_by && next.context.completed_by.length >= 2, 'QA sees 2+ prior agents');
       this.assert(next.context.prior_outputs && next.context.prior_outputs.length >= 2, 'QA has 2+ prior outputs');
-      o.completeSubtask(task.id, next.subtask.id, '// Write integration tests');
+      await o.assignSubtask(task.id, next.subtask.id);
+      await o.completeSubtask(task.id, next.subtask.id, '// Write integration tests');
 
       // Verify task complete
       const final = o.getTaskStatus(task.id);
@@ -309,7 +320,8 @@ class Phase13Validator {
 
       // Complete task A
       const nextA = await o.getNextSubtask(taskA.id);
-      o.completeSubtask(taskA.id, nextA.subtask.id, 'Task A output');
+      await o.assignSubtask(taskA.id, nextA.subtask.id);
+      await o.completeSubtask(taskA.id, nextA.subtask.id, 'Task A output');
 
       // Get context for task B
       const nextB = await o.getNextSubtask(taskB.id);

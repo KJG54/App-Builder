@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const lockfile = require('proper-lockfile');
 const MCPAuditLogger = require('./mcp-audit-logger');
 const MCPAuthorization = require('./mcp-authorization');
 const ApprovalWorkflow = require('./approval-workflow');
@@ -22,10 +23,29 @@ class AgentOrchestrator {
     this.authorization = new MCPAuthorization();
     this.approvalWorkflow = new ApprovalWorkflow('.claude/approvals');
     this.slackNotifier = new SlackNotifier();
+    this.locks = new Map(); // In-memory lock map for task IDs
 
     if (!fs.existsSync(tasksDir)) {
       fs.mkdirSync(tasksDir, { recursive: true });
     }
+  }
+
+  /**
+   * Acquire a lock for a task (async, but simple in-memory)
+   */
+  async acquireLock(taskId) {
+    // Simple spin-lock for in-memory synchronization
+    while (this.locks.get(taskId) === true) {
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    this.locks.set(taskId, true);
+  }
+
+  /**
+   * Release a lock for a task
+   */
+  releaseLock(taskId) {
+    this.locks.set(taskId, false);
   }
 
   /**
@@ -201,109 +221,130 @@ class AgentOrchestrator {
    * @returns {object} { allowed, subtask, context, reason? }
    */
   async assignSubtask(taskId, subtaskId) {
-    const task = this.readTask(taskId);
-    const subtask = task.subtasks.find(s => s.id === subtaskId);
+    try {
+      // Acquire lock before reading
+      await this.acquireLock(taskId);
 
-    if (!subtask) {
-      return { allowed: false, reason: 'Subtask not found' };
+      // Critical section: read-modify-write
+      const task = this.readTask(taskId);
+      const subtask = task.subtasks.find(s => s.id === subtaskId);
+
+      if (!subtask) {
+        return { allowed: false, reason: 'Subtask not found' };
+      }
+
+      if (subtask.status !== 'pending') {
+        return { allowed: false, reason: `Subtask already ${subtask.status}` };
+      }
+
+      // Validate agent exists in authorization matrix
+      if (!this.authorization.isValidAgent(subtask.agent)) {
+        return { allowed: false, reason: `Unknown agent role: ${subtask.agent}` };
+      }
+
+      // Mark as assigned
+      subtask.status = 'in_progress';
+      subtask.assigned_at = new Date().toISOString();
+
+      // Update task status to in_progress on first assignment
+      if (task.status === 'pending') {
+        task.status = 'in_progress';
+      }
+
+      this.writeTask(task);
+
+      // Release lock before getting context (context assembly is I/O intensive)
+      this.releaseLock(taskId);
+
+      const context = await this.getSharedContext(taskId, subtask.index);
+
+      this.auditLogger.log('orchestrator', 'task-management', 'assign_subtask', {
+        task_id: taskId,
+        agent: subtask.agent,
+      }, 'success');
+
+      return {
+        allowed: true,
+        task_id: taskId,
+        subtask,
+        context,
+      };
+    } catch (err) {
+      // Release lock on error
+      this.releaseLock(taskId);
+      throw err;
     }
-
-    if (subtask.status !== 'pending') {
-      return { allowed: false, reason: `Subtask already ${subtask.status}` };
-    }
-
-    // Validate agent exists in authorization matrix
-    if (!this.authorization.isValidAgent(subtask.agent)) {
-      return { allowed: false, reason: `Unknown agent role: ${subtask.agent}` };
-    }
-
-    // Mark as assigned
-    subtask.status = 'in_progress';
-    subtask.assigned_at = new Date().toISOString();
-
-    // Update task status to in_progress on first assignment
-    if (task.status === 'pending') {
-      task.status = 'in_progress';
-    }
-
-    this.writeTask(task);
-
-    // Get context (async call)
-    const context = await this.getSharedContext(taskId, subtask.index);
-
-    this.auditLogger.log('orchestrator', 'task-management', 'assign_subtask', {
-      task_id: taskId,
-      agent: subtask.agent,
-    }, 'success');
-
-    return {
-      allowed: true,
-      task_id: taskId,
-      subtask,
-      context,
-    };
   }
 
   /**
-   * Complete a subtask and advance to next
+   * Complete a subtask and advance to next (with locking for concurrency safety)
    * @param {string} taskId
    * @param {string} subtaskId
    * @param {string} output - Work product/output from agent
    * @returns {object} { status, next_subtask? }
    */
-  completeSubtask(taskId, subtaskId, output) {
-    const task = this.readTask(taskId);
-    const subtask = task.subtasks.find(s => s.id === subtaskId);
+  async completeSubtask(taskId, subtaskId, output) {
+    try {
+      // Acquire lock before reading
+      await this.acquireLock(taskId);
 
-    if (!subtask) {
-      return { status: 'error', reason: 'Subtask not found' };
+      // Critical section: read-modify-write
+      const task = this.readTask(taskId);
+      const subtask = task.subtasks.find(s => s.id === subtaskId);
+
+      if (!subtask) {
+        return { status: 'error', reason: 'Subtask not found' };
+      }
+
+      // Validate subtask is in progress (state machine enforcement)
+      if (subtask.status !== 'in_progress') {
+        return { status: 'error', reason: `Cannot complete subtask with status '${subtask.status}' - must be in_progress` };
+      }
+
+      // Write output file
+      const outputPath = path.join(this.tasksDir, `${subtask.id}-output.md`);
+      fs.writeFileSync(outputPath, output, 'utf-8');
+
+      // Update subtask
+      subtask.status = 'complete';
+      subtask.completed_at = new Date().toISOString();
+      subtask.output_file = outputPath;
+
+      // Check if all subtasks complete
+      const allComplete = task.subtasks.every(s => s.status === 'complete');
+      if (allComplete) {
+        task.status = 'complete';
+        task.completed = new Date().toISOString();
+      } else {
+        task.status = 'in_progress';
+      }
+
+      this.writeTask(task);
+
+      this.auditLogger.log('orchestrator', 'task-management', 'complete_subtask', {
+        task_id: taskId,
+        agent: subtask.agent,
+        all_complete: allComplete,
+      }, 'success');
+
+      // Send Slack notification (gracefully no-op if not configured)
+      this.slackNotifier.notifySubtaskComplete(subtask, null);
+
+      // If task complete, also send task completion notification
+      if (allComplete) {
+        const taskStatus = this.getTaskStatus(taskId);
+        this.slackNotifier.notifyTaskComplete(taskStatus);
+      }
+
+      return {
+        status: allComplete ? 'task_complete' : 'subtask_complete',
+        task_id: taskId,
+        next_subtask: null,
+      };
+    } finally {
+      // Always release lock
+      this.releaseLock(taskId);
     }
-
-    // Validate subtask is in progress (state machine enforcement)
-    if (subtask.status !== 'in_progress') {
-      return { status: 'error', reason: `Cannot complete subtask with status '${subtask.status}' - must be in_progress` };
-    }
-
-    // Write output file
-    const outputPath = path.join(this.tasksDir, `${subtask.id}-output.md`);
-    fs.writeFileSync(outputPath, output, 'utf-8');
-
-    // Update subtask
-    subtask.status = 'complete';
-    subtask.completed_at = new Date().toISOString();
-    subtask.output_file = outputPath;
-
-    // Check if all subtasks complete
-    const allComplete = task.subtasks.every(s => s.status === 'complete');
-    if (allComplete) {
-      task.status = 'complete';
-      task.completed = new Date().toISOString();
-    } else {
-      task.status = 'in_progress';
-    }
-
-    this.writeTask(task);
-
-    this.auditLogger.log('orchestrator', 'task-management', 'complete_subtask', {
-      task_id: taskId,
-      agent: subtask.agent,
-      all_complete: allComplete,
-    }, 'success');
-
-    // Send Slack notification (gracefully no-op if not configured)
-    this.slackNotifier.notifySubtaskComplete(subtask, null);
-
-    // If task complete, also send task completion notification
-    if (allComplete) {
-      const taskStatus = this.getTaskStatus(taskId);
-      this.slackNotifier.notifyTaskComplete(taskStatus);
-    }
-
-    return {
-      status: allComplete ? 'task_complete' : 'subtask_complete',
-      task_id: taskId,
-      next_subtask: null,
-    };
   }
 
   /**
