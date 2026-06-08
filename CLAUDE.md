@@ -454,6 +454,33 @@ This applies to:
 * Network/API errors
 * Assertion failures in tests
 * Unexpected behavior that violates assumptions
+* **Test suite failures** — Always report which tests failed, why they failed, pass/fail counts
+
+**Test Failure Reporting Format:**
+
+Always provide this structure when tests fail:
+
+```
+❌ TEST FAILURE REPORT — [Test Suite Name]
+
+Summary:
+  Total: X tests
+  Passed: Y (X%)
+  Failed: Z (Y%)
+
+Failed Tests:
+  1. [Test Name] — [Error/Assertion]
+  2. [Test Name] — [Error/Assertion]
+
+Root Cause:
+  [Brief explanation of why tests are failing]
+
+Impact:
+  [What's blocked by this failure]
+
+Next Step:
+  [Specific action needed to fix]
+```
 
 **Why:** Errors are information. Hiding them delays debugging and creates false confidence in partially-broken systems. Transparency enables faster problem-solving.
 
