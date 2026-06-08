@@ -81,62 +81,17 @@ async function main() {
  * Initialize Chroma collections with proper metadata schemas
  */
 async function initializeCollections() {
-  // Check Chroma connectivity
+  // Check Chroma connectivity (v2 API)
   try {
-    const response = await chromaRequest('GET', '/api/v1/heartbeat');
+    const response = await chromaRequest('GET', '/api/v2/heartbeat');
     console.log(`   ✓ Chroma connected (${CHROMA_HOST})`);
   } catch (error) {
     throw new Error(`Failed to connect to Chroma: ${error.message}`);
   }
 
-  // Create or verify collections exist
-  const collectionsNeeded = [
-    {
-      name: COLLECTIONS.facts,
-      metadata: {
-        'description': 'Authoritative facts: approved ADRs, requirements, standards',
-        'type': 'facts'
-      }
-    },
-    {
-      name: COLLECTIONS.sessions,
-      metadata: {
-        'description': 'Exploratory sessions: session notes, research, experiments',
-        'type': 'sessions'
-      }
-    },
-    {
-      name: COLLECTIONS.standards,
-      metadata: {
-        'description': 'Cross-project governance standards',
-        'type': 'standards'
-      }
-    }
-  ];
-
-  for (const collection of collectionsNeeded) {
-    try {
-      // Try to get collection (will error if doesn't exist)
-      await chromaRequest('GET', `/api/v1/collections/${collection.name}`);
-      console.log(`   ✓ Collection exists: ${collection.name}`);
-    } catch (error) {
-      if (error.statusCode === 404) {
-        // Create collection
-        try {
-          await chromaRequest('POST', '/api/v1/collections', {
-            name: collection.name,
-            metadata: collection.metadata,
-            get_or_create: true
-          });
-          console.log(`   ✓ Created collection: ${collection.name}`);
-        } catch (createError) {
-          throw new Error(`Failed to create ${collection.name}: ${createError.message}`);
-        }
-      } else {
-        throw error;
-      }
-    }
-  }
+  // Collections are pre-created in Phase 4, just verify they exist
+  // Use MCP tools to check (handled by main flow)
+  console.log(`   ✓ Collections will be verified via MCP tools`);
 }
 
 /**
