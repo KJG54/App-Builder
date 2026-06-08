@@ -96,6 +96,8 @@ Stream D: Chroma Indexing
 
 **Total Phase 3:** 9 initial requirements + comprehensive requirements management system
 
+**See:** [[Phase-3-Requirements-Management.md|Phase 3 Documentation]]
+
 ---
 
 ### Phase 4 Fact vs Session Separation ✅ (2026-06-07)
@@ -114,6 +116,8 @@ Stream D: Chroma Indexing
 
 **Total Phase 4:** Fact vs Session Separation architecture complete
 
+**See:** [[Phase-4-Fact-vs-Session-Separation.md|Phase 4 Documentation]]
+
 ---
 
 ### Phase 5 Chroma Integration ✅ (2026-06-08)
@@ -131,6 +135,8 @@ Stream D: Chroma Indexing
 - API specification documented with usage examples for all agent roles
 
 **Total Phase 5:** Complete vault indexed, context assembly operational
+
+**See:** [[Phase-5-Chroma-Integration.md|Phase 5 Documentation]]
 
 ---
 
@@ -151,6 +157,8 @@ Stream D: Chroma Indexing
 - Multi-agent workflows enabled through shared context
 
 **Total Phase 6:** Agents now use context assembly for all decisions, multi-agent coordination enabled, ready for Phase 7 Skills System
+
+**See:** [[Phase-6-Context-Builder-Agent-Integration.md|Phase 6 Documentation]]
 
 ---
 
@@ -174,7 +182,87 @@ Stream D: Chroma Indexing
 - Retrieval cached for speed (40x faster)
 - Multi-agent coordination through shared skills
 
+**See:** [[Phase-7-Skills-System.md|Phase 7 Documentation]]
+
 **Next:** Phase 8 (Verification Layer)
+
+---
+
+### Phase 8 Verification Layer ✅ (2026-06-08)
+- [x] Design verification framework (requirement coverage, ADR conflicts, security compliance)
+- [x] Implement Verification Agent (role, process, quality checklist)
+- [x] Integrate with Phase 7 skills (pattern matching, best practice checks)
+- [x] Create approval gate integration (pre/post implementation gates)
+- [x] Validation suite: All functionality verified
+
+**Deliverables:**
+- Verification framework for requirements, ADRs, standards
+- Verification Agent prompt and process documentation
+- Pattern matching against known skills
+- Pre-implementation gate integration
+- Post-implementation verification checklist
+
+**Total Phase 8:** Quality gates and verification system complete
+
+**See:** [[Phase-8-Verification-Layer.md|Phase 8 Documentation]]
+
+---
+
+### Phase 9 Prompt Versioning & Performance Tracking ✅ (2026-06-08)
+- [x] Implement prompt versioning system (semantic versioning)
+- [x] Establish performance metrics (success rate, compliance, context usage)
+- [x] Create feedback loop (session tracking, prompt updates, trend analysis)
+- [x] Build tracking infrastructure (metrics dashboard, decision logging)
+- [x] Validation suite: Performance metrics validated
+
+**Deliverables:**
+- Semantic versioning for all prompts (1.0, 1.1, 2.0)
+- Performance metrics (success rate >90%, compliance >95%)
+- Feedback collection framework
+- Metrics dashboard and trend analysis
+- Performance-driven prompt improvement process
+
+**Total Phase 9:** Agent performance tracking and continuous improvement system
+
+**See:** [[Phase-9-Prompt-Versioning-Performance-Tracking.md|Phase 9 Documentation]]
+
+---
+
+### Phase 10 Review Pipeline & Observability ✅ (2026-06-08)
+- [x] Implement review pipeline (code review, architecture review, security review)
+- [x] Add observability system (logging, metrics, alerting)
+- [x] Integrate verification layer with review workflow
+- [x] Create escalation procedures (when to escalate, how to handle)
+- [x] Validation suite: Pipeline tested end-to-end
+
+**Deliverables:**
+- Code review workflow with quality gates
+- Architecture review process
+- Security review checklist
+- Observability infrastructure (logging, metrics)
+- Escalation procedures and approval workflow
+- Audit trail of all decisions
+
+**Total Phase 10:** Review pipeline and observability complete
+
+---
+
+### Phase 11 Known Problems Knowledge Base ✅ (2026-06-08)
+- [x] Design Known Problems system (problem catalog, solutions, patterns)
+- [x] Implement problem ingestion (structured capture, classification)
+- [x] Create retrieval system (semantic search for similar problems)
+- [x] Build problem resolution tracking (status, workarounds)
+- [x] Integrate with Chroma (indexed in known-problems collection)
+
+**Deliverables:**
+- Known Problems schema and structure
+- Problem catalog (initial set of documented issues)
+- Problem classification (severity, status, category)
+- Resolution tracking and workaround documentation
+- Chroma integration for semantic problem search
+- Historical problem analysis
+
+**Total Phase 11:** Known Problems Knowledge Base operational
 
 ---
 
@@ -215,6 +303,8 @@ Stream D: Chroma Indexing
 **Total Phase 13:** ~1,400 lines of code + documentation
 
 **Overall: 13/13 phases complete (100%)**
+
+**See:** [[Phase-8-Verification-Layer.md|Phase 8]], [[Phase-9-Prompt-Versioning-Performance-Tracking.md|Phase 9]] documentation
 
 ---
 

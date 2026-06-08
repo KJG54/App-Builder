@@ -300,15 +300,16 @@
 
 ---
 
-## Pending Decisions
+## Pending Decisions (Phase 14+)
 
 | Decision | Timeline | Owner | Status |
 |----------|----------|-------|--------|
-| PostgreSQL MCP server integration | Phase 13 | Backend Agent | Pending |
-| Docker networking strategy for agent containers | Phase 13 | DevOps Agent | Pending |
-| Jira/Linear integration strategy | Phase 13 | Architecture Team | Pending |
-| Slack notification strategy | Phase 13 | DevOps Agent | Pending |
-| Cost optimization thresholds (when to use Haiku vs Sonnet vs Opus) | Phase 9+ | Architect Agent | Pending |
+| PostgreSQL MCP server integration | Phase 14 | Backend Agent | Pending |
+| Docker networking strategy for agent containers | Phase 14 | DevOps Agent | Pending |
+| Jira/Linear integration strategy | Phase 14 | Architecture Team | Pending |
+| AWS integration strategy | Phase 14 | DevOps Agent | Pending |
+| Intelligent retry loops and agent healing | Phase 14 | Architect Agent | Pending |
+| Auto task decomposition | Phase 14 | Architect Agent | Pending |
 
 ---
 
@@ -320,28 +321,25 @@ These decisions define system structure:
 
 - Decision 1: Knowledge-first architecture → [[ADR-ARCH-001]]
 - Decision 8: Phases prioritization → [[Roadmap]]
-- [Future: Microservices patterns (ADR-ARCH-002), caching strategy (ADR-ARCH-003)]
+- Decision 10: Multi-agent orchestration → [[ADR-ARCH-002]]
 
 ### Data (ADR-DATA-xxx)
 
 These decisions define data storage and retrieval:
 
 - Decision 2: Facts/sessions separation → [[ADR-DATA-001]]
-- [Future: Database migration strategy (ADR-DATA-002), backup and recovery (ADR-DATA-003)]
 
 ### API (ADR-API-xxx)
 
 These decisions define API design and evolution:
 
 - RESTful API Design Conventions → [[ADR-API-001]]
-- [Future: Pagination strategy (ADR-API-002), versioning deprecation (ADR-API-003)]
 
 ### Integration (ADR-INT-xxx)
 
 These decisions define external system integration:
 
 - MCP Server Integration Policy → [[ADR-INT-001]]
-- [Future: Webhook strategy (ADR-INT-002), rate limiting (ADR-INT-003)]
 
 ### Infrastructure (ADR-INFRA-xxx)
 
@@ -349,14 +347,13 @@ These decisions define deployment and operations:
 
 - Decision 4: Obsidian + Chroma
 - Decision 5: Docker containerization
-- [Future: Networking (ADR-INFRA-002), monitoring (ADR-INFRA-003), backup (ADR-INFRA-004)]
+- Decision 9: MCP Server Prioritization → [[ADR-INFRA-002]]
 
 ### Security (ADR-SEC-xxx)
 
 These decisions define security posture:
 
 - Decision 3: Human authority preservation → [[ADR-SEC-001]]
-- [Future: Authentication (ADR-SEC-002), authorization (ADR-SEC-003), encryption (ADR-SEC-004)]
 
 ### Process (ADR-PROC-xxx)
 
@@ -365,7 +362,6 @@ These decisions define workflow and governance:
 - ADR Authoring and Review Workflow → [[ADR-PROC-001]]
 - Decision 6: ADR categories (operationalized in ADR-PROC-001)
 - Decision 7: Agent roles → [[AI_SKILLS.md]]
-- [Future: Approval workflows (ADR-PROC-002), escalation (ADR-PROC-003)]
 
 ---
 
@@ -436,7 +432,7 @@ These affect specific areas:
 ---
 
 **Last Updated:** 2026-06-08
-**Total Decisions:** 10
+**Total Decisions:** 10 (all phases 1-13 complete)
 **Active Decisions:** 10
-**Pending Decisions:** 3
+**Pending Decisions:** 6 (for Phase 14+)
 **Superseded Decisions:** 0

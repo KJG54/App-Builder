@@ -2,6 +2,7 @@
  * Agent Orchestrator
  * Coordinates multi-agent task execution with dependency tracking and context sharing
  * Integrates with Phase 12 audit logging and authorization
+ * Integrates with Phase 5 Chroma context retrieval and Phase 13 Slack notifications
  */
 
 const fs = require('fs');
@@ -10,13 +11,17 @@ const crypto = require('crypto');
 const MCPAuditLogger = require('./mcp-audit-logger');
 const MCPAuthorization = require('./mcp-authorization');
 const ApprovalWorkflow = require('./approval-workflow');
+const { assembleContext } = require('./context-assembly');
+const SlackNotifier = require('./slack-notifier');
 
 class AgentOrchestrator {
-  constructor(tasksDir = '.claude/tasks') {
+  constructor(tasksDir = '.claude/tasks', projectName = 'ai-software-factory') {
     this.tasksDir = tasksDir;
+    this.projectName = projectName;
     this.auditLogger = new MCPAuditLogger('.claude/mcp-audit');
     this.authorization = new MCPAuthorization();
     this.approvalWorkflow = new ApprovalWorkflow('.claude/approvals');
+    this.slackNotifier = new SlackNotifier();
 
     if (!fs.existsSync(tasksDir)) {
       fs.mkdirSync(tasksDir, { recursive: true });
@@ -237,10 +242,20 @@ class AgentOrchestrator {
       all_complete: allComplete,
     }, 'success');
 
+    // Send Slack notification (gracefully no-op if not configured)
+    const nextSubtask = allComplete ? null : this.getNextSubtask(taskId);
+    this.slackNotifier.notifySubtaskComplete(subtask, nextSubtask);
+
+    // If task complete, also send task completion notification
+    if (allComplete) {
+      const taskStatus = this.getTaskStatus(taskId);
+      this.slackNotifier.notifyTaskComplete(taskStatus);
+    }
+
     return {
       status: allComplete ? 'task_complete' : 'subtask_complete',
       task_id: taskId,
-      next_subtask: allComplete ? null : this.getNextSubtask(taskId),
+      next_subtask: nextSubtask,
     };
   }
 
@@ -294,6 +309,10 @@ class AgentOrchestrator {
       escalation_id: escalationId,
     }, 'escalation', { escalation_id: escalationId });
 
+    // Send Slack escalation notification (gracefully no-op if not configured)
+    const taskStatus = this.getTaskStatus(taskId);
+    this.slackNotifier.notifyEscalation(taskStatus, subtask, reason);
+
     return {
       status: 'escalated',
       task_id: taskId,
@@ -302,12 +321,12 @@ class AgentOrchestrator {
   }
 
   /**
-   * Get shared context for an agent (all prior work on this task)
+   * Get shared context for an agent (all prior work + Chroma context)
    * @param {string} taskId
    * @param {number} beforeSubtaskIndex - Only include subtasks before this index
-   * @returns {object} { prior_outputs: [...], task_description, ... }
+   * @returns {object} { prior_outputs: [...], chroma_context: {...}, task_description, ... }
    */
-  getSharedContext(taskId, beforeSubtaskIndex = null) {
+  async getSharedContext(taskId, beforeSubtaskIndex = null) {
     const task = this.readTask(taskId);
     if (!task) return {};
 
@@ -333,11 +352,25 @@ class AgentOrchestrator {
       }
     }
 
+    // Retrieve Chroma context (facts and standards from vault)
+    let chromaContext = null;
+    try {
+      chromaContext = await assembleContext(
+        task.description,
+        this.projectName,
+        { includeSession: false, maxResults: 5 }
+      );
+    } catch (err) {
+      console.error(`Failed to retrieve Chroma context: ${err.message}`);
+      chromaContext = { error: err.message };
+    }
+
     return {
       task_id: taskId,
       task_description: task.description,
       prior_outputs: priorOutputs,
       completed_by: priorOutputs.map(p => p.agent),
+      chroma_context: chromaContext,
     };
   }
 

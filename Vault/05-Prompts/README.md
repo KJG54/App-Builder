@@ -16,7 +16,7 @@ This folder contains **AI agent instruction prompts** that define each agent's r
 
 ---
 
-## The 4 Agents
+## The 8 Agents
 
 | Agent | Model | Role | When Active | Reference |
 |-------|-------|------|---|----------|
@@ -24,6 +24,10 @@ This folder contains **AI agent instruction prompts** that define each agent's r
 | **Backend** | Claude Sonnet | Implement APIs, business logic, databases | Phase 5+ | [[Backend.md|Backend Prompt]] |
 | **Frontend** | Claude Sonnet | Build UI, components, accessibility | Phase 5+ | [[Frontend.md|Frontend Prompt]] |
 | **DevOps** | Claude Sonnet | Containerize, deploy, monitor, scale | Phase 5+ | [[DevOps.md|DevOps Prompt]] |
+| **QA** | Claude Sonnet | Test design, bug detection, quality metrics | Phase 8+ | [[QA.md|QA Prompt]] |
+| **Security** | Claude Opus | Threat analysis, vulnerability assessment, compliance | Phase 2+ | [[Security.md|Security Prompt]] |
+| **Documentation** | Claude Haiku | Technical writing, API docs, session summaries | Phase 2+ | [[Documentation.md|Documentation Prompt]] |
+| **Verification** | Claude Opus | Requirements coverage, ADR validation, pre-implementation gates | Phase 8+ | [[Verification.md|Verification Prompt]] |
 
 ---
 
