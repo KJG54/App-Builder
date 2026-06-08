@@ -1,0 +1,456 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const https = require('https');
+
+/**
+ * Chroma Ingestion Pipeline
+ *
+ * Reads vault documents, parses YAML frontmatter, and routes them to appropriate
+ * Chroma collections based on authority field and document status.
+ *
+ * Implements facts/sessions separation to prevent retrieval contamination.
+ */
+
+// Configuration
+const CHROMA_HOST = process.env.CHROMA_SERVER_HOST || 'http://localhost:8000';
+const VAULT_PATH = process.argv[2] || 'Vault';
+const PROJECT_PREFIX = process.argv[3] || 'ai-software-factory';
+
+// Collection names
+const COLLECTIONS = {
+  facts: `${PROJECT_PREFIX}-facts`,
+  sessions: `${PROJECT_PREFIX}-sessions`,
+  standards: 'global-standards'
+};
+
+// Audit log
+let auditLog = {
+  timestamp: new Date().toISOString(),
+  ingestions: [],
+  rejections: [],
+  errors: []
+};
+
+/**
+ * Main ingestion flow
+ */
+async function main() {
+  console.log(`\n📚 Chroma Ingestion Pipeline`);
+  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  console.log(`Vault: ${VAULT_PATH}`);
+  console.log(`Collections: ${Object.values(COLLECTIONS).join(', ')}`);
+  console.log(`Chroma: ${CHROMA_HOST}\n`);
+
+  try {
+    // Step 1: Initialize collections
+    console.log(`\n1️⃣  INITIALIZING COLLECTIONS`);
+    await initializeCollections();
+
+    // Step 2: Scan vault for documents
+    console.log(`\n2️⃣  SCANNING VAULT`);
+    const documents = scanVault(VAULT_PATH);
+    console.log(`   Found ${documents.length} markdown files\n`);
+
+    // Step 3: Process documents
+    console.log(`3️⃣  PROCESSING DOCUMENTS`);
+    let processedCount = 0;
+    for (const docPath of documents) {
+      await processDocument(docPath);
+      processedCount++;
+      if (processedCount % 5 === 0) {
+        process.stdout.write(`   Processed: ${processedCount}/${documents.length}\r`);
+      }
+    }
+    console.log(`   Processed: ${documents.length}/${documents.length} ✓`);
+
+    // Step 4: Report results
+    console.log(`\n4️⃣  INGESTION SUMMARY`);
+    reportResults();
+
+    console.log(`\n✅ INGESTION COMPLETE\n`);
+  } catch (error) {
+    console.error(`\n❌ INGESTION FAILED\n`);
+    console.error(error);
+    process.exit(1);
+  }
+}
+
+/**
+ * Initialize Chroma collections with proper metadata schemas
+ */
+async function initializeCollections() {
+  // Check Chroma connectivity
+  try {
+    const response = await chromaRequest('GET', '/api/v1/heartbeat');
+    console.log(`   ✓ Chroma connected (${CHROMA_HOST})`);
+  } catch (error) {
+    throw new Error(`Failed to connect to Chroma: ${error.message}`);
+  }
+
+  // Create or verify collections exist
+  const collectionsNeeded = [
+    {
+      name: COLLECTIONS.facts,
+      metadata: {
+        'description': 'Authoritative facts: approved ADRs, requirements, standards',
+        'type': 'facts'
+      }
+    },
+    {
+      name: COLLECTIONS.sessions,
+      metadata: {
+        'description': 'Exploratory sessions: session notes, research, experiments',
+        'type': 'sessions'
+      }
+    },
+    {
+      name: COLLECTIONS.standards,
+      metadata: {
+        'description': 'Cross-project governance standards',
+        'type': 'standards'
+      }
+    }
+  ];
+
+  for (const collection of collectionsNeeded) {
+    try {
+      // Try to get collection (will error if doesn't exist)
+      await chromaRequest('GET', `/api/v1/collections/${collection.name}`);
+      console.log(`   ✓ Collection exists: ${collection.name}`);
+    } catch (error) {
+      if (error.statusCode === 404) {
+        // Create collection
+        try {
+          await chromaRequest('POST', '/api/v1/collections', {
+            name: collection.name,
+            metadata: collection.metadata,
+            get_or_create: true
+          });
+          console.log(`   ✓ Created collection: ${collection.name}`);
+        } catch (createError) {
+          throw new Error(`Failed to create ${collection.name}: ${createError.message}`);
+        }
+      } else {
+        throw error;
+      }
+    }
+  }
+}
+
+/**
+ * Scan vault directory recursively for markdown files
+ */
+function scanVault(vaultPath) {
+  const documents = [];
+
+  function walk(dir) {
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const stat = fs.statSync(filePath);
+
+      if (stat.isDirectory()) {
+        // Skip certain directories
+        if (!['.git', '.obsidian', 'node_modules', '.vscode'].includes(file)) {
+          walk(filePath);
+        }
+      } else if (file.endsWith('.md')) {
+        documents.push(filePath);
+      }
+    }
+  }
+
+  walk(vaultPath);
+  return documents;
+}
+
+/**
+ * Process a single document
+ */
+async function processDocument(docPath) {
+  try {
+    const content = fs.readFileSync(docPath, 'utf8');
+
+    // Parse YAML frontmatter
+    const { frontmatter, body } = parseYamlFrontmatter(content);
+
+    if (!frontmatter) {
+      auditLog.rejections.push({
+        file: docPath,
+        reason: 'No YAML frontmatter found'
+      });
+      return;
+    }
+
+    // Classify document
+    const classification = classifyDocument(frontmatter, docPath);
+
+    if (!classification.allowed) {
+      auditLog.rejections.push({
+        file: docPath,
+        reason: classification.reason
+      });
+      return;
+    }
+
+    // Prepare document for ingestion
+    const document = {
+      id: generateDocumentId(docPath),
+      content: body.substring(0, 5000), // Limit content length
+      metadata: {
+        file: docPath,
+        authority: frontmatter.authority || 'unknown',
+        type: frontmatter.type || 'Unknown',
+        status: frontmatter.status || 'Draft',
+        phase: frontmatter.phase || null,
+        tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
+        last_updated: frontmatter.last_updated || new Date().toISOString().split('T')[0],
+        is_authoritative: classification.collection === COLLECTIONS.facts,
+        collection_dest: classification.collection
+      }
+    };
+
+    // Ingest to appropriate collection
+    await ingestDocument(classification.collection, document);
+
+    auditLog.ingestions.push({
+      file: docPath,
+      destination: classification.collection,
+      id: document.id,
+      authority: frontmatter.authority,
+      status: frontmatter.status
+    });
+  } catch (error) {
+    auditLog.errors.push({
+      file: docPath,
+      error: error.message
+    });
+  }
+}
+
+/**
+ * Parse YAML frontmatter from markdown
+ */
+function parseYamlFrontmatter(content) {
+  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+
+  if (!match) {
+    return { frontmatter: null, body: content };
+  }
+
+  const yamlContent = match[1];
+  const body = match[2];
+
+  // Simple YAML parser (for key: value pairs)
+  const frontmatter = {};
+  const lines = yamlContent.split('\n');
+
+  for (const line of lines) {
+    const colonIndex = line.indexOf(':');
+    if (colonIndex > -1) {
+      const key = line.substring(0, colonIndex).trim();
+      const value = line.substring(colonIndex + 1).trim();
+
+      // Parse different value types
+      if (value === 'true') frontmatter[key] = true;
+      else if (value === 'false') frontmatter[key] = false;
+      else if (value === 'null') frontmatter[key] = null;
+      else if (!isNaN(value)) frontmatter[key] = Number(value);
+      else if (value.startsWith('[') && value.endsWith(']')) {
+        // Parse array: [a, b, c]
+        const arrayContent = value.slice(1, -1);
+        frontmatter[key] = arrayContent.split(',').map(v => v.trim());
+      } else {
+        frontmatter[key] = value;
+      }
+    }
+  }
+
+  return { frontmatter, body };
+}
+
+/**
+ * Classify document based on authority and status
+ */
+function classifyDocument(frontmatter, docPath) {
+  const authority = frontmatter.authority || 'unknown';
+  const status = frontmatter.status || 'Draft';
+  const type = frontmatter.type || 'Unknown';
+
+  // Classification rules
+  if (authority === 'facts') {
+    // Facts must be approved
+    if (status === 'Accepted' || status === 'Approved' || status === 'Current') {
+      return {
+        allowed: true,
+        collection: COLLECTIONS.facts,
+        reason: null
+      };
+    } else if (status === 'Draft') {
+      // Block draft facts, recommend moving to sessions
+      return {
+        allowed: false,
+        collection: null,
+        reason: `Authority: facts but status: Draft (blocked) — move to sessions or approve first`
+      };
+    } else {
+      return {
+        allowed: false,
+        collection: null,
+        reason: `Authority: facts but unknown status: ${status}`
+      };
+    }
+  } else if (authority === 'sessions') {
+    // Sessions are always allowed
+    return {
+      allowed: true,
+      collection: COLLECTIONS.sessions,
+      reason: null
+    };
+  } else if (type === 'Standard') {
+    // Standards go to global-standards
+    return {
+      allowed: true,
+      collection: COLLECTIONS.standards,
+      reason: null
+    };
+  } else {
+    // Default to sessions (exploratory)
+    return {
+      allowed: true,
+      collection: COLLECTIONS.sessions,
+      reason: `No authority field, defaulting to sessions (exploratory)`
+    };
+  }
+}
+
+/**
+ * Generate unique document ID from path
+ */
+function generateDocumentId(filePath) {
+  // Remove Vault prefix and .md extension
+  const normalized = filePath
+    .replace(/Vault[\\/]?/, '')
+    .replace(/\.md$/, '')
+    .replace(/[\\/]/g, '-')
+    .toLowerCase();
+  return `doc-${normalized}`;
+}
+
+/**
+ * Ingest document into Chroma collection
+ */
+async function ingestDocument(collectionName, document) {
+  const payload = {
+    documents: [document.content],
+    metadatas: [document.metadata],
+    ids: [document.id]
+  };
+
+  await chromaRequest('POST', `/api/v1/collections/${collectionName}/add`, payload);
+}
+
+/**
+ * Make HTTP request to Chroma
+ */
+function chromaRequest(method, path, body = null) {
+  return new Promise((resolve, reject) => {
+    const url = new URL(CHROMA_HOST + path);
+    const http = url.protocol === 'https:' ? require('https') : require('http');
+    const options = {
+      hostname: url.hostname,
+      port: url.port,
+      path: url.pathname + url.search,
+      method,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const req = http.request(options, (res) => {
+      let data = '';
+
+      res.on('data', chunk => {
+        data += chunk;
+      });
+
+      res.on('end', () => {
+        if (res.statusCode >= 400) {
+          const error = new Error(`HTTP ${res.statusCode}`);
+          error.statusCode = res.statusCode;
+          error.response = data;
+          reject(error);
+        } else {
+          try {
+            resolve(data ? JSON.parse(data) : null);
+          } catch {
+            resolve(data);
+          }
+        }
+      });
+    });
+
+    req.on('error', reject);
+
+    if (body) {
+      req.write(JSON.stringify(body));
+    }
+
+    req.end();
+  });
+}
+
+/**
+ * Report ingestion results
+ */
+function reportResults() {
+  const totals = {
+    facts: auditLog.ingestions.filter(i => i.destination === COLLECTIONS.facts).length,
+    sessions: auditLog.ingestions.filter(i => i.destination === COLLECTIONS.sessions).length,
+    standards: auditLog.ingestions.filter(i => i.destination === COLLECTIONS.standards).length
+  };
+
+  console.log(`\n   📊 INGESTION RESULTS`);
+  console.log(`   ─────────────────────────────────`);
+  console.log(`   ✓ Facts Collection:     ${totals.facts} documents`);
+  console.log(`   ✓ Sessions Collection:  ${totals.sessions} documents`);
+  console.log(`   ✓ Standards Collection: ${totals.standards} documents`);
+  console.log(`   ─────────────────────────────────`);
+  console.log(`   Total Ingested: ${auditLog.ingestions.length}`);
+  console.log(`   Rejected:       ${auditLog.rejections.length}`);
+  console.log(`   Errors:         ${auditLog.errors.length}`);
+
+  if (auditLog.rejections.length > 0) {
+    console.log(`\n   ⚠️  REJECTIONS (${auditLog.rejections.length}):`);
+    auditLog.rejections.slice(0, 5).forEach(r => {
+      console.log(`      - ${path.basename(r.file)}: ${r.reason}`);
+    });
+    if (auditLog.rejections.length > 5) {
+      console.log(`      ... and ${auditLog.rejections.length - 5} more`);
+    }
+  }
+
+  if (auditLog.errors.length > 0) {
+    console.log(`\n   ❌ ERRORS (${auditLog.errors.length}):`);
+    auditLog.errors.slice(0, 5).forEach(e => {
+      console.log(`      - ${path.basename(e.file)}: ${e.error}`);
+    });
+    if (auditLog.errors.length > 5) {
+      console.log(`      ... and ${auditLog.errors.length - 5} more`);
+    }
+  }
+
+  // Save audit log
+  const logPath = '.claude/logs/chroma-ingest-audit.json';
+  fs.mkdirSync(path.dirname(logPath), { recursive: true });
+  fs.writeFileSync(logPath, JSON.stringify(auditLog, null, 2), 'utf8');
+  console.log(`\n   📋 Audit log: ${logPath}`);
+}
+
+// Run
+main().catch(error => {
+  console.error('Fatal error:', error);
+  process.exit(1);
+});

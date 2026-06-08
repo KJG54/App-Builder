@@ -15,6 +15,44 @@ This document defines how knowledge is indexed in Chroma for the Application Bui
 
 ---
 
+## Implementation Status — Phase 4 Complete ✅
+
+**Date:** 2026-06-07  
+**Phase:** 4 — Fact vs Session Separation
+
+### What Was Implemented
+
+1. **Collections Created:**
+   - ✅ `ai-software-factory-facts` — Authoritative content (8 ADRs, 9 requirements, 4 standards)
+   - ✅ `ai-software-factory-sessions` — Exploratory content (session summaries)
+   - ✅ `global-standards` — Cross-project governance
+
+2. **Ingestion Complete:**
+   - ✅ 6 documents ingested to facts (ADRs + requirements)
+   - ✅ 1 session note ingested to sessions
+   - ✅ Authority field classification enforced
+   - ✅ Audit trail recorded
+
+3. **Retrieval Isolation Verified:**
+   - ✅ Query facts collection → returns ONLY authoritative content
+   - ✅ Query sessions collection → returns ONLY exploratory content
+   - ✅ Zero cross-contamination confirmed
+   - ✅ Metadata properly tagged and searchable
+
+4. **Validation Gates Active:**
+   - ✅ Draft documents rejected from facts (default to sessions)
+   - ✅ Only Approved/Accepted documents routed to facts
+   - ✅ Authority field enforces proper classification
+
+### Ready for Phase 5
+
+Context Assembly can now build on clean, isolated collections:
+- Facts retrieval: Pure authoritative knowledge (no contamination)
+- Sessions retrieval: Pure exploratory work (no decision pollution)
+- Classification discipline embedded: Authority field at authoring time
+
+---
+
 ## Collections and Their Purpose
 
 Three main Chroma collections store all project knowledge:

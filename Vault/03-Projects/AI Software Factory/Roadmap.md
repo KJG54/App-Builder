@@ -11,7 +11,7 @@
 | 1 | Foundation | ✅ Complete |
 | 2 | Knowledge System | ✅ Complete |
 | 3 | Requirements Management | ✅ Complete |
-| 4 | Fact vs Session Separation | Not Started |
+| 4 | Fact vs Session Separation | ✅ Complete |
 | 5 | Chroma Integration | Not Started |
 | 6 | Context Builder | Not Started |
 | 7 | Skills System | Not Started |
@@ -95,6 +95,24 @@ Stream D: Chroma Indexing
 - All 9 requirements indexed by Chroma (authority: facts)
 
 **Total Phase 3:** 9 initial requirements + comprehensive requirements management system
+
+---
+
+### Phase 4 Fact vs Session Separation ✅ (2026-06-07)
+- [x] Create Chroma collections (facts, sessions, standards)
+- [x] Implement classification logic (authority field routing)
+- [x] Ingest documents (6 facts + 1 session)
+- [x] Verify retrieval isolation (zero cross-contamination)
+- [x] Establish validation gates (draft documents blocked from facts)
+
+**Deliverables:**
+- 3 Chroma collections with proper metadata schemas
+- 6 authoritative documents (facts): ADRs + requirements
+- 1 session note (exploratory content)
+- Classification logic: Authority + Status → Collection routing
+- Retrieval isolation verified: Facts ≠ Sessions
+
+**Total Phase 4:** Fact vs Session Separation architecture complete, ready for Phase 5 Context Assembly
 
 ---
 

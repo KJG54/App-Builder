@@ -12,7 +12,7 @@
 | 1 | Foundation | ✅ Complete | 100% | 2026-06-07 |
 | 2 | Knowledge System | ✅ Complete | 100% | 2026-06-07 |
 | 3 | Requirements Management | ✅ Complete | 100% | 2026-06-07 |
-| 4 | Fact vs Session Separation | ⏳ Pending | 0% | — |
+| 4 | Fact vs Session Separation | ✅ Complete | 100% | 2026-06-07 |
 | 5 | Chroma Integration | ⏳ Pending | 0% | — |
 | 6 | Context Builder | ⏳ Pending | 0% | — |
 | 7 | Skills System | ⏳ Pending | 0% | — |
@@ -23,20 +23,22 @@
 | 12 | Advanced MCP Integration | ⏳ Pending | 0% | — |
 | 13 | Multi-Agent Collaboration | ⏳ Pending | 0% | — |
 
-**Overall:** 3/13 phases complete (23%)
+**Overall:** 4/13 phases complete (31%)
 
 ---
 
 ## Current Work In Progress
 
-**Latest Session:** 2026-06-07 (Phase 3: Requirements Management Completion)
+**Latest Session:** 2026-06-07 (Phase 4: Fact vs Session Separation Completion)
 
 ### What Was Completed
-- ✅ **Phase 3.1:** Added YAML metadata to 3 requirement files (Business, Functional, Non-Functional)
-- ✅ **Phase 3.2:** Created 09-Requirements/README.md (500+ lines) explaining requirements management system
-- ✅ **Phase 3.3:** Integrated requirements into vault navigation (INDEX.md, Overview.md)
-- ✅ **Phase 3.4:** Added traceability links (9 requirements ↔ 8 ADRs ↔ 4 standards)
-- ✅ **Phase 3.5:** Marked Phase 3 complete in Roadmap.md and STATUS.md
+- ✅ **Phase 4.1:** Created 3 Chroma collections (facts, sessions, standards)
+- ✅ **Phase 4.2:** Implemented classification logic (authority + status → collection routing)
+- ✅ **Phase 4.3:** Ingested 6 authoritative documents to facts collection (3 ADRs + 3 requirement categories)
+- ✅ **Phase 4.4:** Ingested 1 session note to sessions collection (exploratory content)
+- ✅ **Phase 4.5:** Verified retrieval isolation (facts ≠ sessions, zero cross-contamination)
+- ✅ **Phase 4.6:** Established validation gates (draft documents blocked from facts)
+- ✅ **Phase 4.7:** Updated documentation and marked Phase 4 complete
 
 **Total Phase 2 Deliverables:** 6,482+ lines of documentation, 6 ADRs, 4 standards, 4 prompts
 
