@@ -1,43 +1,206 @@
-# Obsidian workspace settings (machine-specific)
+# ============================================================================
+# OBSIDIAN
+# ============================================================================
+# Machine-specific Obsidian workspace settings
 Vault/.obsidian/workspace.json
 Vault/.obsidian/workspace-mobile.json
+Vault/.obsidian/cache/
+# Keep Obsidian community plugins list tracked
+# but ignore workspace state
 
-# OS
+# ============================================================================
+# OS / SYSTEM FILES
+# ============================================================================
+# macOS
 .DS_Store
-Thumbs.db
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
 
-# Environment files
+# Windows
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Linux
+.directory
+
+# ============================================================================
+# ENVIRONMENT & SECRETS
+# ============================================================================
+# Environment files (never commit secrets)
 .env
 .env.local
+.env.*.local
 *.env
 
-# Python
+# ============================================================================
+# IDE / EDITOR
+# ============================================================================
+# VS Code
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.vscode/*.log
+
+# JetBrains (IntelliJ, PyCharm, WebStorm, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# VS
+.VS/
+
+# ============================================================================
+# PYTHON
+# ============================================================================
 __pycache__/
 *.py[cod]
 *.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
 .venv/
 venv/
-*.egg-info/
+ENV/
+env/
+.virtualenv
 
-# Node
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.tox/
+.hypothesis/
+*.cover
+*.log.*.gz
+
+# ============================================================================
+# NODE / NPM
+# ============================================================================
 node_modules/
+npm-debug.log
+yarn-error.log
+.npm
+.eslintcache
+.node_repl_history
 
-# Docker volumes
+# ============================================================================
+# DOCKER
+# ============================================================================
+# Runtime volumes (NOT source code)
 docker/volumes/
+docker/data/
+.docker/
 
-# Chroma vector database (local persistent storage)
+# ============================================================================
+# DATABASE & VECTOR DB
+# ============================================================================
+# Chroma local persistent storage (runtime data, not tracked)
 .chroma/
+*.db
+*.sqlite
+*.sqlite3
 
-# Claude Code local settings (machine-specific)
+# ============================================================================
+# CLAUDE CODE (LOCAL DEVELOPMENT)
+# ============================================================================
+# Machine-specific settings
 .claude/settings.local.json
 
-# Logs
-*.log
+# Do NOT ignore:
+# - .claude/scripts/ (tracked - production code)
+# - .claude/hooks/ (tracked - automation)
+# - .claude/metrics/ (tracked - observability data)
+# - .claude/approvals/ (tracked - decision records)
 
-# Temporary analysis and ingestion files
+# ============================================================================
+# LOGS & TEMPORARY FILES
+# ============================================================================
+*.log
+*.log.*
+*.pot
+
+# Temporary analysis files (development only)
 _*.json
 _*.py
+_*.md
+_*.txt
 
-# Reference material (external vault, not part of this project)
+# ============================================================================
+# BUILD & COMPILATION
+# ============================================================================
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+.compiled/
+out/
+
+# ============================================================================
+# RUNTIME FILES
+# ============================================================================
+.tmp/
+*.pid
+*.lock
+!.gitkeep
+
+# ============================================================================
+# EXTERNAL REFERENCES (not part of this project)
+# ============================================================================
+# Obsidian reference materials (external documentation)
 Obsidian reference/
 Obsidian Reference/
+external-vault/
+
+# ============================================================================
+# SYSTEM & MISC
+# ============================================================================
+.DS_Store
+.env.backup
+*.bak
+*.backup
+*.swp
+*.swo
