@@ -154,13 +154,31 @@ Stream D: Chroma Indexing
 
 ---
 
+### Phase 7 Skills System ⏳ (2026-06-08)
+- [x] Design skills framework (what can agents learn?)
+- [x] Implement skill acquisition workflow
+- [x] Specify skill versioning and caching
+- [x] Create skill validation tests
+
+**Status:** Framework + specification complete. Ready for implementation.
+
+**Deliverables:**
+- Skills framework (README, INDEX, example skill, template)
+- Acquisition workflow (process, roles, approval gates)
+- Retrieval specification (MCP tool, caching, 40x speedup)
+- Validation plan (8 test scenarios, performance targets)
+
+**Next:** Parts 3-4 implementation (MCP tool coding, test execution)
+
+---
+
 ## Next Actions
 
-### Phase 7 Skills System
-- [ ] Design skills framework (what can agents learn?)
-- [ ] Implement skill acquisition workflow
-- [ ] Add skill versioning and caching
-- [ ] Create skill validation tests
+### Phase 8 Verification Layer
+- [ ] Design verification agent (validates all outputs)
+- [ ] Implement output validation rules
+- [ ] Create feedback loop (approval or rework)
+- [ ] Integrate with multi-agent workflows
 
 ### Phase 6+ Multi-Agent System
 - [ ] Deploy agent coordination layer
