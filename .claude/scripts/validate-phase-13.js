@@ -52,7 +52,7 @@ class Phase13Validator {
 
   // Test 1: Orchestrator creates task with subtasks
   testCreateTask() {
-    this.test('Orchestrator creates task with subtasks', () => {
+    return this.test('Orchestrator creates task with subtasks', () => {
       const o = new AgentOrchestrator(this.testDir);
 
       const task = o.createTask('Build user authentication', [
@@ -72,19 +72,18 @@ class Phase13Validator {
 
   // Test 2: Dependencies are respected (B waits for A)
   testDependencies() {
-    console.log('[DEBUG] Starting testDependencies');
-    this.test('Dependencies are respected; getNextSubtask returns in order', async () => {
+    return this.test('Dependencies are respected; getNextSubtask returns in order', async () => {
       const o = new AgentOrchestrator(this.testDir);
 
       const task = o.createTask('Three-step process', [
-        { agent: 'a1', description: 'Step 1', depends_on: [] },
-        { agent: 'a2', description: 'Step 2', depends_on: [0] },
-        { agent: 'a3', description: 'Step 3', depends_on: [1] },
+        { agent: 'backend', description: 'Step 1', depends_on: [] },
+        { agent: 'qa', description: 'Step 2', depends_on: [0] },
+        { agent: 'architect', description: 'Step 3', depends_on: [1] },
       ]);
 
       // First subtask should be available
       let next = await o.getNextSubtask(task.id);
-      this.assert(next.subtask.agent === 'a1', 'First subtask is a1');
+      this.assert(next.subtask.agent === 'backend', 'First subtask is backend');
       this.assert(next.subtask.index === 0, 'First subtask index is 0');
 
       // Assign then complete first subtask
@@ -93,7 +92,7 @@ class Phase13Validator {
 
       // Second subtask should now be available
       next = await o.getNextSubtask(task.id);
-      this.assert(next.subtask.agent === 'a2', 'Second subtask is a2');
+      this.assert(next.subtask.agent === 'qa', 'Second subtask is qa');
 
       // Assign then complete second subtask
       await o.assignSubtask(task.id, next.subtask.id);
@@ -101,13 +100,13 @@ class Phase13Validator {
 
       // Third subtask should now be available
       next = await o.getNextSubtask(task.id);
-      this.assert(next.subtask.agent === 'a3', 'Third subtask is a3');
+      this.assert(next.subtask.agent === 'architect', 'Third subtask is architect');
     });
   }
 
   // Test 3: Context sharing - agents see prior work
   testContextSharing() {
-    this.test('Context sharing: next agent sees prior agent output', async () => {
+    return this.test('Context sharing: next agent sees prior agent output', async () => {
       const o = new AgentOrchestrator(this.testDir);
 
       const task = o.createTask('Two-step with context', [
@@ -130,7 +129,7 @@ class Phase13Validator {
 
   // Test 4: Subtask assignment and completion flow
   testSubtaskFlow() {
-    this.test('Subtask assignment and completion flow works', async () => {
+    return this.test('Subtask assignment and completion flow works', async () => {
       const o = new AgentOrchestrator(this.testDir);
 
       const task = o.createTask('Simple task', [
@@ -145,7 +144,7 @@ class Phase13Validator {
       this.assert(assigned.subtask.status === 'in_progress', 'Status changed to in_progress');
 
       // Complete subtask
-      const completed = o.completeSubtask(task.id, subtask.id, 'Work done!');
+      const completed = await o.completeSubtask(task.id, subtask.id, 'Work done!');
       this.assert(completed.status === 'task_complete', 'Task marked complete (only 1 subtask)');
 
       // Verify in task status
@@ -157,7 +156,7 @@ class Phase13Validator {
 
   // Test 5: Escalation marks subtask blocked
   testEscalation() {
-    this.test('Escalation marks subtask blocked and escalates', () => {
+    return this.test('Escalation marks subtask blocked and escalates', () => {
       const o = new AgentOrchestrator(this.testDir);
 
       const task = o.createTask('Task with escalation', [
@@ -181,7 +180,7 @@ class Phase13Validator {
 
   // Test 6: Slack notifications (with graceful no-op)
   testSlackNotifier() {
-    this.test('Slack notifier gracefully handles missing token', () => {
+    return this.test('Slack notifier gracefully handles missing token', () => {
       // Ensure token is not set
       const oldToken = process.env.SLACK_TOKEN;
       delete process.env.SLACK_TOKEN;
@@ -203,7 +202,7 @@ class Phase13Validator {
 
   // Test 7: Task listing and filtering
   testTaskListing() {
-    this.test('Task listing and filtering by status works', async () => {
+    return this.test('Task listing and filtering by status works', async () => {
       const testDir = path.join(this.testDir, 'test7');
       const o = new AgentOrchestrator(testDir);
 
@@ -245,7 +244,7 @@ class Phase13Validator {
 
   // Test 8: Statistics aggregation
   testStatistics() {
-    this.test('Statistics aggregation across tasks', () => {
+    return this.test('Statistics aggregation across tasks', () => {
       const testDir = path.join(this.testDir, 'test8');
       const o = new AgentOrchestrator(testDir);
 
@@ -268,7 +267,7 @@ class Phase13Validator {
 
   // Test 9: Full multi-subtask workflow
   testFullWorkflow() {
-    this.test('Full workflow: design→implement→test with context flow', async () => {
+    return this.test('Full workflow: design→implement→test with context flow', async () => {
       const o = new AgentOrchestrator(this.testDir);
 
       const task = o.createTask('Complete feature', [
@@ -307,7 +306,7 @@ class Phase13Validator {
 
   // Test 10: Context isolation (agents don't see unrelated tasks)
   testContextIsolation() {
-    this.test('Context isolation: agents only see their task context', async () => {
+    return this.test('Context isolation: agents only see their task context', async () => {
       const o = new AgentOrchestrator(this.testDir);
 
       const taskA = o.createTask('Task A', [
