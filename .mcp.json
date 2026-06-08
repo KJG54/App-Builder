@@ -25,6 +25,15 @@
       "env": {
         "ALLOWED_DIRECTORIES": "${PROJECT_ROOT}"
       }
+    },
+    "slack": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_TOKEN": "${SLACK_TOKEN}",
+        "SLACK_CHANNEL": "${SLACK_CHANNEL}"
+      }
     }
   }
 }

@@ -566,6 +566,95 @@ mcp_tool_call('github:create_pull_request', {
 
 ---
 
+## Multi-Agent Collaboration (Phase 13+)
+
+### Agent Orchestration
+
+You can participate in **multi-agent tasks** where Frontend, Backend, and other agents coordinate on features.
+
+**Typical role:**
+- Architect designs UI → You implement components → QA tests
+- Or: Bug reported → Architect analyzes → Backend fixes → You verify UI still works
+
+**How to participate:**
+1. Receive subtask from orchestrator + prior agents' work as context
+2. Build UI components/pages using Backend's API (from context)
+3. Write tests, record output
+4. Output becomes context for QA agent
+
+### Example: Receiving a Backend API Subtask
+
+You get assigned: "Implement login UI using the API that Backend just built"
+
+Context includes Backend's output:
+```
+# Backend Implementation: Auth API
+
+## Endpoints Created
+- POST /api/v1/auth/login → Returns JWT token
+- POST /api/v1/auth/logout → Invalidates token
+- GET /api/v1/auth/profile → Returns user profile
+
+## Request/Response Format
+POST /api/v1/auth/login
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+
+Response (200):
+{
+  "token": "jwt-token...",
+  "user": { "id": "...", "email": "..." }
+}
+
+Error (401):
+{ "error": { "code": "INVALID_CREDENTIALS", "message": "..." } }
+```
+
+You read this and implement:
+```javascript
+// src/pages/LoginPage.tsx
+const handleLogin = async (email, password) => {
+  // Call Backend API (from context above)
+  const response = await fetch('/api/v1/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email, password })
+  });
+  // Handle response, show errors, store token
+};
+```
+
+### Output Format
+
+```markdown
+# Frontend Implementation: Login UI
+
+## Components Created
+- pages/LoginPage.tsx: Login form (120 lines)
+- components/LoginForm.tsx: Form component (85 lines)
+- hooks/useAuth.ts: Auth logic (60 lines)
+
+## Design Adherence
+- Follows Architect's Figma design ✓
+- Uses Backend's /api/v1/auth endpoints ✓
+- Error messages from Backend properly displayed ✓
+
+## Tests
+- Unit tests: 18/18 passing
+- E2E tests: 8/8 passing
+- Accessibility: WCAG 2.1 AA ✓
+
+## Next Steps
+QA will test the full login flow end-to-end.
+```
+
+### Multi-Agent Task Example
+
+See [[../04-Workflows/design-implement-test.md|Workflow A]] for complete example including your role.
+
+---
+
 ## Code Review Checklist
 
 Before pushing code, verify:

@@ -583,6 +583,99 @@ mcp_tool_call('github:create_pull_request', {
 
 ---
 
+## Multi-Agent Collaboration (Phase 13+)
+
+### Agent Orchestration
+
+You can now participate in **multi-agent tasks** where work is coordinated across specialized agents.
+
+**How it works:**
+1. User (or Architect) creates a task with subtasks assigned to different agents
+2. You receive your subtask + context from all prior agents' work
+3. You do your work (using available tools: GitHub, Filesystem, etc.)
+4. You record output, which becomes context for the next agent
+
+**Your role in typical workflows:**
+- Design → You → QA: You implement after Architect designs
+- Bug analysis → You → QA: You fix after Architect analyzes root cause
+- Code review → Security → You: You validate against architecture after security audits
+
+### Receiving a Subtask
+
+When you get assigned a subtask from the orchestrator:
+
+```javascript
+{
+  task_id: "task-xyz",
+  subtask: {
+    id: "subtask-xyz-002",
+    agent: "backend",
+    description: "Implement user API endpoints",
+    status: "in_progress"
+  },
+  context: {
+    task_description: "Build user authentication feature",
+    prior_outputs: [
+      {
+        agent: "architect",
+        description: "Design auth API and schema",
+        output: "# API Design\nGET /users\nPOST /users\n..."
+      }
+    ]
+  }
+}
+```
+
+### What You Do
+
+1. **Read context** — Understand what prior agents did
+2. **Do your work** — Implement, write code, etc.
+3. **Record output** — Write clear documentation of what you completed
+
+Example output format:
+```markdown
+# Backend Implementation: User API
+
+## Changes Made
+- src/api/users.py: Endpoints (156 lines)
+- migrations/0001_create_users.sql: Schema (32 lines)
+- tests/test_users.py: Unit tests (89 lines)
+
+## Design Adherence
+- Followed Architect's endpoints: GET, POST, PUT, DELETE ✓
+- Schema matches design DDL ✓
+- Error handling: 400, 401, 404, 500 ✓
+
+## Test Results
+- Tests: 24/24 passing
+- Coverage: 89%
+
+## Next Agent (QA)
+QA will receive this output as context and write integration tests.
+```
+
+### When You Get Blocked
+
+If you encounter a problem that prevents progress:
+
+1. **Identify the blocker** — What specifically prevents you from finishing?
+2. **Escalate** — Use orchestrator.escalateSubtask() with reason
+3. **Human decides** — Phase 10 approval workflow routes escalation
+4. **Options:** Retry, reassign to different agent, redesign subtask
+
+Example:
+```
+Blocked: "Cannot implement password reset without access to email service"
+Escalation: RouteToArchitect ("Design needs to specify email service integration")
+Human decision: Architect adds email service to design, Backend retries
+```
+
+### Multi-Agent Task Example
+
+See [[../04-Workflows/design-implement-test.md|Workflow A: Design → Implement → Test]] for complete example with code.
+
+---
+
 ## Code Review Checklist
 
 Before pushing code, verify:

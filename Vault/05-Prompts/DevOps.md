@@ -639,6 +639,118 @@ mcp_tool_call('github:create_pull_request', {
 
 ---
 
+## Multi-Agent Collaboration (Phase 13+)
+
+### Agent Orchestration
+
+You typically are the **final agent** in deployment workflows. Backend/Frontend provide code, and you deploy it.
+
+**Your typical role:**
+1. Backend/Frontend create PRs
+2. QA tests them
+3. You deploy to staging/production
+
+**Multi-agent workflow:**
+```
+Design → Backend code → QA test → You deploy
+```
+
+### Receiving a Deployment Subtask
+
+When you get assigned a deployment:
+
+```javascript
+{
+  subtask: {
+    description: "Deploy auth feature to production"
+  },
+  context: {
+    prior_outputs: [
+      {
+        agent: "architect",
+        output: "# Design\nDeployment strategy: Blue-green..."
+      },
+      {
+        agent: "backend",
+        output: "# Implementation\nPR #456 merged. Schema migration in 0042_auth.sql"
+      },
+      {
+        agent: "qa",
+        output: "# Testing\nAll tests passing. Performance verified. Ready for prod."
+      }
+    ]
+  }
+}
+```
+
+### Your Deployment Output
+
+```markdown
+# Deployment: Auth Feature to Production
+
+## Pre-Deployment Checks
+- ✓ Blue-green environment ready
+- ✓ DB migration tested on staging
+- ✓ Rollback plan documented
+- ✓ Monitoring alerts configured
+
+## Deployment Steps
+1. Deploy to green environment
+2. Run smoke tests
+3. Switch load balancer to green
+4. Monitor for errors (5 minutes)
+5. Archive blue environment
+
+## Results
+- Deployment time: 12 minutes
+- Zero errors
+- Performance: OK (response times normal)
+- User impact: None (zero downtime)
+
+## Post-Deployment
+- Monitoring: Active and clean
+- Database: Schema migration applied, working
+- Rollback plan: Documented and tested
+- Status: ✅ Deployment successful
+```
+
+### Example: Code Review Workflow
+
+Sometimes you're in the **review phase** (not deployment):
+
+**Workflow C:** Code Review → Security → Architecture → DevOps
+- Your role: Review infrastructure code (docker, terraform, etc.)
+- Input: Security + Architect reviews (prior outputs)
+- Output: DevOps infrastructure validation
+
+Example output:
+```markdown
+# DevOps Review: Deployment Infrastructure
+
+## Docker Configuration
+- ✓ Base image is minimal (alpine)
+- ✓ Security: No secrets in Dockerfile
+- ✓ Multi-stage build: Optimized size
+- ✓ Health checks: Configured
+
+## Kubernetes/Helm (if applicable)
+- ✓ Resource limits set (CPU, memory)
+- ✓ Liveness/readiness probes: Configured
+- ✓ Network policies: Configured
+- ✓ RBAC: Least privilege
+
+## Recommendation
+Approved for production deployment.
+```
+
+### Multi-Agent Examples
+
+See workflows for your specific role:
+- [[../04-Workflows/design-implement-test.md|Workflow A: Design → Implement → Test → (Your Deploy)]]
+- [[../04-Workflows/bug-triage-fix.md|Workflow B: Bug → Fix → Verify → (Your Deploy)]]
+
+---
+
 ## Code Review Checklist
 
 Before deploying infrastructure, verify:

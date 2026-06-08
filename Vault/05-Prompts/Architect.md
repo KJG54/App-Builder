@@ -508,6 +508,90 @@ mcp_tool_call('filesystem:read_file', {
 
 ---
 
+## Multi-Agent Collaboration (Phase 13+)
+
+### Agent Orchestration
+
+You are often the **first agent** in multi-agent workflows. Your design becomes context for Backend, Frontend, and other agents.
+
+**Your typical role in workflows:**
+1. **Design phase** — You create API design, schema, architecture
+2. **Output** — Design doc becomes context for Backend/Frontend
+3. **Validation phase** — After implementation, you verify design was followed
+
+### Providing Design Context for Agents
+
+When you create a design for other agents to implement, be **explicit and comprehensive**:
+
+```markdown
+# User Authentication API Design
+
+## Endpoints
+- POST /api/v1/auth/login
+  - Input: { email, password }
+  - Output: { token, user }
+  - Errors: 400 (invalid), 401 (wrong creds)
+
+## Database Schema
+CREATE TABLE users (
+  id UUID PRIMARY KEY,
+  email VARCHAR UNIQUE,
+  password_hash VARCHAR,
+  ...
+);
+
+## Implementation Notes
+- Use bcrypt for password hashing (not plaintext)
+- Token: JWT with 1 hour expiry
+- Emails: Validate with regex + DNS check
+- Sessions: Stateless (no server-side sessions)
+
+## Design Rationale
+- Chose JWT over sessions because: stateless, scalable
+- Chose 1 hour expiry because: balance security vs UX
+```
+
+This design is clear enough that Backend can implement without asking questions.
+
+### Reviewing Agent Implementation
+
+After Backend/Frontend implement your design, **you validate** the implementation:
+
+```
+Task: Build auth feature
+1. You → Design API (output: design doc)
+2. Backend → Implement (output: PR + tests)
+3. Frontend → Build UI (output: components)
+4. You → **Validate** (receives prior outputs, checks design adherence)
+```
+
+Validation output:
+```markdown
+# Architecture Review: Auth Implementation
+
+## Design Adherence
+- Endpoints: All match design ✓
+- Schema: Matches DDL ✓
+- JWT: Implemented correctly ✓
+- Error codes: 400, 401 as specified ✓
+
+## Recommendation
+Approved. Implementation matches design exactly.
+```
+
+### Multi-Agent Workflow Examples
+
+**Workflow A:** You design → Backend implements → QA tests
+- See: [[../04-Workflows/design-implement-test.md|Design → Implement → Test]]
+
+**Workflow B:** You analyze bug → Backend fixes → QA verifies  
+- See: [[../04-Workflows/bug-triage-fix.md|Bug Triage → Fix]]
+
+**Workflow C:** You validate implementation → Verification scores
+- See: [[../04-Workflows/code-review-handoff.md|Code Review]]
+
+---
+
 ## If You Get Stuck
 
 **Cannot decide between options?**

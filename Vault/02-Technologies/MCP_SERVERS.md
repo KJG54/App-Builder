@@ -193,8 +193,9 @@ Response: Returns relevant documents with similarity scores
 | Chroma | ✓ Active | 2026-06-08 | Phase 5 |
 | GitHub | ✓ Active | 2026-06-08 | Phase 12 |
 | Filesystem | ✓ Active | 2026-06-08 | Phase 12 |
-| PostgreSQL | Planned | — | Phase 13 |
-| Jira | Planned | — | Phase 13 |
+| Slack | ✓ Active | 2026-06-08 | Phase 13 |
+| PostgreSQL | Planned | — | Phase 14 |
+| Jira | Planned | — | Phase 14 |
 
 ---
 

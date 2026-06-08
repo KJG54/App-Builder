@@ -256,6 +256,28 @@
 
 ---
 
+### Decision 10: Multi-Agent Orchestration (Phase 13)
+
+**Date Decided:** 2026-06-08
+
+**Approved By:** Krystian Garcia (Project Lead)
+
+**Decision:** Phase 13 implements multi-agent orchestration using human-specified task decomposition. Agents receive prior work as context and escalate on failure (rather than retry). Slack notifications are optional/observer-only (not approval channels).
+
+**Rationale:** Simplicity and human control. Human-specified decomposition ensures correct task ordering; escalation honors Phase 10 approval gates; Slack is a nice-to-have, not critical path.
+
+**Impact:**
+- Agents can coordinate on complex multi-step tasks
+- Context flows between agents (design → code → tests)
+- Failures route to Phase 10 approval workflow
+- Foundation for Phase 14 (auto-decomposition, retries, advanced MCP)
+
+**Status:** Active
+
+**Related ADR:** [[ADR-ARCH-002]] — Multi-agent orchestration design
+
+---
+
 ### Decision 9: MCP Server Prioritization (Phase 12)
 
 **Date Decided:** 2026-06-08
@@ -393,6 +415,7 @@ These affect specific areas:
 | 2026-06-07 | 8 agent roles | PROC | Active |
 | 2026-06-07 | Phase prioritization | PROC | Active |
 | 2026-06-08 | MCP server prioritization (GitHub + Filesystem Phase 12) | INFRA | Active |
+| 2026-06-08 | Multi-agent orchestration (Phase 13) | ARCH | Active |
 
 ---
 
@@ -413,7 +436,7 @@ These affect specific areas:
 ---
 
 **Last Updated:** 2026-06-08
-**Total Decisions:** 9
-**Active Decisions:** 9
-**Pending Decisions:** 5
+**Total Decisions:** 10
+**Active Decisions:** 10
+**Pending Decisions:** 3
 **Superseded Decisions:** 0
