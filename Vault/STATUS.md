@@ -19,12 +19,12 @@
 | 8 | Verification Layer | ✅ Complete | 100% | 2026-06-08 |
 | 9 | Prompt Versioning + Performance Tracking | ✅ Complete | 100% | 2026-06-08 |
 | 10 | Review Pipeline + Observability | ✅ Complete | 100% | 2026-06-08 |
-| 11 | Known Problems KB | ⏳ Pending | 0% | — |
+| 11 | Known Problems KB | ✅ Complete | 100% | 2026-06-08 |
 | 12 | Advanced MCP Integration | ⏳ Pending | 0% | — |
 | 13 | Multi-Agent Collaboration | ⏳ Pending | 0% | — |
 
-**Overall:** 10/13 phases complete (77%)
-**Latest Completion:** Phase 10 Review Pipeline + Observability (pipeline + workflow + observability, 7/7 tests passing)
+**Overall:** 11/13 phases complete (85%)
+**Latest Completion:** Phase 11 Known Problems KB (extraction + management + indexing, 7/7 tests passing)
 
 ---
 
