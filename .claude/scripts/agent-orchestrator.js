@@ -162,7 +162,7 @@ class AgentOrchestrator {
    * @param {string} taskId
    * @returns {object} { subtask, context } or null if none available
    */
-  getNextSubtask(taskId) {
+  async getNextSubtask(taskId) {
     const task = this.readTask(taskId);
     if (!task) return null;
 
@@ -181,8 +181,8 @@ class AgentOrchestrator {
 
       if (!depsComplete) continue;
 
-      // Get context from prior subtasks
-      const context = this.getSharedContext(taskId, subtask.index);
+      // Get context from prior subtasks (async call)
+      const context = await this.getSharedContext(taskId, subtask.index);
 
       return {
         task_id: taskId,
@@ -200,7 +200,7 @@ class AgentOrchestrator {
    * @param {string} subtaskId
    * @returns {object} { allowed, subtask, context, reason? }
    */
-  assignSubtask(taskId, subtaskId) {
+  async assignSubtask(taskId, subtaskId) {
     const task = this.readTask(taskId);
     const subtask = task.subtasks.find(s => s.id === subtaskId);
 
@@ -228,8 +228,8 @@ class AgentOrchestrator {
 
     this.writeTask(task);
 
-    // Get context
-    const context = this.getSharedContext(taskId, subtask.index);
+    // Get context (async call)
+    const context = await this.getSharedContext(taskId, subtask.index);
 
     this.auditLogger.log('orchestrator', 'task-management', 'assign_subtask', {
       task_id: taskId,
@@ -291,8 +291,7 @@ class AgentOrchestrator {
     }, 'success');
 
     // Send Slack notification (gracefully no-op if not configured)
-    const nextSubtask = allComplete ? null : this.getNextSubtask(taskId);
-    this.slackNotifier.notifySubtaskComplete(subtask, nextSubtask);
+    this.slackNotifier.notifySubtaskComplete(subtask, null);
 
     // If task complete, also send task completion notification
     if (allComplete) {
@@ -303,7 +302,7 @@ class AgentOrchestrator {
     return {
       status: allComplete ? 'task_complete' : 'subtask_complete',
       task_id: taskId,
-      next_subtask: nextSubtask,
+      next_subtask: null,
     };
   }
 

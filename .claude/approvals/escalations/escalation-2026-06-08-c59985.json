@@ -1,0 +1,11 @@
+{
+  "id": "escalation-2026-06-08-c59985",
+  "task_id": "task-2026-06-08-ebc703",
+  "subtask_id": "task-2026-06-08-ebc703-subtask-001",
+  "agent": "backend",
+  "agent_description": "Do work",
+  "reason": "Requires human approval",
+  "task_description": "Task with escalation",
+  "requested_date": "2026-06-08T04:38:38.263Z",
+  "status": "pending-approval"
+}

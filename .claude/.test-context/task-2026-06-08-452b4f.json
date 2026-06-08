@@ -1,0 +1,35 @@
+{
+  "id": "task-2026-06-08-452b4f",
+  "description": "Test",
+  "status": "pending",
+  "created": "2026-06-08T04:36:58.558Z",
+  "completed": null,
+  "subtasks": [
+    {
+      "id": "task-2026-06-08-452b4f-subtask-001",
+      "index": 0,
+      "agent": "a1",
+      "description": "Step 1",
+      "status": "pending",
+      "depends_on_ids": [],
+      "output_file": null,
+      "assigned_at": null,
+      "completed_at": null,
+      "error": null
+    },
+    {
+      "id": "task-2026-06-08-452b4f-subtask-002",
+      "index": 1,
+      "agent": "a2",
+      "description": "Step 2",
+      "status": "pending",
+      "depends_on_ids": [
+        "task-2026-06-08-452b4f-subtask-001"
+      ],
+      "output_file": null,
+      "assigned_at": null,
+      "completed_at": null,
+      "error": null
+    }
+  ]
+}
