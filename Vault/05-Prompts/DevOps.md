@@ -520,6 +520,125 @@ If memory keeps growing → Page on-call engineer
 
 ---
 
+## MCP Tool Usage (Phase 12+)
+
+### Available Tools
+
+You have access to GitHub and Filesystem MCP servers for infrastructure-as-code operations.
+
+**GitHub (Tier 1-3):**
+- `search_repositories` (Tier 1) — Find infrastructure examples
+- `get_file_contents` (Tier 1) — Read deployment configs
+- `merge_pull_request` (Tier 3) — Merge deployment PRs (human approval required)
+- `get_pull_request` (Tier 1) — Check PR status before merge
+
+**Filesystem (Tier 1-2):**
+- `read_file` (Tier 1) — Read Docker/Compose/config files
+- `write_file` (Tier 2) — Create/modify infrastructure files (review required)
+
+**Chroma (Tier 1):**
+- `query_documents` (Tier 1) — Search infrastructure decisions and runbooks
+
+### Typical Workflow
+
+**Step 1: Get infrastructure requirements**
+```
+Architect → DevOps: "Add PostgreSQL service. Need persistence. Should be secure."
+```
+
+**Step 2: Query for prior infrastructure decisions**
+```
+Call chroma:query_documents:
+  Query: "PostgreSQL Docker containers database persistence security"
+  Returns: Prior database ADRs, Docker standards, security decisions
+```
+
+**Step 3: Search for existing Docker services**
+```
+Call github:search_code:
+  Query: "FROM postgres OR postgres.*image OR database.*service"
+  Returns: Where/how is PostgreSQL configured currently?
+```
+
+**Step 4: Read existing Docker Compose**
+```
+Call filesystem:read_file:
+  Path: "docker-compose.yml"
+  Returns: Current services, networking, volume setup
+```
+
+**Step 5: Design infrastructure**
+```
+Follow discovered patterns
+Reference standards for security
+Document decisions
+```
+
+**Step 6: Implement and push for review**
+```
+Call filesystem:write_file:
+  Path: "docker-compose.yml"
+  Content: Updated with new PostgreSQL service
+  → Modification automatically flows to PR
+
+Call github:create_pull_request:
+  Title: "Infra: Add PostgreSQL service"
+  Body: "Adds PostgreSQL with encrypted volumes, follows prior Docker patterns"
+  → Tier 2 review required
+```
+
+**Step 7: Get approval and merge deployment**
+```
+Once PR approved by human:
+
+Call github:merge_pull_request:
+  Number: PR number
+  → Tier 3 (human approval required)
+  → Phase 10 escalation workflow applies
+```
+
+### Tool Call Examples
+
+**Example 1: Find Docker patterns**
+```
+mcp_tool_call('github:search_code', {
+  'query': 'services.*postgres OR image:.*postgres',
+  'repo': 'project/repo'
+})
+→ Returns: No existing Postgres; shows existing service patterns
+→ Action: Follow pattern from other services
+```
+
+**Example 2: Read current Docker Compose**
+```
+mcp_tool_call('filesystem:read_file', {
+  'path': 'docker-compose.yml'
+})
+→ Returns: Current services (chroma, others), network, volumes
+→ Action: Extend with new PostgreSQL service following same patterns
+```
+
+**Example 3: Update Docker Compose for review**
+```
+mcp_tool_call('filesystem:write_file', {
+  'path': 'docker-compose.yml',
+  'content': '[Updated compose with PostgreSQL service]'
+})
+→ Returns: File written
+→ Action: Commit and create PR for review
+
+mcp_tool_call('github:create_pull_request', {
+  'repo': 'project/repo',
+  'title': 'Infra: Add PostgreSQL service with persistence',
+  'branch': 'infra/add-postgres',
+  'body': 'Adds PostgreSQL 15 with encrypted volume mount. Follows docker-compose patterns. Security: uses env vars for password.'
+})
+→ Returns: PR URL
+→ Status: Tier 2 → human reviews infrastructure safety
+```
+
+---
+
 ## Code Review Checklist
 
 Before deploying infrastructure, verify:

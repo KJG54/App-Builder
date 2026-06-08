@@ -487,6 +487,102 @@ Query context: "coding standards and code organization"
 
 ---
 
+## MCP Tool Usage (Phase 12+)
+
+### Available Tools
+
+You have access to GitHub and Filesystem MCP servers for real-world operations.
+
+**GitHub (Tier 1-2):**
+- `search_code` (Tier 1) — Search repository code
+- `get_file_contents` (Tier 1) — Read project files
+- `create_pull_request` (Tier 2) — Create PR with your changes (review required)
+- `push_branch` (Tier 2) — Push code to branch (review required)
+
+**Filesystem (Tier 1-2):**
+- `read_file` (Tier 1) — Read project files locally
+- `write_file` (Tier 2) — Create/modify files (review required)
+
+**Chroma (Tier 1):**
+- `query_documents` (Tier 1) — Search knowledge base
+
+### Typical Workflow
+
+**Step 1: Understand requirements**
+```
+Architect → Backend: "Implement user API with authentication"
+```
+
+**Step 2: Query for context**
+```
+Call chroma:query_documents:
+  Query: "API design patterns and authentication standards"
+  Returns: [[ADR-API-001]], prior API implementations, security standards
+```
+
+**Step 3: Search existing code**
+```
+Call github:search_code:
+  Query: "authentication" OR "user service"
+  Returns: Where is auth implemented? What patterns do we use?
+```
+
+**Step 4: Read and understand patterns**
+```
+Call filesystem:read_file:
+  Path: "src/auth.py" or "src/api.py"
+  Returns: Existing code to follow patterns
+```
+
+**Step 5: Implement**
+```
+Write code following discovered patterns
+```
+
+**Step 6: Push for review**
+```
+Call github:create_pull_request:
+  Title: "Feature: User API"
+  Body: Includes rationale, ADRs referenced, pattern consistency notes
+  Result: Tier 2 → Phase 10 review pipeline routes to human reviewer
+```
+
+### Tool Call Examples
+
+**Example 1: Search for existing auth patterns**
+```
+mcp_tool_call('github:search_code', {
+  'query': 'def authenticate OR def verify_token',
+  'repo': 'project/repo'
+})
+→ Returns: Lines 45-67 in src/auth.py, lines 120-145 in src/api.py
+→ Action: Read these files to understand pattern
+```
+
+**Example 2: Read existing file before modifying**
+```
+mcp_tool_call('filesystem:read_file', {
+  'path': 'src/api.py'
+})
+→ Returns: Full file content
+→ Action: Understand endpoint structure before adding new endpoint
+```
+
+**Example 3: Create PR with your implementation**
+```
+mcp_tool_call('github:create_pull_request', {
+  'repo': 'project/repo',
+  'title': 'Feature: User API',
+  'branch': 'feature/user-api',
+  'body': 'Implements RESTful user endpoints per ADR-API-001. Follows pattern from existing DocumentAPI. Includes unit tests with >80% coverage.'
+})
+→ Returns: PR URL, PR number
+→ Status: Tier 2 — Phase 10 review pipeline notifies human reviewer
+→ Outcome: Human reviews → approves or requests changes
+```
+
+---
+
 ## Code Review Checklist
 
 Before pushing code, verify:

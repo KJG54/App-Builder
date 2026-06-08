@@ -256,15 +256,37 @@
 
 ---
 
+### Decision 9: MCP Server Prioritization (Phase 12)
+
+**Date Decided:** 2026-06-08
+
+**Approved By:** Krystian Garcia (Project Lead)
+
+**Decision:** GitHub MCP Server and Filesystem MCP Server are prioritized for Phase 12 integration. PostgreSQL, Jira, AWS, and Slack are deferred to Phase 13+.
+
+**Rationale:** GitHub + Filesystem provide the most value for solo developer workflows while keeping the system local-first. PostgreSQL requires new Docker infrastructure (separate decision). External SaaS (Jira, Slack, AWS) fits Phase 13 multi-team coordination scope.
+
+**Impact:**
+- Agents gain first real-world tool access (read code, create PRs, modify files)
+- All operations logged via audit logger per ADR-INT-001
+- Authorization matrix enforced for all tool calls
+- Foundation for Phase 13 (PostgreSQL/Jira/AWS can extend same framework)
+
+**Status:** Active
+
+**Related ADR:** [[ADR-INFRA-002]] — Phase 12 MCP Server Prioritization
+
+---
+
 ## Pending Decisions
 
 | Decision | Timeline | Owner | Status |
 |----------|----------|-------|--------|
-| Which MCP servers to prioritize (GitHub, Jira, AWS?) | Phase 12 | TBD | Pending |
-| Docker networking strategy for agent containers | Phase 12 | DevOps Agent | Pending |
-| Chroma persistence and backup strategy | Phase 5 | DevOps Agent | Pending |
-| Cost optimization thresholds (when to use Haiku vs Sonnet vs Opus) | Phase 9 | Architect Agent | Pending |
-| Knowledge retention policy (how long to keep sessions?) | Phase 11 | TBD | Pending |
+| PostgreSQL MCP server integration | Phase 13 | Backend Agent | Pending |
+| Docker networking strategy for agent containers | Phase 13 | DevOps Agent | Pending |
+| Jira/Linear integration strategy | Phase 13 | Architecture Team | Pending |
+| Slack notification strategy | Phase 13 | DevOps Agent | Pending |
+| Cost optimization thresholds (when to use Haiku vs Sonnet vs Opus) | Phase 9+ | Architect Agent | Pending |
 
 ---
 
@@ -370,6 +392,7 @@ These affect specific areas:
 | 2026-06-07 | ADR categories | PROC | Active |
 | 2026-06-07 | 8 agent roles | PROC | Active |
 | 2026-06-07 | Phase prioritization | PROC | Active |
+| 2026-06-08 | MCP server prioritization (GitHub + Filesystem Phase 12) | INFRA | Active |
 
 ---
 
@@ -389,8 +412,8 @@ These affect specific areas:
 
 ---
 
-**Last Updated:** 2026-06-07
-**Total Decisions:** 8
-**Active Decisions:** 8
+**Last Updated:** 2026-06-08
+**Total Decisions:** 9
+**Active Decisions:** 9
 **Pending Decisions:** 5
 **Superseded Decisions:** 0

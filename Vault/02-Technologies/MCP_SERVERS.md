@@ -53,7 +53,7 @@ Response: Returns relevant documents with similarity scores
 
 ---
 
-## Planned MCP Servers (Phase 12)
+## Active MCP Servers (Phase 12+)
 
 ### GitHub MCP Server
 
@@ -61,7 +61,7 @@ Response: Returns relevant documents with similarity scores
 
 **Purpose:** Repository operations, issue tracking, PR management
 
-**Status:** Planned (Phase 12)
+**Status:** Active (Integrated Phase 12)
 
 **Expected Capabilities:**
 - Repository read/write access
@@ -77,7 +77,34 @@ Response: Returns relevant documents with similarity scores
 
 **Security:** OAuth2 token-based authentication
 
-**Configuration:** [TBD Phase 12]
+**Configuration:** Integrated in `.mcp.json` with `GITHUB_TOKEN` env var
+
+**Integration Point:** ADR-INFRA-002 (Phase 12)
+
+---
+
+### Filesystem MCP Server
+
+**Type:** File System Access
+
+**Purpose:** Local file operations for code generation and analysis
+
+**Status:** Active (Integrated Phase 12)
+
+**Capabilities:**
+- Read files and directories
+- Write and modify files
+- Directory traversal and listing
+- Pattern-based file operations
+
+**Use Cases:**
+- Backend/Frontend Agent: Code generation and modification
+- All agents: Project file access and analysis
+- DevOps: Configuration file management
+
+**Configuration:** Integrated in `.mcp.json` with `ALLOWED_DIRECTORIES=PROJECT_ROOT`
+
+**Integration Point:** ADR-INFRA-002 (Phase 12)
 
 ---
 
@@ -87,7 +114,7 @@ Response: Returns relevant documents with similarity scores
 
 **Purpose:** Direct SQL execution and migration management
 
-**Status:** Planned (Phase 12)
+**Status:** Planned (Phase 13)
 
 **Expected Capabilities:**
 - Query execution
@@ -103,30 +130,7 @@ Response: Returns relevant documents with similarity scores
 
 **Security:** Environment variable secrets, least-privilege accounts
 
-**Configuration:** [TBD Phase 3]
-
----
-
-### Filesystem MCP Server
-
-**Type:** File System Access
-
-**Purpose:** Local file operations for code generation and analysis
-
-**Status:** Planned (Phase 12)
-
-**Expected Capabilities:**
-- Read/write files
-- Directory traversal
-- File pattern matching
-- Bulk operations
-
-**Use Cases:**
-- All agents: Project file access
-- Backend/Frontend: Code generation
-- Documentation: File generation
-
-**Configuration:** [TBD Phase 1]
+**Configuration:** [TBD Phase 13]
 
 ---
 
@@ -186,10 +190,10 @@ Response: Returns relevant documents with similarity scores
 
 | Server | Status | Last Check | Integration |
 |--------|--------|-----------|---|
-| Chroma | ✓ Active | 2026-06-07 | Phase 2 |
-| GitHub | Planned | — | Phase 12 |
-| PostgreSQL | Planned | — | Phase 3 |
-| Filesystem | Planned | — | Phase 1 |
+| Chroma | ✓ Active | 2026-06-08 | Phase 5 |
+| GitHub | ✓ Active | 2026-06-08 | Phase 12 |
+| Filesystem | ✓ Active | 2026-06-08 | Phase 12 |
+| PostgreSQL | Planned | — | Phase 13 |
 | Jira | Planned | — | Phase 13 |
 
 ---
@@ -236,18 +240,17 @@ Response: Returns relevant documents with similarity scores
 
 ## MCP Server Roadmap
 
-### Phase 1-2 (Current)
+### Phase 5 (Chroma)
 - ✓ Chroma integration
 
-### Phase 3
-- PostgreSQL MCP server integration
-- Filesystem MCP server integration
-
 ### Phase 12 (Advanced MCP)
-- GitHub integration
-- Enhanced Chroma operators
+- ✓ GitHub integration
+- ✓ Filesystem integration
+- ✓ Audit logging
+- ✓ Authorization enforcement
 
 ### Phase 13 (Multi-Agent Orchestration)
+- PostgreSQL MCP server integration
 - Jira/Linear integration
 - Slack integration
 - AWS/infrastructure providers
@@ -284,8 +287,8 @@ Chroma server: Verify collection access with list_collections
 
 ---
 
-**Last Updated:** 2026-06-07
-**Total Servers:** 1 active + 4 planned
-**Current Phase:** 2 (Chroma focus)
-**Target Integration Phases:** 1, 3, 12, 13
-**Last Health Check:** 2026-06-07
+**Last Updated:** 2026-06-08
+**Total Servers:** 3 active + 3 planned
+**Current Phase:** 12 (GitHub + Filesystem)
+**Target Integration Phases:** 5, 12, 13
+**Last Health Check:** 2026-06-08

@@ -416,6 +416,98 @@ When recommending new technology:
 
 ---
 
+## MCP Tool Usage (Phase 12+)
+
+### Available Tools
+
+You have access to GitHub and Chroma for design research and documentation.
+
+**GitHub (Tier 1):**
+- `search_repositories` (Tier 1) — Find relevant repos/architectures
+- `search_code` (Tier 1) — Search for patterns and existing solutions
+- `get_file_contents` (Tier 1) — Read architecture/design docs
+
+**Chroma (Tier 1):**
+- `query_documents` (Tier 1) — Search knowledge base, ADRs, standards
+
+**Filesystem (Tier 1):**
+- `read_file` (Tier 1) — Read local design docs and architecture notes
+
+### Typical Workflow
+
+**Step 1: Understand requirements from product**
+```
+Product → Architect: "We need to scale to 1M users. Current auth is bottleneck."
+```
+
+**Step 2: Search knowledge base for prior decisions**
+```
+Call chroma:query_documents:
+  Query: "authentication scalability OR user sessions OR scaling"
+  Returns: Prior ADRs, scalability decisions, performance analysis
+```
+
+**Step 3: Search codebase for context**
+```
+Call github:search_code:
+  Query: "auth session OR authentication database OR user service"
+  Returns: Where is auth implemented? What's current pattern?
+```
+
+**Step 4: Read existing architecture docs**
+```
+Call filesystem:read_file:
+  Path: "Vault/07-Decisions/ADR-SEC-002.md" or "docs/architecture.md"
+  Returns: Current auth architecture and constraints
+```
+
+**Step 5: Design solution**
+```
+Research alternatives
+Document in ADR draft
+Consider trade-offs
+```
+
+**Step 6: Get feedback before finalizing**
+```
+Share design with Backend Agent and Security Agent
+Incorporate feedback
+Create final ADR for approval
+```
+
+### Tool Call Examples
+
+**Example 1: Search for prior scalability decisions**
+```
+mcp_tool_call('chroma:query_documents', {
+  'query': 'scaling authentication performance 1M users',
+  'collection': 'ai-software-factory-facts'
+})
+→ Returns: ADR-SEC-001 (auth strategy), session management notes
+→ Action: Understand what's already decided, what's open
+```
+
+**Example 2: Search codebase for session management**
+```
+mcp_tool_call('github:search_code', {
+  'query': 'class.*Session OR def.*session OR SessionManager',
+  'repo': 'project/repo'
+})
+→ Returns: Current session implementation locations
+→ Action: Read to understand implementation details before recommending changes
+```
+
+**Example 3: Read existing auth ADR**
+```
+mcp_tool_call('filesystem:read_file', {
+  'path': 'Vault/07-Decisions/ADR-SEC-001.md'
+})
+→ Returns: Full authentication architecture decision
+→ Action: Understand constraints and why current approach was chosen
+```
+
+---
+
 ## If You Get Stuck
 
 **Cannot decide between options?**

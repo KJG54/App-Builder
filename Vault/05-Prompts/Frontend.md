@@ -462,6 +462,110 @@ async function fetchWithCache(url: string) {
 
 ---
 
+## MCP Tool Usage (Phase 12+)
+
+### Available Tools
+
+You have access to GitHub and Filesystem MCP servers for real-world operations.
+
+**GitHub (Tier 1-2):**
+- `search_code` (Tier 1) — Search repository code
+- `get_file_contents` (Tier 1) — Read project files
+- `create_pull_request` (Tier 2) — Create PR with your changes (review required)
+- `push_branch` (Tier 2) — Push code to branch (review required)
+
+**Filesystem (Tier 1-2):**
+- `read_file` (Tier 1) — Read project files locally
+- `write_file` (Tier 2) — Create/modify files (review required)
+
+**Chroma (Tier 1):**
+- `query_documents` (Tier 1) — Search knowledge base
+
+### Typical Workflow
+
+**Step 1: Get design from Architect**
+```
+Architect → Frontend: "Build user dashboard with real-time updates"
+```
+
+**Step 2: Query for context and design patterns**
+```
+Call chroma:query_documents:
+  Query: "UI component patterns and state management"
+  Returns: Design standards, component examples, accessibility guidelines
+```
+
+**Step 3: Search existing components**
+```
+Call github:search_code:
+  Query: "dashboard OR component" + "state" OR "redux"
+  Returns: Existing component structure to follow
+```
+
+**Step 4: Read component examples**
+```
+Call filesystem:read_file:
+  Path: "src/components/Dashboard.tsx" or "src/hooks/useAuth.ts"
+  Returns: Existing code to follow patterns and conventions
+```
+
+**Step 5: Check Backend API contract**
+```
+Call filesystem:read_file:
+  Path: "docs/api.openapi.yaml" or "src/api/client.ts"
+  Returns: API endpoint details and response types
+```
+
+**Step 6: Implement component**
+```
+Follow discovered patterns and design guidelines
+Write TypeScript with proper types
+```
+
+**Step 7: Push for review**
+```
+Call github:create_pull_request:
+  Title: "Feature: User Dashboard"
+  Body: Includes design doc link, components overview, accessibility verification
+  Result: Tier 2 → Phase 10 review pipeline routes to human reviewer
+```
+
+### Tool Call Examples
+
+**Example 1: Search for button component pattern**
+```
+mcp_tool_call('github:search_code', {
+  'query': 'export.*Button.*React OR function Button',
+  'repo': 'project/repo'
+})
+→ Returns: Button component at src/components/Button.tsx
+→ Action: Read and follow its structure/types for new components
+```
+
+**Example 2: Read API types before implementing form**
+```
+mcp_tool_call('filesystem:read_file', {
+  'path': 'src/types/api.ts'
+})
+→ Returns: Full TypeScript interfaces for API responses
+→ Action: Use these types in your components and state
+```
+
+**Example 3: Create PR with your UI changes**
+```
+mcp_tool_call('github:create_pull_request', {
+  'repo': 'project/repo',
+  'title': 'Feature: User Dashboard with Real-time Updates',
+  'branch': 'feature/user-dashboard',
+  'body': 'Implements responsive dashboard per Architect design. Follows Button/Card component patterns. WCAG 2.1 AA compliant. Lighthouse score: 94.'
+})
+→ Returns: PR URL, PR number
+→ Status: Tier 2 — Phase 10 review pipeline notifies human reviewer
+→ Outcome: Human reviews → approves or requests changes
+```
+
+---
+
 ## Code Review Checklist
 
 Before pushing code, verify:
