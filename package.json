@@ -7,7 +7,8 @@
     "test:phase-8": "node ./.claude/scripts/validate-phase-8.js",
     "test:phase-9": "node ./.claude/scripts/validate-phase-9.js",
     "test:phase-10": "node ./.claude/scripts/validate-phase-10.js",
-    "test": "node ./.claude/scripts/validate-phase-10.js"
+    "test:phase-11": "node ./.claude/scripts/validate-phase-11.js",
+    "test": "node ./.claude/scripts/validate-phase-11.js"
   },
   "keywords": [
     "ai",
