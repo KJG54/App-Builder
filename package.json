@@ -4,8 +4,10 @@
   "description": "Application Builder Framework with AI Multi-Agent Architecture",
   "main": "index.js",
   "scripts": {
-    "test:phase-9": "node ./.claude/scripts/test-phase-9.js",
-    "test": "node ./.claude/scripts/test-phase-9.js"
+    "test:phase-8": "node ./.claude/scripts/validate-phase-8.js",
+    "test:phase-9": "node ./.claude/scripts/validate-phase-9.js",
+    "test:phase-10": "node ./.claude/scripts/validate-phase-10.js",
+    "test": "node ./.claude/scripts/validate-phase-10.js"
   },
   "keywords": [
     "ai",
