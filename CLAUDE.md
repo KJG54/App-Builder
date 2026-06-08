@@ -435,6 +435,30 @@ Never execute commands that may irreversibly destroy project data without approv
 
 ---
 
+## Error Reporting (CRITICAL)
+
+**ALWAYS report errors immediately when encountered.** Do not hide, work around, or minimize errors.
+
+When any error occurs:
+
+1. **Stop and report** — Interrupt the current task flow
+2. **Describe the error** — Include full error message, exit code, and context
+3. **Explain the impact** — What task is blocked, what can't proceed
+4. **Provide location** — File path, line number, command that failed
+5. **Suggest next steps** — Don't silently try alternatives; ask for guidance
+
+This applies to:
+* Command execution failures (non-zero exit codes)
+* Module/import errors
+* File system errors (path not found, permission denied)
+* Network/API errors
+* Assertion failures in tests
+* Unexpected behavior that violates assumptions
+
+**Why:** Errors are information. Hiding them delays debugging and creates false confidence in partially-broken systems. Transparency enables faster problem-solving.
+
+---
+
 # Vault Rules
 
 The Vault is a long-term project memory system.
