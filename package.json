@@ -1,0 +1,21 @@
+{
+  "name": "ai-software-factory",
+  "version": "1.0.0",
+  "description": "Application Builder Framework with AI Multi-Agent Architecture",
+  "main": "index.js",
+  "scripts": {
+    "test:phase-9": "node ./.claude/scripts/test-phase-9.js",
+    "test": "node ./.claude/scripts/test-phase-9.js"
+  },
+  "keywords": [
+    "ai",
+    "multi-agent",
+    "software-factory",
+    "application-builder"
+  ],
+  "author": "Krystian Garcia",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
