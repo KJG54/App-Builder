@@ -15,22 +15,22 @@
 | 4 | Fact vs Session Separation | ✅ Complete | 100% | 2026-06-07 |
 | 5 | Chroma Integration | ✅ Complete | 100% | 2026-06-08 |
 | 6 | Context Builder & Agent Integration | ✅ Complete | 100% | 2026-06-08 |
-| 7 | Skills System | ✅ Complete (Framework) | 100% | 2026-06-08 |
-| 8 | Verification Layer | ⏳ Pending | 0% | — |
+| 7 | Skills System | ✅ Complete | 100% | 2026-06-08 |
+| 8 | Verification Layer | ✅ Complete | 100% | 2026-06-08 |
 | 9 | Prompt Versioning + Performance Tracking | ⏳ Pending | 0% | — |
 | 10 | Review Pipeline + Observability | ⏳ Pending | 0% | — |
 | 11 | Known Problems KB | ⏳ Pending | 0% | — |
 | 12 | Advanced MCP Integration | ⏳ Pending | 0% | — |
 | 13 | Multi-Agent Collaboration | ⏳ Pending | 0% | — |
 
-**Overall:** 7/13 phases complete (54%)
-**Latest Completion:** Phase 7 Skills System (All 4 parts, 11/11 tests passing)
+**Overall:** 8/13 phases complete (62%)
+**Latest Completion:** Phase 8 Verification Layer (All 4 parts, 9/9 tests passing)
 
 ---
 
 ## Current Work In Progress
 
-**Latest Session:** 2026-06-08 (Phase 7: Skills System)
+**Latest Session:** 2026-06-08 (Phase 8: Verification Layer)
 
 ### What Was Completed
 - ✅ **Phase 7.1:** Skills framework documented (README, SKILLS-INDEX, example skill, template)
