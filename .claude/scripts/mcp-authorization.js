@@ -241,6 +241,15 @@ class MCPAuthorization {
   }
 
   /**
+   * Check if an agent role is valid (exists in authorization matrix)
+   * @param {string} agentRole - Agent role to validate
+   * @returns {boolean} true if agent exists in matrix
+   */
+  isValidAgent(agentRole) {
+    return !!this.matrix[agentRole];
+  }
+
+  /**
    * Get all authorized tools for an agent on a server
    * Useful for documentation and agent discovery
    */

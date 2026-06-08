@@ -9,12 +9,14 @@ const path = require('path');
 const crypto = require('crypto');
 const MCPAuditLogger = require('./mcp-audit-logger');
 const MCPAuthorization = require('./mcp-authorization');
+const ApprovalWorkflow = require('./approval-workflow');
 
 class AgentOrchestrator {
   constructor(tasksDir = '.claude/tasks') {
     this.tasksDir = tasksDir;
     this.auditLogger = new MCPAuditLogger('.claude/mcp-audit');
     this.authorization = new MCPAuthorization();
+    this.approvalWorkflow = new ApprovalWorkflow('.claude/approvals');
 
     if (!fs.existsSync(tasksDir)) {
       fs.mkdirSync(tasksDir, { recursive: true });
@@ -37,6 +39,37 @@ class AgentOrchestrator {
    * @returns {object} Task record
    */
   createTask(description, subtaskDefs) {
+    // Validate inputs
+    if (!description || description.trim().length === 0) {
+      throw new Error('Task description is required and cannot be empty');
+    }
+    if (!Array.isArray(subtaskDefs) || subtaskDefs.length === 0) {
+      throw new Error('At least one subtask is required');
+    }
+
+    // Validate each subtask definition
+    for (let i = 0; i < subtaskDefs.length; i++) {
+      const def = subtaskDefs[i];
+
+      if (!def.agent) {
+        throw new Error(`Subtask ${i}: agent is required`);
+      }
+      if (!def.description) {
+        throw new Error(`Subtask ${i}: description is required`);
+      }
+
+      // Validate depends_on indices
+      const depIndices = def.depends_on || [];
+      for (const depIdx of depIndices) {
+        if (!Number.isInteger(depIdx) || depIdx < 0 || depIdx >= subtaskDefs.length) {
+          throw new Error(`Subtask ${i}: invalid dependency index ${depIdx}`);
+        }
+        if (depIdx === i) {
+          throw new Error(`Subtask ${i}: cannot depend on itself`);
+        }
+      }
+    }
+
     const taskId = this.generateId('task');
 
     const subtasks = subtaskDefs.map((def, idx) => ({
@@ -83,10 +116,14 @@ class AgentOrchestrator {
     for (const subtask of task.subtasks) {
       if (subtask.status !== 'pending') continue;
 
-      // Check if all dependencies are complete
+      // Check if all dependencies are complete (with bounds validation)
       const depsComplete = subtask.depends_on.every(depIdx => {
+        // Validate dependency index is within bounds
+        if (typeof depIdx !== 'number' || depIdx < 0 || depIdx >= task.subtasks.length) {
+          throw new Error(`Invalid dependency index ${depIdx} in subtask ${subtask.id}`);
+        }
         const depSubtask = task.subtasks[depIdx];
-        return depSubtask.status === 'complete';
+        return depSubtask && depSubtask.status === 'complete';
       });
 
       if (!depsComplete) continue;
@@ -122,9 +159,20 @@ class AgentOrchestrator {
       return { allowed: false, reason: `Subtask already ${subtask.status}` };
     }
 
+    // Validate agent exists in authorization matrix
+    if (!this.authorization.isValidAgent(subtask.agent)) {
+      return { allowed: false, reason: `Unknown agent role: ${subtask.agent}` };
+    }
+
     // Mark as assigned
     subtask.status = 'in_progress';
     subtask.assigned_at = new Date().toISOString();
+
+    // Update task status to in_progress on first assignment
+    if (task.status === 'pending') {
+      task.status = 'in_progress';
+    }
+
     this.writeTask(task);
 
     // Get context
@@ -156,6 +204,11 @@ class AgentOrchestrator {
 
     if (!subtask) {
       return { status: 'error', reason: 'Subtask not found' };
+    }
+
+    // Validate subtask is in progress (state machine enforcement)
+    if (subtask.status !== 'in_progress') {
+      return { status: 'error', reason: `Cannot complete subtask with status '${subtask.status}' - must be in_progress` };
     }
 
     // Write output file
@@ -214,11 +267,31 @@ class AgentOrchestrator {
 
     const escalationId = this.generateId('escalation');
 
+    // Route to Phase 10 approval workflow
+    const escalationRecord = {
+      id: escalationId,
+      task_id: taskId,
+      subtask_id: subtaskId,
+      agent: subtask.agent,
+      agent_description: subtask.description,
+      reason: reason,
+      task_description: task.description,
+      requested_date: new Date().toISOString(),
+      status: 'pending-approval',
+    };
+
+    try {
+      this.approvalWorkflow.saveEscalation(escalationRecord);
+    } catch (err) {
+      console.error(`Error routing escalation ${escalationId} to approval workflow:`, err.message);
+    }
+
     this.auditLogger.log('orchestrator', 'escalation', 'escalate_subtask', {
       task_id: taskId,
       subtask_id: subtaskId,
       agent: subtask.agent,
       reason,
+      escalation_id: escalationId,
     }, 'escalation', { escalation_id: escalationId });
 
     return {
@@ -279,7 +352,7 @@ class AgentOrchestrator {
 
     const completed = task.subtasks.filter(s => s.status === 'complete').length;
     const total = task.subtasks.length;
-    const percentDone = Math.round((completed / total) * 100);
+    const percentDone = total === 0 ? 0 : Math.round((completed / total) * 100);
 
     let duration = null;
     if (task.completed) {

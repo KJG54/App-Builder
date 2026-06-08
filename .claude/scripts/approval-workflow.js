@@ -321,8 +321,10 @@ class ApprovalWorkflow {
    * @private
    */
   calculateAvgDecisionTime(reviewRequests, escalations) {
-    const decided = reviewRequests.filter(r => r.decision_date) +
-                    escalations.filter(e => e.decision_date);
+    const decided = [
+      ...reviewRequests.filter(r => r.decision_date),
+      ...escalations.filter(e => e.decision_date)
+    ];
 
     if (decided.length === 0) return 0;
 
