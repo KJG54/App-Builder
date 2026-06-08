@@ -38,10 +38,47 @@ class AgentOrchestrator {
   }
 
   /**
+   * Validate task has no circular dependencies
+   * Uses depth-first search to detect cycles
+   */
+  validateNoDependencyCycles(subtasks) {
+    const visited = new Set();
+    const recursionStack = new Set();
+
+    const hasCycle = (subtaskId) => {
+      visited.add(subtaskId);
+      recursionStack.add(subtaskId);
+
+      const subtask = subtasks.find(s => s.id === subtaskId);
+      const depIds = subtask?.depends_on_ids || [];
+
+      for (const depId of depIds) {
+        if (!visited.has(depId)) {
+          if (hasCycle(depId)) return true;
+        } else if (recursionStack.has(depId)) {
+          return true; // Back edge found, cycle exists
+        }
+      }
+
+      recursionStack.delete(subtaskId);
+      return false;
+    };
+
+    // Check for cycles starting from each node
+    for (const subtask of subtasks) {
+      if (!visited.has(subtask.id)) {
+        if (hasCycle(subtask.id)) {
+          throw new Error(`Circular dependency detected in task dependencies`);
+        }
+      }
+    }
+  }
+
+  /**
    * Create a new task with subtasks
    * @param {string} description - Task description (e.g., "Build user authentication")
-   * @param {array} subtaskDefs - Array of { agent, description, depends_on: [indices] }
-   * @returns {object} Task record
+   * @param {array} subtaskDefs - Array of { agent, description, depends_on: [ids or indices] }
+   * @returns {object} Task record with ID-based dependencies
    */
   createTask(description, subtaskDefs) {
     // Validate inputs
@@ -63,7 +100,7 @@ class AgentOrchestrator {
         throw new Error(`Subtask ${i}: description is required`);
       }
 
-      // Validate depends_on indices
+      // Validate depends_on (can be indices or IDs at input)
       const depIndices = def.depends_on || [];
       for (const depIdx of depIndices) {
         if (!Number.isInteger(depIdx) || depIdx < 0 || depIdx >= subtaskDefs.length) {
@@ -77,18 +114,28 @@ class AgentOrchestrator {
 
     const taskId = this.generateId('task');
 
+    // Create subtasks and build mapping from indices to IDs
     const subtasks = subtaskDefs.map((def, idx) => ({
       id: `${taskId}-subtask-${String(idx + 1).padStart(3, '0')}`,
       index: idx,
       agent: def.agent,
       description: def.description,
       status: 'pending',
-      depends_on: def.depends_on || [],
+      depends_on_ids: [], // Will be populated below
       output_file: null,
       assigned_at: null,
       completed_at: null,
       error: null,
     }));
+
+    // Convert index-based dependencies to ID-based dependencies
+    for (let i = 0; i < subtasks.length; i++) {
+      const depIndices = subtaskDefs[i].depends_on || [];
+      subtasks[i].depends_on_ids = depIndices.map(idx => subtasks[idx].id);
+    }
+
+    // Validate for circular dependencies
+    this.validateNoDependencyCycles(subtasks);
 
     const task = {
       id: taskId,
@@ -111,6 +158,7 @@ class AgentOrchestrator {
 
   /**
    * Get next subtask that is ready to assign (all dependencies complete)
+   * Uses ID-based dependency lookup for robustness
    * @param {string} taskId
    * @returns {object} { subtask, context } or null if none available
    */
@@ -121,14 +169,14 @@ class AgentOrchestrator {
     for (const subtask of task.subtasks) {
       if (subtask.status !== 'pending') continue;
 
-      // Check if all dependencies are complete (with bounds validation)
-      const depsComplete = subtask.depends_on.every(depIdx => {
-        // Validate dependency index is within bounds
-        if (typeof depIdx !== 'number' || depIdx < 0 || depIdx >= task.subtasks.length) {
-          throw new Error(`Invalid dependency index ${depIdx} in subtask ${subtask.id}`);
+      // Check if all dependencies are complete (ID-based lookup)
+      const depIds = subtask.depends_on_ids || [];
+      const depsComplete = depIds.every(depId => {
+        const depSubtask = task.subtasks.find(s => s.id === depId);
+        if (!depSubtask) {
+          throw new Error(`Invalid dependency ID ${depId} in subtask ${subtask.id}`);
         }
-        const depSubtask = task.subtasks[depIdx];
-        return depSubtask && depSubtask.status === 'complete';
+        return depSubtask.status === 'complete';
       });
 
       if (!depsComplete) continue;

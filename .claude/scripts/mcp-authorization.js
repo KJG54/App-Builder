@@ -151,6 +151,15 @@ class MCPAuthorization {
           },
         },
       },
+
+      orchestrator: {
+        filesystem: {
+          tools: {
+            read_file: 1,
+            list_directory: 1,
+          },
+        },
+      },
     };
 
     // Tier definitions (matching ADR-SEC-001)
