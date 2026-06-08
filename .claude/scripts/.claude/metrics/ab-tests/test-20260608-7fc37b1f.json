@@ -1,0 +1,121 @@
+{
+  "id": "test-20260608-7fc37b1f",
+  "created_date": "2026-06-08T02:48:55.183Z",
+  "baseline": "architect-v1.0.0",
+  "variant": "architect-v1.1.0-test",
+  "scenarios": [
+    {
+      "name": "API Design",
+      "role": "architect"
+    },
+    {
+      "name": "DB Schema",
+      "role": "architect"
+    }
+  ],
+  "sample_size": 3,
+  "status": "completed",
+  "results": {
+    "baseline_group": [
+      {
+        "prompt_version": "architect-v1.0.0",
+        "scenario": "API Design",
+        "compliance_score": 86.46270464699148,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2086.9309430108324
+      },
+      {
+        "prompt_version": "architect-v1.0.0",
+        "scenario": "DB Schema",
+        "compliance_score": 86.56631314556748,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2256.4036947816244
+      },
+      {
+        "prompt_version": "architect-v1.0.0",
+        "scenario": "API Design",
+        "compliance_score": 85.71758645853333,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2264.7604984226627
+      },
+      {
+        "prompt_version": "architect-v1.0.0",
+        "scenario": "DB Schema",
+        "compliance_score": 86.49768141991451,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2036.7635758994488
+      },
+      {
+        "prompt_version": "architect-v1.0.0",
+        "scenario": "API Design",
+        "compliance_score": 85.12758140047467,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2116.888774777912
+      },
+      {
+        "prompt_version": "architect-v1.0.0",
+        "scenario": "DB Schema",
+        "compliance_score": 86.92584856214468,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2123.7519649425276
+      }
+    ],
+    "variant_group": [
+      {
+        "prompt_version": "architect-v1.1.0-test",
+        "scenario": "API Design",
+        "compliance_score": 89.49674544116888,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2188.6206029726877
+      },
+      {
+        "prompt_version": "architect-v1.1.0-test",
+        "scenario": "DB Schema",
+        "compliance_score": 88.015722196909,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2401.674991535063
+      },
+      {
+        "prompt_version": "architect-v1.1.0-test",
+        "scenario": "API Design",
+        "compliance_score": 87.90718480373518,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2424.3967578928373
+      },
+      {
+        "prompt_version": "architect-v1.1.0-test",
+        "scenario": "DB Schema",
+        "compliance_score": 87.5456312353427,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2038.0593051971216
+      },
+      {
+        "prompt_version": "architect-v1.1.0-test",
+        "scenario": "API Design",
+        "compliance_score": 87.36030586045321,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2366.944051936903
+      },
+      {
+        "prompt_version": "architect-v1.1.0-test",
+        "scenario": "DB Schema",
+        "compliance_score": 87.26221878790865,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2354.4813162322275
+      }
+    ]
+  },
+  "completed_date": "2026-06-08T02:48:55.184Z"
+}

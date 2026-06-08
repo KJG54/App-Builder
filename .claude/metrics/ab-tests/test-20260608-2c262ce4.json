@@ -1,0 +1,69 @@
+{
+  "id": "test-20260608-2c262ce4",
+  "created_date": "2026-06-08T03:00:16.364Z",
+  "baseline": "devops-v1.0.0",
+  "variant": "devops-v1.1.0-test",
+  "scenarios": [
+    {
+      "name": "Deployment",
+      "role": "devops"
+    }
+  ],
+  "sample_size": 3,
+  "status": "completed",
+  "results": {
+    "baseline_group": [
+      {
+        "prompt_version": "devops-v1.0.0",
+        "scenario": "Deployment",
+        "compliance_score": 85.7126427655765,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2304.6949148726067
+      },
+      {
+        "prompt_version": "devops-v1.0.0",
+        "scenario": "Deployment",
+        "compliance_score": 86.5661097613936,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2036.9758231994513
+      },
+      {
+        "prompt_version": "devops-v1.0.0",
+        "scenario": "Deployment",
+        "compliance_score": 85.32704257832957,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2101.5819554297955
+      }
+    ],
+    "variant_group": [
+      {
+        "prompt_version": "devops-v1.1.0-test",
+        "scenario": "Deployment",
+        "compliance_score": 87.40155490504213,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2261.6763850081024
+      },
+      {
+        "prompt_version": "devops-v1.1.0-test",
+        "scenario": "Deployment",
+        "compliance_score": 88.9098495734566,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2229.8692925014902
+      },
+      {
+        "prompt_version": "devops-v1.1.0-test",
+        "scenario": "Deployment",
+        "compliance_score": 87.32084120262283,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2184.076812435853
+      }
+    ]
+  },
+  "completed_date": "2026-06-08T03:00:16.365Z"
+}

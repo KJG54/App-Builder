@@ -1,0 +1,18 @@
+{
+  "id": "code-review-review-20260608-a888e27c",
+  "review_id": "review-20260608-a888e27c",
+  "agent_role": "architect",
+  "tier": "tier-2",
+  "priority": "low",
+  "issues_count": 4,
+  "issue_categories": {
+    "security": 0,
+    "architecture": 0,
+    "testing": 0,
+    "coding": 0,
+    "documentation": 0
+  },
+  "requested_date": "2026-06-08T03:15:09.141Z",
+  "decision_deadline": "2026-06-09T03:15:09.141Z",
+  "status": "pending-review"
+}

@@ -1,0 +1,101 @@
+{
+  "id": "test-20260608-af5feffa",
+  "created_date": "2026-06-08T02:47:51.042Z",
+  "baseline": "backend-v1.0.0",
+  "variant": "backend-v1.1.0-test",
+  "scenarios": [
+    {
+      "name": "Simple Task",
+      "role": "backend"
+    }
+  ],
+  "sample_size": 5,
+  "status": "completed",
+  "results": {
+    "baseline_group": [
+      {
+        "prompt_version": "backend-v1.0.0",
+        "scenario": "Simple Task",
+        "compliance_score": 85.26282291600006,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2295.5915381887257
+      },
+      {
+        "prompt_version": "backend-v1.0.0",
+        "scenario": "Simple Task",
+        "compliance_score": 85.13866662106757,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2371.2120520353615
+      },
+      {
+        "prompt_version": "backend-v1.0.0",
+        "scenario": "Simple Task",
+        "compliance_score": 85.239125033571,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2007.0641352903156
+      },
+      {
+        "prompt_version": "backend-v1.0.0",
+        "scenario": "Simple Task",
+        "compliance_score": 85.61161477989077,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2433.4545292399357
+      },
+      {
+        "prompt_version": "backend-v1.0.0",
+        "scenario": "Simple Task",
+        "compliance_score": 86.80875309291439,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2423.97440917008
+      }
+    ],
+    "variant_group": [
+      {
+        "prompt_version": "backend-v1.1.0-test",
+        "scenario": "Simple Task",
+        "compliance_score": 88.6868924698849,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2204.949107088761
+      },
+      {
+        "prompt_version": "backend-v1.1.0-test",
+        "scenario": "Simple Task",
+        "compliance_score": 88.6891315871524,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2302.840692254782
+      },
+      {
+        "prompt_version": "backend-v1.1.0-test",
+        "scenario": "Simple Task",
+        "compliance_score": 89.43560593968614,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2407.7725476931864
+      },
+      {
+        "prompt_version": "backend-v1.1.0-test",
+        "scenario": "Simple Task",
+        "compliance_score": 89.08063786033476,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2006.2222739928616
+      },
+      {
+        "prompt_version": "backend-v1.1.0-test",
+        "scenario": "Simple Task",
+        "compliance_score": 87.39534620824152,
+        "success_rate": 1,
+        "issues_major": 0,
+        "response_time_ms": 2416.3047181307757
+      }
+    ]
+  },
+  "completed_date": "2026-06-08T02:47:51.042Z"
+}
