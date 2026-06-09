@@ -10,29 +10,12 @@
         "CHROMA_SERVER_HOST": "http://localhost:8000"
       }
     },
-    "github": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": {
-        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
-      }
-    },
     "filesystem": {
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem"],
       "env": {
         "ALLOWED_DIRECTORIES": "${PROJECT_ROOT}"
-      }
-    },
-    "slack": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-slack"],
-      "env": {
-        "SLACK_TOKEN": "${SLACK_TOKEN}",
-        "SLACK_CHANNEL": "${SLACK_CHANNEL}"
       }
     }
   }
