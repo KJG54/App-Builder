@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-09
+author: Claude-Builder-Agent
+---
+
 # Vault Index — Start Here
 
 **Last Updated:** 2026-06-07

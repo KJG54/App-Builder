@@ -1,0 +1,51 @@
+agent: "frontend"
+version: "1.0.0"
+seeded_from_records: 14
+successful_patterns:
+  - pattern: "React component with props validation"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#8512b36cba1d17e1"
+  - pattern: "High-quality output 0 from frontend"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#700114786f1dd620"
+  - pattern: "High-quality output 1 from frontend"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#65834357c057de31"
+  - pattern: "High-quality output 2 from frontend"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#e1958bd6f42faa61"
+  - pattern: "React component with tests"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#464b20ab0dc6d152"
+failed_patterns:
+  - pattern: "consistency quality"
+    note: "consistency_score baseline 75 (below 80) — recurring weak point"
+    source: "outputs.json aggregate"
+  - pattern: "documentation quality"
+    note: "documentation_score baseline 70 (below 80) — recurring weak point"
+    source: "outputs.json aggregate"
+score_baselines:
+  compliance: 99
+  completeness: 80
+  security: 99
+  consistency: 75
+  documentation: 70
+recommendations:
+  - "documentation_score baseline 70 is a consistent weak point — apply documentation skill"
+  - "consistency_score baseline 75 — always include cross-component consistency check"
+  - "completeness_score baseline 80 — review flagged completeness gaps before submitting output"
+recent_sessions:
+  - "08-Retrospectives/Session-Summary-2026-06-09-Phase14-17-Roadmap.md"
+  - "08-Retrospectives/Session-Summary-2026-06-09.md"
+  - "08-Retrospectives/Session-Summary-2026-06-09-04-33.md"
+last_updated: "2026-06-09"

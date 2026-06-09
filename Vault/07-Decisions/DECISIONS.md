@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-09
+author: Claude-Builder-Agent
+---
+
 # Major Decisions and Rationale
 
 **Purpose:** Records all major decisions, their rationale, and impact for the AI Software Factory.

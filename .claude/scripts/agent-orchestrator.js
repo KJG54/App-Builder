@@ -221,7 +221,7 @@ class AgentOrchestrator {
       if (!depsComplete) continue;
 
       // Get context from prior subtasks (async call)
-      const context = await this.getSharedContext(taskId, subtask.index);
+      const context = await this.getSharedContext(taskId, subtask.index, subtask.agent);
 
       return {
         task_id: taskId,
@@ -275,7 +275,7 @@ class AgentOrchestrator {
       // Release lock before getting context (context assembly is I/O intensive)
       this.releaseLock(taskId);
 
-      const context = await this.getSharedContext(taskId, subtask.index);
+      const context = await this.getSharedContext(taskId, subtask.index, subtask.agent);
 
       this.auditLogger.log('orchestrator', 'task-management', 'assign_subtask', {
         task_id: taskId,
@@ -452,9 +452,10 @@ class AgentOrchestrator {
    * Get shared context for an agent (all prior work + Chroma context)
    * @param {string} taskId
    * @param {number} beforeSubtaskIndex - Only include subtasks before this index
+   * @param {string} agentRole - Phase 15.3: include this agent's memory in context
    * @returns {object} { prior_outputs: [...], chroma_context: {...}, task_description, ... }
    */
-  async getSharedContext(taskId, beforeSubtaskIndex = null) {
+  async getSharedContext(taskId, beforeSubtaskIndex = null, agentRole = null) {
     const task = this.readTask(taskId);
     if (!task) return {};
 
@@ -486,7 +487,7 @@ class AgentOrchestrator {
       chromaContext = await assembleContext(
         task.description,
         this.projectName,
-        { includeSession: false, maxResults: 5 }
+        { includeSession: false, maxResults: 5, agentRole }
       );
     } catch (err) {
       console.error(`Failed to retrieve Chroma context: ${err.message}`);

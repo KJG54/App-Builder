@@ -27,7 +27,7 @@ class Phase14Validator {
   /**
    * Run a test script and return exit code
    */
-  async runTest(scriptName, displayName) {
+  async runTest(scriptName, displayName, key) {
     return new Promise((resolve) => {
       console.log(`\n${'═'.repeat(60)}`);
       console.log(`Running: ${displayName}`);
@@ -38,7 +38,7 @@ class Phase14Validator {
 
       child.on('exit', (code) => {
         const passed = code === 0;
-        this.results[displayName.toLowerCase()] = { passed, code };
+        this.results[key] = { passed, code };
         if (!passed) {
           this.allPassed = false;
         }
@@ -47,7 +47,7 @@ class Phase14Validator {
 
       child.on('error', (error) => {
         console.error(`Error running ${displayName}:`, error);
-        this.results[displayName.toLowerCase()] = { passed: false, error };
+        this.results[key] = { passed: false, code: 1, error };
         this.allPassed = false;
         resolve(false);
       });
@@ -70,17 +70,17 @@ class Phase14Validator {
     console.log('  4. Regression Check (Phase 13)');
 
     // Run FSM tests
-    await this.runTest('test-phase-14-fsm.js', 'FSM Tests');
+    await this.runTest('test-phase-14-fsm.js', 'FSM Tests', 'fsm');
 
     // Run Validator tests
-    await this.runTest('test-phase-14-validator.js', 'Validator Tests');
+    await this.runTest('test-phase-14-validator.js', 'Validator Tests', 'validator');
 
     // Run Whitelister tests
-    await this.runTest('test-phase-14-whitelist.js', 'Whitelist Tests');
+    await this.runTest('test-phase-14-whitelist.js', 'Whitelist Tests', 'whitelist');
 
     // Run regression (Phase 13)
     console.log('\n📋 Regression Check: Verifying Phase 13 still works...');
-    await this.runTest('validate-phase-13.js', 'Regression Check');
+    await this.runTest('validate-phase-13.js', 'Regression Check', 'regression');
 
     // Print summary
     this.printSummary();

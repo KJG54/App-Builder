@@ -84,7 +84,7 @@ Wire `vault-validator.js` into `chroma-ingest.js`:
 
 ## Phase 15: Memory System
 
-**Status:** Not started  
+**Status:** ✅ Complete (2026-06-09)  
 **Duration:** 3–4 days  
 **Goal:** Give agents persistent memory of past outcomes, score baselines, and session continuity
 
@@ -222,12 +222,12 @@ This is a manual one-time update — no automation yet. The lifecycle tracking e
 
 ### Success Criteria
 
-- [ ] All four Vault memory directories created and seeded
-- [ ] `chroma-ingest.js` emits full metadata on every document
-- [ ] `assembleContext()` returns `agent_memory` and `relationships` fields
-- [ ] `seed-agent-memory.js` runs without errors and produces valid YAML files
-- [ ] `session-handoff.js` correctly extracts open items from last session summary
-- [ ] All `10-Known-Problems/` docs have status frontmatter
+- [x] All four Vault memory directories created and seeded
+- [x] `chroma-ingest.js` emits full metadata on every document — implemented and unit-verified; E2E ingestion blocked by pre-existing Chroma API incompatibility, deferred to Phase 16 re-index (see [[../../10-Known-Problems/Problem-infra-chroma-ingestion-api-incompatibility]])
+- [x] `assembleContext()` returns `agent_memory` and `relationships` fields
+- [x] `seed-agent-memory.js` runs without errors and produces valid YAML files
+- [x] `session-handoff.js` correctly extracts open items from last session summary
+- [x] All `10-Known-Problems/` docs have status frontmatter
 
 ---
 

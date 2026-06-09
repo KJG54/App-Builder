@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-09
+author: Claude-Builder-Agent
+---
+
 # MCP Servers and Integrations
 
 **Purpose:** Inventory of Model Context Protocol (MCP) servers available to AI agents in the AI Software Factory.

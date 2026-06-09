@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-09
+author: Claude-Builder-Agent
+---
+
 # Session Summary: 2026-06-09 — Chroma MCP Debugging, CLAUDE.md Governance, & Wrap-Up Automation
 
 **Date:** 2026-06-09  

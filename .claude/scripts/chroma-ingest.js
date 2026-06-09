@@ -163,21 +163,11 @@ async function processDocument(docPath) {
       return;
     }
 
-    // Prepare document for ingestion
+    // Prepare document for ingestion (Phase 15.2: extended metadata schema)
     const document = {
       id: generateDocumentId(docPath),
       content: body.substring(0, 5000), // Limit content length
-      metadata: {
-        file: docPath,
-        authority: frontmatter.authority || 'unknown',
-        type: frontmatter.type || 'Unknown',
-        status: frontmatter.status || 'Draft',
-        phase: frontmatter.phase || null,
-        tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
-        last_updated: frontmatter.last_updated || new Date().toISOString().split('T')[0],
-        is_authoritative: classification.collection === COLLECTIONS.facts,
-        collection_dest: classification.collection
-      }
+      metadata: buildMetadata(frontmatter, docPath, classification)
     };
 
     // Ingest to appropriate collection
@@ -196,6 +186,81 @@ async function processDocument(docPath) {
       error: error.message
     });
   }
+}
+
+/**
+ * Build full metadata for a document (Phase 15.2)
+ *
+ * Chroma metadata values must be scalar (string/number/boolean), so arrays
+ * (tags, agent_relevance) are serialized as comma-joined strings and null
+ * values are omitted.
+ */
+function buildMetadata(frontmatter, docPath, classification) {
+  const toScalar = (value) =>
+    Array.isArray(value) ? value.join(',') : value;
+
+  const metadata = {
+    file: docPath,
+    source_path: docPath.replace(/\\/g, '/'),
+    document_type: deriveDocumentType(frontmatter, docPath),
+    project: PROJECT_PREFIX,
+    authority: frontmatter.authority || 'unknown',
+    type: frontmatter.type || 'Unknown',
+    status: frontmatter.status || 'Draft',
+    phase: frontmatter.phase != null ? String(frontmatter.phase) : null,
+    domain: deriveDomain(frontmatter),
+    agent_relevance: toScalar(frontmatter.agent_relevance) || null,
+    tags: toScalar(frontmatter.tags) || '',
+    confidence: typeof frontmatter.confidence === 'number'
+      ? frontmatter.confidence
+      : (classification.collection === COLLECTIONS.sessions ? 0.5 : 0.9),
+    last_updated: frontmatter.last_updated || new Date().toISOString().split('T')[0],
+    is_authoritative: classification.collection === COLLECTIONS.facts,
+    collection_dest: classification.collection
+  };
+
+  // Strip nulls — Chroma rejects null metadata values
+  for (const key of Object.keys(metadata)) {
+    if (metadata[key] === null || metadata[key] === undefined) {
+      delete metadata[key];
+    }
+  }
+
+  return metadata;
+}
+
+/**
+ * Derive document_type from vault directory, falling back to frontmatter type
+ */
+function deriveDocumentType(frontmatter, docPath) {
+  const normalized = docPath.replace(/\\/g, '/');
+  const dirTypes = [
+    ['07-Decisions', 'adr'],
+    ['08-Retrospectives', 'retrospective'],
+    ['09-Requirements', 'requirement'],
+    ['10-Known-Problems', 'known_problem'],
+    ['05-Prompts', 'skill'],
+    ['01-Standards', 'standard'],
+    ['11-Facts', 'fact'],
+    ['12-Entities', 'entity'],
+    ['13-Relationships', 'relationship']
+  ];
+
+  for (const [dir, type] of dirTypes) {
+    if (normalized.includes(`/${dir}/`)) return type;
+  }
+
+  return (frontmatter.type || 'guide').toLowerCase();
+}
+
+/**
+ * Derive domain from frontmatter (domain field, then category, then general)
+ */
+function deriveDomain(frontmatter) {
+  const KNOWN_DOMAINS = ['api', 'auth', 'infra', 'security', 'database', 'testing', 'general'];
+
+  const candidate = (frontmatter.domain || frontmatter.category || '').toLowerCase();
+  return KNOWN_DOMAINS.includes(candidate) ? candidate : 'general';
 }
 
 /**
@@ -417,8 +482,15 @@ function reportResults() {
   console.log(`\n   📋 Audit log: ${logPath}`);
 }
 
-// Run
-main().catch(error => {
-  console.error('Fatal error:', error);
-  process.exit(1);
-});
+// Export for testing (same pattern as context-assembly.js)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { buildMetadata, deriveDocumentType, deriveDomain, classifyDocument, parseYamlFrontmatter };
+}
+
+// Run if invoked as CLI
+if (require.main === module) {
+  main().catch(error => {
+    console.error('Fatal error:', error);
+    process.exit(1);
+  });
+}

@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-09
+author: Claude-Builder-Agent
+---
+
 # Session Summary — 2026-06-07 (Vault Integration & Governance)
 
 **Session Focus:** Vault integration, Chroma semantic retrieval, reference material analysis, and governance documentation

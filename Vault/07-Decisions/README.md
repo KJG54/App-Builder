@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-09
+author: Claude-Builder-Agent
+---
+
 # ADR Guide — How to Read & Create Architectural Decision Records
 
 **See also:** [[../INDEX.md|Vault INDEX]] | [[../STATUS.md|STATUS]] | [[DECISIONS.md|Master Decision Index]]

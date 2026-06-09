@@ -64,6 +64,16 @@ End-of-day wrap-up. Summarizing work and preparing for next session.
     console.log(`   ℹ️  Session summary already exists for ${today}`);
   }
 
+  // Step 1b: Generate session handoff (Phase 15.5) — runs before staging so
+  // the handoff file is included in this wrap-up's commit
+  console.log('\n1️⃣b Generating session handoff...');
+  try {
+    execSync('node .claude/scripts/session-handoff.js', { stdio: 'pipe' });
+    console.log(`   ✅ Handoff: Vault/00-Inbox/session-handoff-${today}.md`);
+  } catch (e) {
+    console.warn('   ⚠️  Session handoff generation failed (continuing):', e.message);
+  }
+
   // Step 2: Stage files
   console.log('\n2️⃣  Staging files...');
 

@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-09
+author: Claude-Builder-Agent
+---
+
 # FSM State History
 
 ## 2026-06-09T02:01:56.006Z
@@ -31,3 +38,7 @@
 ## 2026-06-09T02:01:56.245Z
 **Transition:** EXECUTING → VERIFYING
 **Context:** {"action":"ALL_SUBTASKS_COMPLETE","taskId":"task-2026-06-09-afb91b"}
+
+## 2026-06-09T23:33:42.590Z
+**Transition:** IDLE → PLANNING
+**Context:** {"action":"CREATE_TASK","task":"Build user authentication"}

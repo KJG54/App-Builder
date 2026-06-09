@@ -43,8 +43,18 @@ function parseYaml(yamlStr) {
 const REQUIRED_FIELDS = ['type', 'status', 'last_updated'];
 const OPTIONAL_FIELDS = ['component', 'tags', 'author'];
 
-const VALID_TYPES = ['spec', 'log', 'architecture', 'guide', 'decision', 'retrospective'];
-const VALID_STATUSES = ['draft', 'active', 'deprecated', 'review'];
+const VALID_TYPES = [
+  'spec', 'log', 'architecture', 'guide', 'decision', 'retrospective',
+  // Phase 15: memory system document types
+  'fact', 'entity', 'relationship', 'KnownProblem'
+];
+const VALID_STATUSES = [
+  'draft', 'active', 'deprecated', 'review',
+  // Fact lifecycle (matches chroma-ingest classifyDocument approved statuses)
+  'Accepted', 'Approved', 'Current',
+  // Phase 15.6: known-problem lifecycle
+  'open', 'in_progress', 'resolved', 'wont_fix'
+];
 
 const DEFAULT_FRONTMATTER = {
   type: 'guide',

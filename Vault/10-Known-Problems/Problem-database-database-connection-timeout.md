@@ -1,6 +1,6 @@
 ---
 type: KnownProblem
-status: Open
+status: open
 severity: high
 category: database
 authority: sessions
@@ -8,6 +8,10 @@ chroma_collection: ai-software-factory-known-problems
 tags: [database, issue, recurring]
 related: []
 discovered: 2026-06-09
+opened: 2026-06-09
+resolved: null
+resolved_by_task: null
+resolution_summary: null
 last_updated: 2026-06-09
 ---
 

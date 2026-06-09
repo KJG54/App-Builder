@@ -1,0 +1,51 @@
+agent: "devops"
+version: "1.0.0"
+seeded_from_records: 13
+successful_patterns:
+  - pattern: "Deploy service"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#1371e82c24ef51e3"
+  - pattern: "Deploy to server"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#0cabae4ad19de522"
+  - pattern: "High-quality output 0 from devops"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#407ba9c80370d8df"
+  - pattern: "High-quality output 1 from devops"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#b4f4e9eddab0bc70"
+  - pattern: "High-quality output 2 from devops"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#463ca86a2ca9db93"
+failed_patterns:
+  - pattern: "consistency quality"
+    note: "consistency_score baseline 75 (below 80) — recurring weak point"
+    source: "outputs.json aggregate"
+  - pattern: "documentation quality"
+    note: "documentation_score baseline 70 (below 80) — recurring weak point"
+    source: "outputs.json aggregate"
+score_baselines:
+  compliance: 99
+  completeness: 80
+  security: 98
+  consistency: 75
+  documentation: 70
+recommendations:
+  - "documentation_score baseline 70 is a consistent weak point — apply documentation skill"
+  - "consistency_score baseline 75 — always include cross-component consistency check"
+  - "completeness_score baseline 80 — review flagged completeness gaps before submitting output"
+recent_sessions:
+  - "08-Retrospectives/Session-Summary-2026-06-09-Phase14-17-Roadmap.md"
+  - "08-Retrospectives/Session-Summary-2026-06-09.md"
+  - "08-Retrospectives/Session-Summary-2026-06-09-04-33.md"
+last_updated: "2026-06-09"

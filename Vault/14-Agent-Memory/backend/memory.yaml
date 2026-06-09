@@ -1,0 +1,51 @@
+agent: "backend"
+version: "1.0.0"
+seeded_from_records: 13
+successful_patterns:
+  - pattern: "API with endpoints: GET /users, POST /users, GET /users/:id"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#65985f0b7e0b12fd"
+  - pattern: "API endpoint for user creation with basic validation"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#406584df05f6d5fe"
+  - pattern: "High-quality output 0 from backend"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#c5ed475ed4a88f8b"
+  - pattern: "High-quality output 1 from backend"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#c21d49a09ef6add7"
+  - pattern: "High-quality output 2 from backend"
+    domain: "general"
+    avg_compliance_score: 100
+    confidence: 0.9
+    source: "outputs.json#ea263f76c669ea9f"
+failed_patterns:
+  - pattern: "consistency quality"
+    note: "consistency_score baseline 75 (below 80) — recurring weak point"
+    source: "outputs.json aggregate"
+  - pattern: "documentation quality"
+    note: "documentation_score baseline 70 (below 80) — recurring weak point"
+    source: "outputs.json aggregate"
+score_baselines:
+  compliance: 100
+  completeness: 80
+  security: 100
+  consistency: 75
+  documentation: 70
+recommendations:
+  - "documentation_score baseline 70 is a consistent weak point — apply documentation skill"
+  - "consistency_score baseline 75 — always include cross-component consistency check"
+  - "completeness_score baseline 80 — review flagged completeness gaps before submitting output"
+recent_sessions:
+  - "08-Retrospectives/Session-Summary-2026-06-09-Phase14-17-Roadmap.md"
+  - "08-Retrospectives/Session-Summary-2026-06-09.md"
+  - "08-Retrospectives/Session-Summary-2026-06-09-04-33.md"
+last_updated: "2026-06-09"
