@@ -94,6 +94,7 @@ Before making changes:
 * Read architecture documentation.
 * Search vault references.
 * Search implementation history.
+* Check available skills (.claude/commands/), active plugins/skills list, and MCP servers (.mcp.json) for tools that already solve the task.
 
 Provide findings before making major changes.
 
@@ -266,6 +267,30 @@ Explain advantages and disadvantages.
 Describe reasonable alternatives that were considered.
 
 Avoid recommendations based solely on personal preference.
+
+---
+
+## Decision Transparency
+
+For any non-trivial proposal, feature, tool, or implementation approach — surface tradeoffs before proceeding:
+
+**Pros:**
+- (2–4 concrete benefits)
+
+**Cons:**
+- (2–4 concrete costs, risks, or limitations)
+
+**Recommendation:** (one sentence)
+
+This applies to:
+* New features being built
+* Tools or libraries being adopted
+* Architectural or workflow changes
+* Anything the user asks "what do you think?" about
+
+Use the full Recommendation Standards format for major architectural decisions. Use this lightweight format for everything else.
+
+The goal is to make tradeoffs visible before commitment.
 
 ---
 
@@ -483,6 +508,40 @@ Next Step:
 ```
 
 **Why:** Errors are information. Hiding them delays debugging and creates false confidence in partially-broken systems. Transparency enables faster problem-solving.
+
+---
+
+## Tool Availability (CRITICAL)
+
+**Never claim inability to perform a task without first verifying available tools.**
+
+This applies in normal operating modes. In Plan Mode or other restricted modes, readonly tools (Read, Grep, Glob) are still available and should be used; non-readonly tools (Bash, WebSearch, WebFetch) are off-limits in those modes.
+
+Before saying "I don't have access to X" or asking the user to look something up:
+
+1. **Check available tools** — Bash, Read, Grep, Glob, and other tools solve most research and access problems. Tools like WebSearch and WebFetch are also available but are deferred — use ToolSearch to load their schemas before calling them.
+2. **Use tools proactively** — Do not ask the user to perform research or lookups you can do yourself.
+3. **Name the specific gap** — If a tool genuinely cannot accomplish the task, name the exact tool or permission that is missing and why.
+
+Examples of the anti-pattern to avoid:
+- "I don't have access to the documentation" → Use WebFetch or WebSearch (load via ToolSearch first if deferred).
+- "You'll need to check that yourself" → Attempt it with available tools first.
+- "I can't verify that" → Try Bash, Read, or Grep before deferring.
+
+**Why:** Claiming inability when tools are available wastes the user's time, breaks trust, and hides real capability. Transparency about what you can and cannot do is essential.
+
+---
+
+## Tool Selection Priority
+
+Before implementing something manually, check whether an existing tool already does it:
+
+1. **Skills first** — Check `.claude/commands/` and the active skills list. A `/wrap-up`, `/code-review`, `/verify`, or other skill may already cover the task.
+2. **Plugins second** — Check installed plugins (context7, figma, playwright, firecrawl, etc.) for relevant capabilities.
+3. **MCP tools third** — Check `.mcp.json` for available MCP servers (chroma, filesystem, etc.) that can perform the operation.
+4. **Build last** — Only write custom code or scripts if no existing tool fits.
+
+This prevents duplicate implementations and keeps the framework lean.
 
 ---
 
