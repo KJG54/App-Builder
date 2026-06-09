@@ -15,7 +15,7 @@ last_updated: 2026-06-09
 
 **Status:** Open
 **Severity:** low
-**Occurrences:** 16
+**Occurrences:** 32
 **Affected Agents:** backend, api, frontend
 **Discovered:** 2026-06-09
 **Last Updated:** 2026-06-09
@@ -26,7 +26,7 @@ last_updated: 2026-06-09
 
 Missing integration tests
 
-This issue has occurred 16 times across 3 agent(s).
+This issue has occurred 32 times across 3 agent(s).
 
 ---
 
@@ -46,7 +46,7 @@ This issue has occurred 16 times across 3 agent(s).
 
 ## Impact
 
-- **Frequency:** 16 occurrences (high)
+- **Frequency:** 32 occurrences (high)
 - **Affected Teams:** backend, api, frontend
 - **Quality Loss:** 0.0% compliance reduction
 

@@ -2,10 +2,15 @@
  * MCP Authorization Enforcer
  * Implements the agent-to-tool access matrix from ADR-INT-001
  * Enforces approval tiers based on operation risk
+ * Integrates with Phase 14 command whitelisting
  */
+
+const { MCPWhitelister } = require('./mcp-whitelist');
 
 class MCPAuthorization {
   constructor() {
+    // Phase 14: Initialize whitelister
+    this.whitelister = new MCPWhitelister(process.cwd());
     // Define the authorization matrix from ADR-INT-001
     // Format: agent -> server -> { tools: { tool: tier } }
     this.matrix = {
@@ -192,6 +197,27 @@ class MCPAuthorization {
         requires_approval: 'blocked',
       },
     };
+  }
+
+  /**
+   * Phase 14: Check if a terminal command is safe to execute
+   * @param {string} command - Command string to validate
+   * @param {object} context - { agent, task }
+   * @returns {object} { allowed, reason, requires_approval, dangerous }
+   */
+  checkCommand(command, context = {}) {
+    const validation = this.whitelister.validateCommand(command, context);
+
+    if (!validation.allowed && validation.dangerous) {
+      // Dangerous pattern: warn user
+      console.warn(`\n⚠️  DANGEROUS COMMAND DETECTED`);
+      console.warn(`Command: ${command}`);
+      console.warn(`Reason: ${validation.reason}`);
+      console.warn(`\nAction: Requires explicit user approval`);
+    }
+
+    this.whitelister.logCommand(command, validation, context);
+    return validation;
   }
 
   /**

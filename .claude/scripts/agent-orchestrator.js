@@ -3,6 +3,7 @@
  * Coordinates multi-agent task execution with dependency tracking and context sharing
  * Integrates with Phase 12 audit logging and authorization
  * Integrates with Phase 5 Chroma context retrieval and Phase 13 Slack notifications
+ * Integrates with Phase 14 FSM state machine
  */
 
 const fs = require('fs');
@@ -14,6 +15,7 @@ const MCPAuthorization = require('./mcp-authorization');
 const ApprovalWorkflow = require('./approval-workflow');
 const { assembleContext } = require('./context-assembly');
 const SlackNotifier = require('./slack-notifier');
+const { StateMachineEngine, STATES } = require('./state-machine');
 
 class AgentOrchestrator {
   constructor(tasksDir = '.claude/tasks', projectName = 'ai-software-factory') {
@@ -24,6 +26,10 @@ class AgentOrchestrator {
     this.approvalWorkflow = new ApprovalWorkflow('.claude/approvals');
     this.slackNotifier = new SlackNotifier();
     this.locks = new Map(); // In-memory lock map for task IDs
+
+    // Phase 14: Initialize FSM
+    this.fsm = new StateMachineEngine(process.cwd());
+    this.fsm.printState(); // Debug output
 
     if (!fs.existsSync(tasksDir)) {
       fs.mkdirSync(tasksDir, { recursive: true });
@@ -101,6 +107,19 @@ class AgentOrchestrator {
    * @returns {object} Task record with ID-based dependencies
    */
   createTask(description, subtaskDefs) {
+    // Phase 14: Enforce FSM state - must be in IDLE or PLANNING to create task
+    try {
+      if (this.fsm.currentState === STATES.IDLE) {
+        this.fsm.transition(STATES.PLANNING, {
+          action: 'CREATE_TASK',
+          task: description.substring(0, 50) // Preview
+        });
+      }
+    } catch (error) {
+      console.error(`[FSM] ${error.message}`);
+      throw error;
+    }
+
     // Validate inputs
     if (!description || description.trim().length === 0) {
       throw new Error('Task description is required and cannot be empty');
@@ -284,8 +303,29 @@ class AgentOrchestrator {
    * @returns {object} { status, next_subtask? }
    */
   async completeSubtask(taskId, subtaskId, output) {
+    // Phase 14: Transition to VERIFYING if all subtasks complete
     try {
-      // Acquire lock before reading
+      await this.acquireLock(taskId);
+      const task = this.readTask(taskId);
+      const allWillComplete = task.subtasks.every(s =>
+        s.id === subtaskId || s.status === 'complete'
+      );
+
+      if (allWillComplete && this.fsm.currentState === STATES.EXECUTING) {
+        this.fsm.transition(STATES.VERIFYING, {
+          action: 'ALL_SUBTASKS_COMPLETE',
+          taskId
+        });
+      }
+    } catch (fsmError) {
+      console.warn(`[FSM] Warning during state transition:`, fsmError.message);
+      // Don't block subtask completion on FSM error, just log
+    } finally {
+      this.releaseLock(taskId);
+    }
+
+    try {
+      // Acquire lock again for actual completion
       await this.acquireLock(taskId);
 
       // Critical section: read-modify-write

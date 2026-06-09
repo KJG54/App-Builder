@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const { VaultValidator } = require('./vault-validator');
 
 /**
  * Chroma Ingestion Pipeline
@@ -11,6 +12,7 @@ const https = require('https');
  * Chroma collections based on authority field and document status.
  *
  * Implements facts/sessions separation to prevent retrieval contamination.
+ * Integrates with Phase 14 Vault validator for frontmatter enforcement.
  */
 
 // Configuration
@@ -44,6 +46,17 @@ async function main() {
   console.log(`Chroma: ${CHROMA_HOST}\n`);
 
   try {
+    // Phase 14: Validate Vault frontmatter
+    console.log(`\n0️⃣  VALIDATING VAULT FRONTMATTER`);
+    const validator = new VaultValidator(VAULT_PATH);
+    const validationResults = validator.validateVault(true); // autoMigrate=true
+    validator.printSummary(validationResults);
+
+    if (validationResults.invalidFiles > 0) {
+      console.warn(`\n⚠️  ${validationResults.invalidFiles} invalid files found.`);
+      console.warn('Continuing with valid files only.\n');
+    }
+
     // Step 1: Initialize collections
     console.log(`\n1️⃣  INITIALIZING COLLECTIONS`);
     await initializeCollections();
