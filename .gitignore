@@ -5,17 +5,14 @@
 Vault/.obsidian/workspace.json
 Vault/.obsidian/workspace-mobile.json
 Vault/.obsidian/cache/
-# Ignore plugin binaries (downloaded, not authored)
-Vault/.obsidian/plugins/*/main.js
-Vault/.obsidian/plugins/*/styles.css
+# Ignore all plugin files (downloaded binaries, not authored)
+Vault/.obsidian/plugins/
 # Ignore downloaded themes
 Vault/.obsidian/themes/
 # Keep Obsidian config tracked (user choices)
 # - community-plugins.json (plugin list)
 # - core-plugins.json (plugin toggles)
 # - app.json, appearance.json, graph.json, types.json (settings)
-# - plugins/*/manifest.json (plugin versions)
-# - plugins/*/data.json (plugin user settings)
 
 # ============================================================================
 # OS / SYSTEM FILES
