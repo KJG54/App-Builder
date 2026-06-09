@@ -163,6 +163,7 @@ docker/data/
 .claude/reviews/
 .claude/approvals/
 .claude/mcp-audit/
+.claude/.fsm-state.json
 .claude/.test*/
 .claude/.practical-test/
 .claude/.test-context/
