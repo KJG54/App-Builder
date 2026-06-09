@@ -12,6 +12,19 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const input = require('fs').readFileSync(0, 'utf-8'); try { const data = JSON.parse(input); if (data.userInput && data.userInput.startsWith('/wrap-up')) { require('child_process').execSync('node .claude/scripts/wrap-up.js', {stdio: 'inherit'}); } } catch(e) { }\" || true",
+            "timeout": 120,
+            "statusMessage": "📋 Running wrap-up workflow..."
+          }
+        ]
+      }
     ]
   }
 }
