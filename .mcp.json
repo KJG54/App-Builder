@@ -3,19 +3,14 @@
     "chroma": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["chroma-mcp@v0.2.6"],
-      "env": {
-        "CHROMA_CLIENT_TYPE": "http",
-        "CHROMA_API_IMPL": "rest",
-        "CHROMA_SERVER_HOST": "http://localhost:8000"
-      }
+      "args": ["chroma-mcp@v0.2.6", "--client-type", "http", "--host", "localhost", "--port", "8000", "--ssl", "false"]
     },
     "filesystem": {
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem"],
       "env": {
-        "ALLOWED_DIRECTORIES": "${PROJECT_ROOT}"
+        "ALLOWED_DIRECTORIES": "${env:PROJECT_ROOT}"
       }
     }
   }
