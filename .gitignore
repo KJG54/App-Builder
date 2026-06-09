@@ -5,8 +5,17 @@
 Vault/.obsidian/workspace.json
 Vault/.obsidian/workspace-mobile.json
 Vault/.obsidian/cache/
-# Keep Obsidian community plugins list tracked
-# but ignore workspace state
+# Ignore plugin binaries (downloaded, not authored)
+Vault/.obsidian/plugins/*/main.js
+Vault/.obsidian/plugins/*/styles.css
+# Ignore downloaded themes
+Vault/.obsidian/themes/
+# Keep Obsidian config tracked (user choices)
+# - community-plugins.json (plugin list)
+# - core-plugins.json (plugin toggles)
+# - app.json, appearance.json, graph.json, types.json (settings)
+# - plugins/*/manifest.json (plugin versions)
+# - plugins/*/data.json (plugin user settings)
 
 # ============================================================================
 # OS / SYSTEM FILES
@@ -149,11 +158,24 @@ docker/data/
 # Machine-specific settings
 .claude/settings.local.json
 
-# Do NOT ignore:
-# - .claude/scripts/ (tracked - production code)
-# - .claude/hooks/ (tracked - automation)
-# - .claude/metrics/ (tracked - observability data)
-# - .claude/approvals/ (tracked - decision records)
+# Runtime artifacts (never commit)
+.claude/metrics/
+.claude/reviews/
+.claude/approvals/
+.claude/mcp-audit/
+.claude/.test*/
+.claude/.practical-test/
+.claude/.test-context/
+.claude/.test-debug*/
+.claude/.test-lock*/
+.claude/.test-manual/
+.claude/.test-simple/
+.claude/scripts/.claude/
+
+# Tracked (source code & configuration):
+# - .claude/scripts/ (production code)
+# - .claude/hooks/ (automation)
+# - .claude/settings.json (hook definitions)
 
 # ============================================================================
 # LOGS & TEMPORARY FILES
@@ -194,6 +216,21 @@ out/
 Obsidian reference/
 Obsidian Reference/
 external-vault/
+
+# ============================================================================
+# SMART CONNECTIONS EMBEDDING DATA
+# ============================================================================
+# Machine-generated embedding vectors (17+ MB, fully regenerated on import)
+Vault/.smart-env/multi/
+Vault/.smart-env/event_logs/
+Vault/.smart-env/embedding_models/
+# Tracked: Vault/.smart-env/smart_env.json (plugin settings)
+
+# ============================================================================
+# COPILOT PLUGIN VAULT FOLDER
+# ============================================================================
+# Contents should never be referenced or tracked
+Vault/copilot/
 
 # ============================================================================
 # SYSTEM & MISC

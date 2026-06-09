@@ -7,8 +7,8 @@ authority: sessions
 chroma_collection: ai-software-factory-known-problems
 tags: [api, issue, recurring]
 related: []
-discovered: 2026-06-08
-last_updated: 2026-06-08
+discovered: 2026-06-09
+last_updated: 2026-06-09
 ---
 
 # api — API response timeout issue
@@ -17,8 +17,8 @@ last_updated: 2026-06-08
 **Severity:** high
 **Occurrences:** 5
 **Affected Agents:** backend
-**Discovered:** 2026-06-08
-**Last Updated:** 2026-06-08
+**Discovered:** 2026-06-09
+**Last Updated:** 2026-06-09
 
 ---
 
@@ -81,5 +81,5 @@ This issue has occurred 5 times across 1 agent(s).
 
 ---
 
-**Created:** 2026-06-08
-**Last Updated:** 2026-06-08
+**Created:** 2026-06-09
+**Last Updated:** 2026-06-09
