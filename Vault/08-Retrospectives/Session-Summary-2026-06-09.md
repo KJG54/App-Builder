@@ -141,6 +141,11 @@
 - **`.claude/settings.json`** — Added `UserPromptSubmit` hook to invoke wrap-up.js
 - **`Vault/08-Retrospectives/Session-Summary-2026-06-09.md`** — Updated with Session B work (this summary)
 
+### Session C
+- **`.claude/settings.json`** — Added `permissions.allow` block with 7 read-only Bash patterns (git status/log/diff/show/branch, grep, ls) to reduce permission prompts
+- **`.claude/scripts/analyze-perms.py`** — Created Python script for transcript analysis; revealed encoding issues in JSONL files (UTF-8 with errors='ignore' fix applied)
+- **`.claude/scripts/analyze-permissions.js`** — Created initial JS transcript analyzer (superseded by Python version)
+
 ---
 
 ## Related
