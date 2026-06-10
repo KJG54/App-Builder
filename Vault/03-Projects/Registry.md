@@ -1,5 +1,5 @@
 ---
-type: registry
+type: index
 status: active
 last_updated: 2026-06-10
 author: Claude-Builder-Agent

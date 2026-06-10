@@ -1,6 +1,6 @@
 ---
 type: knownproblem
-status: open
+status: resolved
 severity: high
 category: infra
 authority: sessions
@@ -9,15 +9,15 @@ tags: [chroma, ingestion, api, embeddings]
 related: []
 discovered: 2026-06-09
 opened: 2026-06-09
-resolved: null
-resolved_by_task: null
-resolution_summary: null
-last_updated: 2026-06-09
+resolved: 2026-06-10
+resolved_by_task: Phase-16
+resolution_summary: Rewrote chroma-ingest.js and context-assembly.js using chromadb JS SDK with @chroma-core/default-embed; 146/148 docs ingested, 6/6 validator passes.
+last_updated: 2026-06-10
 ---
 
 # infra — Chroma ingestion/query API incompatibility (no client-side embeddings)
 
-**Status:** open
+**Status:** resolved
 **Severity:** high
 **Affected Agents:** all (retrieval degraded for every agent)
 **Discovered:** 2026-06-09 (during Phase 15 validation)

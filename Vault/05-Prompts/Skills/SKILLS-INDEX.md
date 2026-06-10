@@ -243,6 +243,6 @@ To propose a new skill:
 
 ---
 
-**Last Updated:** 2026-06-08  
-**Total Skills:** 15 (1 Active, 14 Beta)  
+**Last Updated:** 2026-06-10  
+**Total Skills:** 19 (2 Active, 3 Draft, 14 Beta)  
 **Next Review:** Quarterly
