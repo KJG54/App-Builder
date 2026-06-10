@@ -9,17 +9,26 @@
  * Usage: node validate-phase-9.js
  */
 
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 const MetricsCollector = require('./metrics-collector.js');
 const PromptVersionManager = require('./prompt-version-manager.js');
 const ABTestRunner = require('./ab-test-runner.js');
 
 class Phase9Validator {
   constructor() {
-    this.collector = new MetricsCollector(); // Use default absolute path
-    this.manager = new PromptVersionManager(); // Use default absolute path
-    this.runner = new ABTestRunner(); // Use default absolute path
+    // Isolated temp dir prevents cross-run metric accumulation
+    this.testDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase9-test-'));
+    this.collector = new MetricsCollector(this.testDir);
+    this.manager = new PromptVersionManager();
+    this.runner = new ABTestRunner(this.testDir);
     this.passCount = 0;
     this.failCount = 0;
+  }
+
+  cleanup() {
+    try { fs.rmSync(this.testDir, { recursive: true, force: true }); } catch {}
   }
 
   /**
@@ -311,6 +320,7 @@ class Phase9Validator {
 if (require.main === module) {
   const validator = new Phase9Validator();
   const exitCode = validator.runAll();
+  validator.cleanup();
   process.exit(exitCode);
 }
 

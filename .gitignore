@@ -159,6 +159,7 @@ docker/data/
 
 # Runtime artifacts (never commit)
 .claude/metrics/
+.claude/logs/
 .claude/reviews/
 .claude/approvals/
 .claude/mcp-audit/
