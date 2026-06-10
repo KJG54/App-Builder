@@ -1,5 +1,5 @@
 ---
-type: KnownProblem
+type: knownproblem
 status: open
 severity: high
 category: infra

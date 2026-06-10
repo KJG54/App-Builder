@@ -9,6 +9,9 @@
  * Usage: node validate-phase-11.js
  */
 
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
 const ProblemExtractor = require('./problem-extractor.js');
 const ProblemManager = require('./problem-manager.js');
 const ProblemIndexer = require('./problem-indexer.js');
@@ -16,12 +19,23 @@ const ReviewPipeline = require('./review-pipeline.js');
 
 class Phase11Validator {
   constructor() {
-    this.extractor = new ProblemExtractor();
-    this.manager = new ProblemManager();
-    this.indexer = new ProblemIndexer();
-    this.pipeline = new ReviewPipeline();
+    // Use temp dirs so tests never write to production Vault or .claude/reviews
+    this.testDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase11-test-'));
+    this.testProblemsDir = path.join(this.testDir, 'known-problems');
+    this.testReviewsDir = path.join(this.testDir, 'reviews');
+    fs.mkdirSync(this.testProblemsDir, { recursive: true });
+    fs.mkdirSync(this.testReviewsDir, { recursive: true });
+
+    this.extractor = new ProblemExtractor(this.testReviewsDir);
+    this.manager = new ProblemManager(this.testProblemsDir);
+    this.indexer = new ProblemIndexer(this.testProblemsDir);
+    this.pipeline = new ReviewPipeline(this.testReviewsDir);
     this.passCount = 0;
     this.failCount = 0;
+  }
+
+  cleanup() {
+    fs.rmSync(this.testDir, { recursive: true, force: true });
   }
 
   /**
@@ -292,6 +306,8 @@ class Phase11Validator {
       console.log(`   📈 Success Rate: ${((this.passCount / totalTests) * 100).toFixed(1)}%`);
     }
     console.log("========================================\n");
+
+    this.cleanup();
 
     if (this.failCount === 0) {
       console.log("🎉 All tests passed! Phase 11 ready for production.\n");

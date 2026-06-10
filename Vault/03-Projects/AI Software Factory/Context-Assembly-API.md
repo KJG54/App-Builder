@@ -1,3 +1,15 @@
+---
+type: guide
+phase: 5
+status: active
+authority: facts
+chroma_collection: ai-software-factory-facts
+tags: [context-assembly, chroma, api, knowledge-pipeline, phase-5]
+related: [ADR-ARCH-001, ADR-DATA-001, Phase-5-Chroma-Integration.md]
+last_updated: 2026-06-10
+author: Claude-Builder-Agent
+---
+
 # Context Assembly API — Phase 5 Implementation Guide
 
 ## Overview
@@ -110,11 +122,6 @@ assembleContext(
 - **Facts:** ADR-DATA-001 (Chroma Collection Schema), Architecture v1.0 (data layer component), Requirement FR-001 (Context Assembly)
 - **Sessions:** None (excluded)
 
-**Architect uses this context to:**
-- Follow Architecture Standards constraints
-- Respect prior decision (ADR-DATA-001)
-- Implement to requirement FR-001
-
 ---
 
 ### Example 2: Backend Implementing API
@@ -132,11 +139,6 @@ assembleContext(
 - **Standards:** Architecture Standards (API section), Coding Standards (testing), Security Standards (auth)
 - **Facts:** ADR-API-001 (RESTful conventions), Workflow (Build API), Requirement FR-001, Requirement FR-002
 - **Sessions:** Session notes discussing API design patterns
-
-**Backend uses this context to:**
-- Follow API design standard (ADR-API-001)
-- Implement with proper error handling and authentication
-- Reference prior API discussions in sessions
 
 ---
 
@@ -156,113 +158,11 @@ assembleContext(
 - **Facts:** ADR-INFRA-001 (Infrastructure setup), Workflow (Deploy Service), Requirement NFR-001 (Local First), Requirement NFR-002 (Observability)
 - **Sessions:** None (excluded)
 
-**DevOps uses this context to:**
-- Implement secure secrets management (per Security Standards)
-- Follow infrastructure decision (ADR-INFRA-001)
-- Set up monitoring per Requirement NFR-002
-
 ---
 
 ## Integration with Agent Prompts
 
-### For Architect Agent
-
-Add to prompt:
-
-```
-## Retrieve Implementation Context
-
-Before designing, retrieve task-specific context:
-
-```bash
-assembleContext(
-  "{{ARCHITECTURE_TASK}}",
-  "ai-software-factory",
-  { includeSession: false, maxResults: 5 }
-)
-```
-
-Returns:
-- Standards you must follow
-- Prior architectural decisions
-- Related requirements
-- Architecture versions
-
-Use this context to ensure decisions don't conflict with prior ADRs.
-```
-
-### For Backend Agent
-
-Add to prompt:
-
-```
-## Retrieve Implementation Context
-
-Before coding, get relevant patterns and standards:
-
-```bash
-assembleContext(
-  "{{IMPLEMENTATION_TASK}}",
-  "ai-software-factory",
-  { includeSession: true, maxResults: 5 }
-)
-```
-
-Returns:
-- Coding Standards and patterns
-- API Design Standard (for endpoints)
-- Related requirements
-- Architecture decisions about relevant layer
-- Session notes with technical discussions
-```
-
-### For Frontend Agent
-
-Add to prompt:
-
-```
-## Retrieve Design Constraints
-
-Get relevant standards and UI decisions:
-
-```bash
-assembleContext(
-  "{{UI_FEATURE_DESCRIPTION}}",
-  "ai-software-factory",
-  { includeSession: false, maxResults: 5 }
-)
-```
-
-Returns:
-- Security Standards (auth, data handling)
-- Documentation Standards (user-facing features)
-- Architecture constraints (component model)
-- Related requirements
-```
-
-### For DevOps Agent
-
-Add to prompt:
-
-```
-## Retrieve Infrastructure Context
-
-Get deployment, monitoring, security context:
-
-```bash
-assembleContext(
-  "{{DEPLOYMENT_TASK}}",
-  "ai-software-factory",
-  { includeSession: false, maxResults: 5 }
-)
-```
-
-Returns:
-- Security Standards (secrets, encryption)
-- Infrastructure ADR (ADR-INFRA-001)
-- Deployment workflows
-- Observability and monitoring requirements
-```
+Each agent prompt should include a context retrieval section. See individual agent prompts in `Vault/05-Prompts/` for their configured `assembleContext` queries.
 
 ---
 
@@ -280,17 +180,16 @@ Returns:
 - ✅ Formatting and summary generation complete
 - ✅ API contract documented (this file)
 
-### Phase 5.3 - Agent Integration (NEXT)
-- [ ] Update Architect.md with context retrieval section
-- [ ] Update Backend.md with context retrieval section
-- [ ] Update Frontend.md with context retrieval section
-- [ ] Update DevOps.md with context retrieval section
+### Phase 5.3 - Agent Integration ✅ COMPLETE (Phase 6)
+- ✅ Architect.md updated with context retrieval section
+- ✅ Backend.md updated with context retrieval section
+- ✅ Frontend.md updated with context retrieval section
+- ✅ DevOps.md updated with context retrieval section
 
-### Phase 5.4 - Validation & Testing (NEXT)
-- [ ] Run retrieval quality tests
-- [ ] Measure precision and recall
-- [ ] Verify latency (<1 second)
-- [ ] Confirm zero contamination
+### Phase 16 - Chroma Pipeline Rebuild (IN PROGRESS)
+- ⏳ chromadb JS client swap (replaces removed v1 HTTP endpoint)
+- ⏳ context-assembly.js v2 route fix
+- See Known-Problem: Problem-infra-chroma-ingestion-api-incompatibility.md
 
 ---
 
@@ -335,7 +234,7 @@ Target: <1 second total (all 3 collections)
 
 ---
 
-## How to Use Context Assembly in This Session
+## How to Query Context Assembly
 
 ### Method 1: Direct MCP Query (Most Reliable)
 
@@ -350,11 +249,9 @@ mcp__chroma__chroma_query_documents({
 })
 ```
 
-This returns facts relevant to your query with full metadata.
-
 ### Method 2: JavaScript Script (Node.js)
 
-Use `.claude/scripts/context-assembly.js` (when HTTP Chroma API is stable):
+Use `.claude/scripts/context-assembly.js` (requires Phase 16 Chroma rebuild):
 
 ```bash
 node .claude/scripts/context-assembly.js \
@@ -363,35 +260,11 @@ node .claude/scripts/context-assembly.js \
   --include-sessions
 ```
 
-### Method 3: Manual Query Pattern
-
-For any query in this session:
-
-1. Use `mcp__chroma__chroma_query_documents` to query collections
-2. Set `collection_name` to: `global-standards`, `ai-software-factory-facts`, or `ai-software-factory-sessions`
-3. Provide your `query_texts` (e.g., ["your task description"])
-4. Filter with `where: { is_authoritative: true }` for facts
-5. Review results and use in your planning
-
----
-
-## Next Steps
-
-**Immediate (Phase 5 continuation):**
-1. Update 4 agent prompts with context retrieval sections
-2. Run validation test suite
-3. Verify retrieval quality (precision >80%, recall >90%)
-
-**Future (Phase 6+):**
-1. **Agent Coordination:** Agents use context assembly before all decisions
-2. **Verification Agent:** Checks context completeness before implementation
-3. **Semantic Cache:** Cache frequent queries to improve latency
-4. **Auto-Indexing:** New vault documents automatically indexed
-
 ---
 
 ## References
 
 - [[ADR-ARCH-001]] — Knowledge-First Pipeline (context assembly is Phase 2)
 - [[ADR-DATA-001]] — Facts/Sessions Separation (underlies collection architecture)
-- [[Chroma-Indexing.md]] — Indexing strategy and metadata schemas
+- [[Phase-5-Chroma-Integration.md]] — Indexing strategy and metadata schemas
+- [[Phase-14-Integration-Guide.md]] — Phase 14 module integration (VaultValidator in Chroma ingest)

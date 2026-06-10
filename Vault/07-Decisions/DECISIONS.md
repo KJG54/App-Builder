@@ -355,6 +355,7 @@ These decisions define deployment and operations:
 - Decision 4: Obsidian + Chroma
 - Decision 5: Docker containerization
 - Decision 9: MCP Server Prioritization → [[ADR-INFRA-002]]
+- Decision 10: Chroma Client Strategy (chromadb JS SDK over direct HTTP) → [[ADR-INFRA-003]]
 
 ### Security (ADR-SEC-xxx)
 
