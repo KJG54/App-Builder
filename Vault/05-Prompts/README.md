@@ -23,10 +23,12 @@ This folder contains **AI agent instruction prompts** that define each agent's r
 
 ---
 
-## The 8 Agents
+## The 10 Agents
 
 | Agent | Model | Role | When Active | Reference |
 |-------|-------|------|---|----------|
+| **Project Discovery** | Claude Opus | Interview users, extract requirements, produce project spec before building begins | Any new project | [[Project-Discovery.md|Discovery Prompt]] |
+| **Project Guardian** | Claude Opus | Continuous health monitoring, duplication detection, technical debt tracking, improvement recommendations | Ongoing | [[Project-Guardian.md|Guardian Prompt]] |
 | **Architect** | Claude Opus | Design systems, evaluate technologies, make architecture decisions | Phase 3+ | [[Architect.md|Architect Prompt]] |
 | **Backend** | Claude Sonnet | Implement APIs, business logic, databases | Phase 5+ | [[Backend.md|Backend Prompt]] |
 | **Frontend** | Claude Sonnet | Build UI, components, accessibility | Phase 5+ | [[Frontend.md|Frontend Prompt]] |

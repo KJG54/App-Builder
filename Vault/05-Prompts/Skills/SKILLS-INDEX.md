@@ -73,11 +73,13 @@ Skills for processes, practices applicable across all domains.
 | Skill | Version | Status | Maintenance Owner | Last Updated | Next Review | Relevance |
 |-------|---------|--------|-------------------|--------------|-------------|-----------|
 | [[Cross-Cutting/ai-software-factory-audit-v1.0.md\|AI Software Factory Audit]] | 1.0 | ✅ Active | Human | 2026-06-10 | 2026-09-10 | 0.95 |
+| [[Cross-Cutting/project-discovery-interview-v1.0.md\|Project Discovery Interview]] | 1.0 | 🔧 Draft | Human | 2026-06-10 | 2026-09-10 | 0.90 |
+| [[Cross-Cutting/project-guardian-v1.0.md\|Project Guardian]] | 1.0 | 🔧 Draft | Human | 2026-06-10 | 2026-09-10 | 0.90 |
 | Code Review Process | 1.0 | ⏳ Beta | Engineering Lead | — | — | — |
 | Documentation Generation | 1.0 | ⏳ Beta | Tech Writer | — | — | — |
 | Performance Optimization | 1.0 | ⏳ Beta | Architecture Team | — | — | — |
 
-**Total:** 4 skills (1 Active, 3 Beta)
+**Total:** 6 skills (1 Active, 2 Draft, 3 Beta)
 
 ---
 
@@ -100,10 +102,10 @@ Skills superseded by newer versions.
 | Architecture | 1 | 3 | 0 | 4 |
 | Implementation | 0 | 4 | 0 | 4 |
 | Infrastructure | 0 | 4 | 0 | 4 |
-| Cross-Cutting | 1 | 3 | 0 | 4 |
-| **TOTAL** | **2** | **14** | **0** | **16** |
+| Cross-Cutting | 1 | 3 | 0 | 6 |
+| **TOTAL** | **2** | **14** | **0** | **18** |
 
-**Progress:** 2 skills fully Active + 14 in Beta validation pipeline
+**Progress:** 2 skills fully Active + 2 Draft (project-discovery, project-guardian) + 14 in Beta validation pipeline
 
 ---
 
