@@ -1,8 +1,8 @@
 ---
 type: Skill
 name: "project-discovery-interview"
-version: "1.0"
-phase: 17
+version: "1.1"
+phase: 18
 status: Active
 authority: facts
 chroma_collection: ai-software-factory-skills
@@ -116,6 +116,29 @@ Always suggest existing tools (MCPs, APIs, open-source) before recommending cust
 - Security or compliance requirements?
 - Maintenance expectations (who maintains it long-term)?
 
+**Build Budget (required for pipeline)**
+- What is the soft budget ceiling for the build phase? (e.g., "~$20 in API costs", "under 10 hours of agent time", "no hard limit")
+- Is this a hard stop or a pause-and-confirm threshold?
+- Note: if no ceiling is given, default is to pause when estimated cost exceeds $50 or build time exceeds 8 hours.
+
+**Hosting and Deployment Target (required for pipeline)**
+- Where will this run? (local machine, VPS, cloud provider, serverless, edge, hybrid?)
+- If cloud: preferred provider? Any provider restrictions?
+- Is CI/CD required? Which platform? (GitHub Actions, GitLab CI, etc.)
+- Container requirements? (Docker, Kubernetes, bare-metal scripts?)
+
+**Paid API Tolerance (required for pipeline)**
+- Does the project use or require paid external APIs?
+- Which APIs are pre-approved for use?
+- Is there a per-call or monthly cap?
+- Are there APIs that should be avoided entirely (cost, privacy, vendor lock-in)?
+
+**Project-Specific Rules (required for pipeline)**
+- Are there constraints the build agents must follow that override framework defaults?
+  - Examples: "never use TypeScript", "always use Postgres", "no cloud storage", "output must be a single binary"
+- Any code style requirements beyond framework standards?
+- Any output format requirements? (specific file layout, naming conventions, etc.)
+
 **Future Growth**
 - What features might be added in 6-12 months?
 - What scale should the architecture anticipate?
@@ -154,6 +177,11 @@ Do NOT produce the spec until all of these are true:
 - [ ] All assumptions have been confirmed or refuted
 - [ ] Major design decisions (tech stack, architecture approach) are resolved or deferred with a documented reason
 - [ ] All open questions have been answered or explicitly flagged as out-of-scope
+- [ ] Budget ceiling is captured (or explicitly set to "no limit")
+- [ ] Hosting/deployment target is confirmed
+- [ ] Paid API tolerance is documented (pre-approved list or "none")
+- [ ] Project-specific rules are captured (or explicitly set to "framework defaults apply")
+- [ ] Test plan summary covers unit, integration, and acceptance criteria
 
 ---
 
@@ -207,6 +235,35 @@ Do NOT produce the spec until all of these are true:
 
 ## Assumptions
 [Explicitly stated assumptions that were confirmed during discovery]
+
+---
+
+## Project Rules
+[Project-specific rules that override framework defaults for build agents.
+Examples: "use Python only", "no paid APIs", "output must be a single binary"]
+
+## Budget Ceiling
+- **Soft ceiling:** [dollar amount or agent-hours, e.g. "$20 API cost" or "8 hours"]
+- **Type:** [pause-and-confirm | hard-stop]
+- **Scope:** [which cost types count: LLM API calls, cloud hosting, third-party APIs, all]
+
+## Hosting and Deployment Target
+- **Runtime environment:** [local | VPS | cloud provider | serverless | edge | hybrid]
+- **Cloud provider:** [if applicable]
+- **CI/CD:** [required/optional, platform]
+- **Containerization:** [Docker required | optional | not needed]
+
+## Paid API Tolerance
+- **Pre-approved APIs:** [list]
+- **Prohibited APIs:** [list, with reason]
+- **Per-call cap:** [if any]
+- **Monthly cap:** [if any]
+
+## Test Plan Summary
+[High-level test strategy agreed during discovery:
+- What gets unit tested?
+- What gets integration tested?
+- What is the acceptance test for "done"?]
 ```
 
 Save to: `Vault/09-Requirements/[Project Name]/Project-Spec.md`

@@ -1,6 +1,6 @@
 ---
 type: Prompt
-phase: 17
+phase: 18
 status: Active
 authority: facts
 chroma_collection: global-prompts
@@ -130,6 +130,25 @@ For every feature, ask: What should happen? What should NOT happen? Why is this 
 **Constraints:**
 - Budget, timeline, hosting requirements, licensing, security, maintenance expectations
 
+**Build Budget (required for build pipeline):**
+- What is the soft cost ceiling for the build phase? (API costs, hosting, agent-hours)
+- Hard stop or pause-and-confirm?
+- Default if not specified: pause at $50 API cost or 8 hours agent time
+
+**Hosting and Deployment Target (required for build pipeline):**
+- Where will this run? (local, VPS, cloud, serverless, edge?)
+- CI/CD required? Which platform?
+- Containerization required?
+
+**Paid API Tolerance (required for build pipeline):**
+- Which paid APIs are pre-approved?
+- Which should be avoided (cost, privacy, vendor lock-in)?
+- Per-call or monthly caps?
+
+**Project-Specific Rules (required for build pipeline):**
+- Any rules that override framework defaults for build agents?
+- Technology constraints, output format requirements, naming conventions?
+
 **Future Growth:**
 - How might this evolve? What features may come later? What scale should be anticipated?
 
@@ -158,6 +177,11 @@ Do NOT produce a spec until:
 3. Assumptions are confirmed
 4. Major design decisions are resolved
 5. All open questions have been answered
+6. Budget ceiling is captured (or explicitly "no limit")
+7. Hosting/deployment target is confirmed
+8. Paid API tolerance is documented
+9. Project-specific rules are captured (or "framework defaults apply")
+10. Test plan summary covers unit, integration, and acceptance criteria
 
 ---
 
@@ -197,6 +221,33 @@ When discovery is complete, produce:
 
 ## Open Issues
 [Unresolved questions requiring stakeholder input]
+
+---
+
+## Project Rules
+[Rules that override framework defaults for build agents.
+"framework defaults apply" if none.]
+
+## Budget Ceiling
+- **Soft ceiling:** [amount or "no limit"]
+- **Type:** [pause-and-confirm | hard-stop]
+- **Scope:** [LLM calls | hosting | third-party APIs | all]
+
+## Hosting and Deployment Target
+- **Runtime:** [local | VPS | cloud | serverless | edge | hybrid]
+- **Provider:** [if cloud]
+- **CI/CD:** [required/optional, platform]
+- **Containers:** [required | optional | not needed]
+
+## Paid API Tolerance
+- **Pre-approved:** [list or "none"]
+- **Prohibited:** [list or "none"]
+- **Caps:** [per-call and/or monthly, or "none"]
+
+## Test Plan Summary
+- **Unit tests:** [what gets tested at unit level]
+- **Integration tests:** [what gets tested end-to-end]
+- **Acceptance criteria:** [definition of done for the project]
 ```
 
 Save to: `Vault/09-Requirements/[Project Name]/`
@@ -214,6 +265,11 @@ Before delivering the Project Specification:
 - [ ] Existing tools were researched before recommending custom builds
 - [ ] Risks are identified and documented
 - [ ] User has confirmed the spec is accurate and complete
+- [ ] Budget ceiling captured (or explicitly "no limit")
+- [ ] Hosting/deployment target confirmed
+- [ ] Paid API tolerance documented
+- [ ] Project-specific rules captured (or "framework defaults apply")
+- [ ] Test plan summary covers unit, integration, and acceptance criteria
 
 ---
 
