@@ -33,9 +33,9 @@ author: Claude-Builder-Agent
 | 15 | Agent Memory System | ✅ Complete | 100% | 2026-06-09 |
 | 16 | Chroma Search Quality (chromadb client fix) | ✅ Complete | 100% | 2026-06-10 |
 | 17 | Active Learning + Cleanup | ✅ Complete | 100% | 2026-06-10 |
-| 18 | Project Build Pipeline | 📋 Planned | 0% | — |
+| 18 | Project Build Pipeline | ✅ Complete | 100% | 2026-06-10 |
 
-**Overall:** 17/18 phases complete (94%) — Phase 18 planned
+**Overall:** 18/18 phases complete (100%) — all phases shipped
 **Latest Completion:** Phase 16 Chroma Rebuild (146/148 docs ingested, 6/6 validator passes; commit f20de33)
 
 ---
