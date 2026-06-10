@@ -27,6 +27,7 @@
 const fs   = require('fs');
 const path = require('path');
 const readline = require('readline');
+const { ingestProjectVault } = require('./chroma-ingest');
 
 const ROOT         = path.resolve(__dirname, '..', '..');
 const PROJECTS_DIR = path.join(ROOT, 'Projects');
@@ -418,6 +419,16 @@ async function main() {
 
   // 6. Register in Registry.md
   registerProject(projectName, slug, category, projectType, chromaCollection);
+
+  // 7. Register project Vault in Chroma for cross-project indexing (Phase 18.3)
+  const projectVaultPath = path.join(projectDir, 'Vault');
+  try {
+    await ingestProjectVault(projectVaultPath, chromaCollection);
+    console.log(`   Chroma cross-index: ${chromaCollection} ✓`);
+  } catch (err) {
+    console.log(`   Chroma cross-index: skipped (${err.message.split('—')[0].trim()})`);
+    console.log(`   Re-index later: node .claude/scripts/chroma-ingest.js --project-vault ${projectVaultPath} ${chromaCollection}`);
+  }
 
   console.log(`✅ Project scaffolded at: Projects/${category}/${slug}/`);
   console.log(`   Chroma collection: ${chromaCollection}`);

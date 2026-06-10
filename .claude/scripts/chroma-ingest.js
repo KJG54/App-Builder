@@ -314,13 +314,103 @@ function reportResults() {
   console.log(`\n   📋 Audit log: ${logPath}`);
 }
 
+// ── Cross-project vault ingestion ─────────────────────────────────────────────
+//
+// Ingests an external project's Vault into a single flat Chroma collection.
+// Used by scaffold-project.js and build-runner.js for cross-project indexing.
+//
+// CLI:  node chroma-ingest.js --project-vault <vaultPath> <collectionName>
+// API:  await ingestProjectVault(vaultPath, collectionName)
+//
+// All documents are routed to one collection — no facts/sessions split.
+// Useful similarity threshold for reuse detection: 0.85+
+
+async function ingestProjectVault(vaultPath, collectionName) {
+  const absVaultPath = path.resolve(vaultPath);
+
+  if (!fs.existsSync(absVaultPath)) {
+    throw new Error(`Project Vault not found: ${absVaultPath}`);
+  }
+
+  console.log(`\n📦 Cross-Project Vault Ingestion`);
+  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  console.log(`Vault:      ${absVaultPath}`);
+  console.log(`Collection: ${collectionName}`);
+  console.log(`Chroma:     http://${CHROMA_HOST}:${CHROMA_PORT}\n`);
+
+  const client = new ChromaClient({ host: CHROMA_HOST, port: CHROMA_PORT });
+  const ef     = new DefaultEmbeddingFunction();
+
+  try {
+    await client.heartbeat();
+    console.log(`   ✓ Chroma connected`);
+  } catch (err) {
+    throw new Error(`Cannot reach Chroma at ${CHROMA_HOST}:${CHROMA_PORT} — ${err.message}`);
+  }
+
+  const col = await client.getOrCreateCollection({ name: collectionName, embeddingFunction: ef });
+  console.log(`   ✓ Collection ready: ${collectionName}`);
+
+  const documents = scanVault(absVaultPath);
+  console.log(`\n   Found ${documents.length} documents`);
+
+  const projectLog = { ingested: 0, skipped: 0, errors: [] };
+
+  for (const docPath of documents) {
+    try {
+      const content = fs.readFileSync(docPath, 'utf8');
+      const { frontmatter, body } = parseYamlFrontmatter(content);
+
+      if (!frontmatter) { projectLog.skipped++; continue; }
+
+      const docId   = 'proj-' + collectionName + '-' + generateDocumentId(docPath);
+      const docText = body.substring(0, 5000);
+      const meta    = {
+        file:          docPath.replace(/\\/g, '/'),
+        collection:    collectionName,
+        project:       collectionName,
+        type:          (frontmatter.type   || 'guide').toLowerCase(),
+        status:        (frontmatter.status || 'draft').toLowerCase(),
+        last_updated:  frontmatter.last_updated || new Date().toISOString().split('T')[0],
+        tags:          Array.isArray(frontmatter.tags) ? frontmatter.tags.join(',') : (frontmatter.tags || ''),
+      };
+
+      await col.upsert({ ids: [docId], documents: [docText], metadatas: [meta] });
+      projectLog.ingested++;
+    } catch (err) {
+      projectLog.errors.push({ file: docPath, error: err.message });
+    }
+  }
+
+  console.log(`\n   ✓ Ingested: ${projectLog.ingested}`);
+  if (projectLog.skipped > 0)  console.log(`   ⚠ Skipped:  ${projectLog.skipped} (no frontmatter)`);
+  if (projectLog.errors.length) console.log(`   ✗ Errors:   ${projectLog.errors.length}`);
+  console.log(`\n✅ Cross-project ingestion complete\n`);
+
+  return projectLog;
+}
+
 // ── Exports / entry point ──────────────────────────────────────────────────────
 
-module.exports = { buildMetadata, deriveDocumentType, deriveDomain, classifyDocument, parseYamlFrontmatter };
+module.exports = { buildMetadata, deriveDocumentType, deriveDomain, classifyDocument, parseYamlFrontmatter, ingestProjectVault };
 
 if (require.main === module) {
-  main().catch(err => {
-    console.error('Fatal:', err.message);
-    process.exit(1);
-  });
+  const args = process.argv.slice(2);
+  if (args[0] === '--project-vault') {
+    // Cross-project mode: --project-vault <vaultPath> <collectionName>
+    const [, vaultPath, collectionName] = args;
+    if (!vaultPath || !collectionName) {
+      console.error('Usage: chroma-ingest.js --project-vault <vaultPath> <collectionName>');
+      process.exit(1);
+    }
+    ingestProjectVault(vaultPath, collectionName).catch(err => {
+      console.error('Fatal:', err.message);
+      process.exit(1);
+    });
+  } else {
+    main().catch(err => {
+      console.error('Fatal:', err.message);
+      process.exit(1);
+    });
+  }
 }
