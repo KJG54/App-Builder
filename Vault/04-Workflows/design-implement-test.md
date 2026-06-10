@@ -2,6 +2,7 @@
 type: Workflow
 phase: 13
 status: Active
+last_updated: 2026-06-08
 tags: [multi-agent, orchestration, workflow-example, design-implement-test]
 related: [ADR-ARCH-002, Phase-13-Multi-Agent-Collaboration]
 ---

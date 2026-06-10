@@ -1246,5 +1246,837 @@
     "input_complexity": "low",
     "domain": "general",
     "success": true
+  },
+  {
+    "id": "7de1df9fa1f99c3f",
+    "timestamp": "2026-06-10T02:43:21.763Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 0",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "fa48f1b29fd6407d",
+    "timestamp": "2026-06-10T02:43:21.766Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 1",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "45bc430057b7c3c5",
+    "timestamp": "2026-06-10T02:43:21.768Z",
+    "agent_role": "api",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 2",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "ef35b250e8ca279b",
+    "timestamp": "2026-06-10T02:43:21.770Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 3",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "9e318e89442e4e7a",
+    "timestamp": "2026-06-10T02:43:21.772Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 4",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "121c573b38b76e80",
+    "timestamp": "2026-06-10T02:43:21.785Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 0",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "5c10d2482c2886db",
+    "timestamp": "2026-06-10T02:43:21.787Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 1",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "22a6c357e63f856c",
+    "timestamp": "2026-06-10T02:43:21.788Z",
+    "agent_role": "api",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 2",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "fbc8aa7056393971",
+    "timestamp": "2026-06-10T02:44:46.322Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 0",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "aef4f3463932c7d8",
+    "timestamp": "2026-06-10T02:44:46.325Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 1",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "0b1604b181437e40",
+    "timestamp": "2026-06-10T02:44:46.327Z",
+    "agent_role": "api",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 2",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "770634ce2c5aefd8",
+    "timestamp": "2026-06-10T02:44:46.329Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 3",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "57bd0aca30f44667",
+    "timestamp": "2026-06-10T02:44:46.330Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 4",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "0b2d0d7142fa1e85",
+    "timestamp": "2026-06-10T02:44:46.344Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 0",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "f31211cf5d497986",
+    "timestamp": "2026-06-10T02:44:46.345Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 1",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "4ebd67c4d3350a87",
+    "timestamp": "2026-06-10T02:44:46.347Z",
+    "agent_role": "api",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 2",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "02d2b6740fef04eb",
+    "timestamp": "2026-06-10T03:00:01.515Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 0",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "42a7dc95f59cce49",
+    "timestamp": "2026-06-10T03:00:01.519Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 1",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "0af665962fdd8afd",
+    "timestamp": "2026-06-10T03:00:01.521Z",
+    "agent_role": "api",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 2",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "5a57e14ad2a736e4",
+    "timestamp": "2026-06-10T03:00:01.523Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 3",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "78626d5126919f5f",
+    "timestamp": "2026-06-10T03:00:01.525Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 4",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "4d612e8860591033",
+    "timestamp": "2026-06-10T03:00:01.539Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 0",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "e133682b9e61f271",
+    "timestamp": "2026-06-10T03:00:01.541Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 1",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "237fed60de287718",
+    "timestamp": "2026-06-10T03:00:01.542Z",
+    "agent_role": "api",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 2",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "ec37e83ab3b1f3c7",
+    "timestamp": "2026-06-10T03:08:39.106Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 0",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "c837ca4a07b7092d",
+    "timestamp": "2026-06-10T03:08:39.113Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 1",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "161f2ff45e09cbdc",
+    "timestamp": "2026-06-10T03:08:39.116Z",
+    "agent_role": "api",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 2",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "69988bf855fc9e87",
+    "timestamp": "2026-06-10T03:08:39.127Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 3",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "e5658a6e87df31f4",
+    "timestamp": "2026-06-10T03:08:39.135Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 4",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "e8506c637628e87e",
+    "timestamp": "2026-06-10T03:08:39.228Z",
+    "agent_role": "backend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 0",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "7389b7de95c5be3f",
+    "timestamp": "2026-06-10T03:08:39.231Z",
+    "agent_role": "frontend",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 1",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
+  },
+  {
+    "id": "e875706a17ab6ef2",
+    "timestamp": "2026-06-10T03:08:39.235Z",
+    "agent_role": "api",
+    "prompt_version": "test-v1.0.0",
+    "input": "Test output 2",
+    "verification": {
+      "status": "FEEDBACK",
+      "compliance_score": 100,
+      "completeness_score": 80,
+      "security_score": 100,
+      "consistency_score": 75,
+      "documentation_score": 70,
+      "issues_critical": 0,
+      "issues_major": 0,
+      "issues_minor": 0
+    },
+    "performance": {
+      "response_time_ms": 2000,
+      "token_usage": 1500,
+      "cost_usd": 0.05
+    },
+    "input_complexity": "low",
+    "domain": "general",
+    "success": true
   }
 ]

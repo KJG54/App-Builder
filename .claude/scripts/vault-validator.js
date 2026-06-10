@@ -46,12 +46,15 @@ const OPTIONAL_FIELDS = ['component', 'tags', 'author'];
 const VALID_TYPES = [
   'spec', 'log', 'architecture', 'guide', 'decision', 'retrospective',
   // Phase 15: memory system document types
-  'fact', 'entity', 'relationship', 'KnownProblem'
+  'fact', 'entity', 'relationship', 'knownproblem',
+  // Vault-native document types used by existing notes
+  'standard', 'workflow', 'phase', 'prompt', 'requirement', 'session',
+  'reference', 'index', 'project', 'skill', 'template'
 ];
 const VALID_STATUSES = [
   'draft', 'active', 'deprecated', 'review',
   // Fact lifecycle (matches chroma-ingest classifyDocument approved statuses)
-  'Accepted', 'Approved', 'Current',
+  'accepted', 'approved', 'current', 'complete', 'proposed',
   // Phase 15.6: known-problem lifecycle
   'open', 'in_progress', 'resolved', 'wont_fix'
 ];
@@ -121,13 +124,16 @@ class VaultValidator {
       }
     });
 
+    const normalizedType = frontmatter.type ? String(frontmatter.type).trim().toLowerCase() : null;
+    const normalizedStatus = frontmatter.status ? String(frontmatter.status).trim().toLowerCase() : null;
+
     // Validate type
-    if (frontmatter.type && !VALID_TYPES.includes(frontmatter.type)) {
+    if (normalizedType && !VALID_TYPES.includes(normalizedType)) {
       errors.push(`Invalid type: "${frontmatter.type}". Must be one of: ${VALID_TYPES.join(', ')}`);
     }
 
     // Validate status
-    if (frontmatter.status && !VALID_STATUSES.includes(frontmatter.status)) {
+    if (normalizedStatus && !VALID_STATUSES.includes(normalizedStatus)) {
       errors.push(`Invalid status: "${frontmatter.status}". Must be one of: ${VALID_STATUSES.join(', ')}`);
     }
 
@@ -210,12 +216,31 @@ class VaultValidator {
     }
 
     const validation = this.validateFrontmatter(parsed.frontmatter);
+
+    // Templates intentionally contain placeholders that are invalid in real notes.
+    if (this.isTemplateFile(filePath)) {
+      validation.errors = validation.errors.filter(error =>
+        !error.startsWith('Invalid last_updated format: "YYYY-MM-DD"')
+      );
+      validation.isValid = validation.errors.length === 0;
+    }
+
     return {
       isValid: validation.isValid,
       hasFrontmatter: true,
       migrated: false,
       errors: validation.errors
     };
+  }
+
+  /**
+   * Template notes are allowed to contain placeholder values.
+   * @param {string} filePath - Path to markdown file
+   * @returns {boolean}
+   */
+  isTemplateFile(filePath) {
+    const relativePath = path.relative(this.vaultPath, filePath);
+    return relativePath.split(path.sep).includes('Templates');
   }
 
   /**

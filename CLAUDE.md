@@ -532,16 +532,24 @@ Examples of the anti-pattern to avoid:
 
 ---
 
-## Tool Selection Priority
+## Missing Capability Rule
 
-Before implementing something manually, check whether an existing tool already does it:
+When a task requires functionality not already available through existing tools, MCPs, skills, agents, APIs, libraries, or project components:
 
-1. **Skills first** — Check `.claude/commands/` and the active skills list. A `/wrap-up`, `/code-review`, `/verify`, or other skill may already cover the task.
-2. **Plugins second** — Check installed plugins (context7, figma, playwright, firecrawl, etc.) for relevant capabilities.
-3. **MCP tools third** — Check `.mcp.json` for available MCP servers (chroma, filesystem, etc.) that can perform the operation.
-4. **Build last** — Only write custom code or scripts if no existing tool fits.
+1. **Name the exact missing capability** - Be specific about what cannot currently be done.
+2. **Pause implementation for non-trivial work** - Do not build around the gap until existing options have been checked.
+3. **Research existing solutions** - Look for maintained tools, integrations, MCP servers, skills, APIs, and libraries before writing custom code.
+4. **Prefer solutions in this order**:
+   - MCPs
+   - Skills
+   - Agents
+   - APIs
+   - Libraries
+   - Custom code
+5. **Produce a short recommendation** - Before adding a dependency, integration, agent, or custom implementation, explain the options and the recommended path.
+6. **Build custom code only as a last resort** - Use custom implementations only when no practical existing solution fits the requirements.
 
-This prevents duplicate implementations and keeps the framework lean.
+Avoid reinventing existing solutions.
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-type: KnownProblem
+type: knownproblem
 status: open
 severity: low
 category: Security
@@ -7,22 +7,18 @@ authority: sessions
 chroma_collection: ai-software-factory-known-problems
 tags: [Security, issue, recurring]
 related: []
-discovered: 2026-06-09
-opened: 2026-06-09
-resolved: null
-resolved_by_task: null
-resolution_summary: null
-last_updated: 2026-06-09
+discovered: 2026-06-10
+last_updated: 2026-06-10
 ---
 
 # Security — Missing input validation
 
 **Status:** Open
 **Severity:** low
-**Occurrences:** 32
+**Occurrences:** 64
 **Affected Agents:** backend, api, frontend
-**Discovered:** 2026-06-09
-**Last Updated:** 2026-06-09
+**Discovered:** 2026-06-10
+**Last Updated:** 2026-06-10
 
 ---
 
@@ -30,7 +26,7 @@ last_updated: 2026-06-09
 
 Missing input validation
 
-This issue has occurred 32 times across 3 agent(s).
+This issue has occurred 64 times across 3 agent(s).
 
 ---
 
@@ -50,7 +46,7 @@ This issue has occurred 32 times across 3 agent(s).
 
 ## Impact
 
-- **Frequency:** 32 occurrences (high)
+- **Frequency:** 64 occurrences (high)
 - **Affected Teams:** backend, api, frontend
 - **Quality Loss:** 0.0% compliance reduction
 
@@ -85,5 +81,5 @@ This issue has occurred 32 times across 3 agent(s).
 
 ---
 
-**Created:** 2026-06-09
-**Last Updated:** 2026-06-09
+**Created:** 2026-06-10
+**Last Updated:** 2026-06-10

@@ -149,9 +149,9 @@ class ProblemIndexer {
     const yaml = parts[1] || '';
     const markdown = parts.slice(2).join('---');
 
-    const extract = (pattern) => {
-      const match = yaml.match(pattern);
-      return match ? match[1].trim() : '';
+    const extractField = (fieldName) => {
+      const match = yaml.match(new RegExp(`^${fieldName}:\\s*(.+)$`, 'mi'));
+      return match && match[1] ? match[1].trim() : '';
     };
 
     // Extract title (first heading in markdown)
@@ -164,8 +164,8 @@ class ProblemIndexer {
 
     // Extract keywords
     const keywords = [];
-    const cat = extract(/category:/);
-    const sev = extract(/severity:/);
+    const cat = extractField('category');
+    const sev = extractField('severity');
     if (cat) keywords.push(cat);
     if (sev) keywords.push(sev);
     keywords.push(...(title || 'unknown').toLowerCase().split(/\s+/).filter(w => w.length > 3));
@@ -173,9 +173,9 @@ class ProblemIndexer {
     return {
       title: title,
       description: description,
-      category: extract(/category:/),
-      severity: extract(/severity:/),
-      status: extract(/status:/),
+      category: cat,
+      severity: sev,
+      status: extractField('status'),
       keywords: keywords,
     };
   }

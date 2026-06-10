@@ -76,7 +76,9 @@ Skills for processes, practices applicable across all domains.
 | Documentation Generation | 1.0 | ⏳ Beta | Tech Writer | — | — | — |
 | Performance Optimization | 1.0 | ⏳ Beta | Architecture Team | — | — | — |
 
-**Total:** 3 skills (0 Active, 3 Beta)
+| [[Cross-Cutting/ai-software-factory-audit-v1.0.md\|AI Software Factory Audit]] | 1.0 | Active | Human | 2026-06-10 | 2026-09-10 | 0.95 |
+
+**Total:** 4 skills (1 Active, 3 Beta)
 
 ---
 

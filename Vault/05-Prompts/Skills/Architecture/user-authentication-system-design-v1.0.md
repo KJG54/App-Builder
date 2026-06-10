@@ -4,6 +4,7 @@ name: "user-authentication-system-design"
 version: "1.0"
 phase: 7
 status: Active
+last_updated: 2026-06-08
 authority: facts
 chroma_collection: ai-software-factory-skills
 tags: [skill, authentication, design-pattern, security, oauth]

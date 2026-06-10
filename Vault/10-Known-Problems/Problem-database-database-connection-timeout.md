@@ -1,5 +1,5 @@
 ---
-type: KnownProblem
+type: knownproblem
 status: open
 severity: high
 category: database
@@ -7,12 +7,8 @@ authority: sessions
 chroma_collection: ai-software-factory-known-problems
 tags: [database, issue, recurring]
 related: []
-discovered: 2026-06-09
-opened: 2026-06-09
-resolved: null
-resolved_by_task: null
-resolution_summary: null
-last_updated: 2026-06-09
+discovered: 2026-06-10
+last_updated: 2026-06-10
 ---
 
 # database — Database connection timeout
@@ -21,8 +17,8 @@ last_updated: 2026-06-09
 **Severity:** high
 **Occurrences:** 3
 **Affected Agents:** backend
-**Discovered:** 2026-06-09
-**Last Updated:** 2026-06-09
+**Discovered:** 2026-06-10
+**Last Updated:** 2026-06-10
 
 ---
 
@@ -85,5 +81,5 @@ This issue has occurred 3 times across 1 agent(s).
 
 ---
 
-**Created:** 2026-06-09
-**Last Updated:** 2026-06-09
+**Created:** 2026-06-10
+**Last Updated:** 2026-06-10
