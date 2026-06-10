@@ -8,7 +8,7 @@ author: Claude-Builder-Agent
 # Project Status Dashboard
 
 **Last Updated:** 2026-06-10  
-**Updated By:** Claude (Session: Audit + Phase 16 Prep)
+**Updated By:** Claude (Session: Phase 16 Chroma Rebuild Complete)
 
 ---
 
@@ -31,58 +31,58 @@ author: Claude-Builder-Agent
 | 13 | Multi-Agent Collaboration | ✅ Complete | 100% | 2026-06-08 |
 | 14 | FSM + Vault Validator + MCP Whitelist | ✅ Complete | 100% | 2026-06-09 |
 | 15 | Agent Memory System | ✅ Complete | 100% | 2026-06-09 |
-| 16 | Chroma Search Quality (chromadb client fix) | 🔄 In Progress | ~10% | — |
-| 17 | Active Learning + Cleanup | 📋 Planned | 0% | — |
+| 16 | Chroma Search Quality (chromadb client fix) | ✅ Complete | 100% | 2026-06-10 |
+| 17 | Active Learning + Cleanup | ✅ Complete | 100% | 2026-06-10 |
+| 18 | Project Build Pipeline | 📋 Planned | 0% | — |
 
-**Overall:** 15/17 phases complete (88%) — Phase 16 in progress
-**Latest Completion:** Phase 15 Memory System (agent memory, relationships, session handoff, known-problem lifecycle; commit 3aa3c68)
+**Overall:** 17/18 phases complete (94%) — Phase 18 planned
+**Latest Completion:** Phase 16 Chroma Rebuild (146/148 docs ingested, 6/6 validator passes; commit f20de33)
 
 ---
 
 ## Current Work In Progress
 
-**Latest Session:** 2026-06-10 (Audit + Phase 16 Prep)
+**Latest Session:** 2026-06-10 (Phase 16 Chroma Rebuild + Phase 17 Cleanup + Phase 18 Spec)
 
-### What Was Completed (Phases 14–15)
+### What Was Completed (Phases 16–17)
 
-**Phase 14 (FSM + Safety):**
+**Phase 16 (Chroma Search Quality) — COMPLETE:**
 
-- ✅ FSM state machine wired into agent-orchestrator.js
-- ✅ vault-validator.js integrated into chroma-ingest.js
-- ✅ mcp-whitelist.js integrated into mcp-authorization.js
-- ✅ 31 unit tests passing; validate-phase-14.js passing
+- ✅ Diagnosed: v1 HTTP API removed; v2 routes invalid; embeddings never generated
+- ✅ ADR-INFRA-003 written: chromadb JS SDK chosen over raw HTTP (commit 090f7a6)
+- ✅ chroma-ingest.js fully rewritten — chromadb JS SDK, idempotent upsert, standards classification fix
+- ✅ context-assembly.js fully rewritten — lazy client init, graceful Chroma degradation
+- ✅ Full Vault re-index: 146/148 docs (66 facts, 76 sessions, 4 standards), 0 errors
+- ✅ End-to-end context assembly verified: "design a database layer" → Standards: 4, Facts: 5
+- ✅ validate-phase-16.js: 6/6 passes (no warnings); added `npm run ingest` script
+- ✅ `chromadb` + `@chroma-core/default-embed` added to package.json
 
-**Phase 15 (Memory System):**
+**Phase 17 (Active Learning + Cleanup) — COMPLETE:**
 
-- ✅ Facts/entities/relationships in Vault/11-Facts, 12-Entities, 13-Relationships
-- ✅ Per-agent memory in Vault/14-Agent-Memory (architect, backend, devops, frontend, qa)
-- ✅ Metadata-enriched ingestion; handoff extraction
-- ✅ Known-Problem lifecycle (open → in_progress → resolved → wont_fix)
-- ✅ 74 files, +2,479 lines committed (3aa3c68)
+- ✅ C1: Known-Problem status/type normalization (lowercase casing enforcement)
+- ✅ C2: validate-phase-11.js temp-dir isolation (prevents Vault side effects in tests)
+- ✅ C3: validate-phase-15.js + validate-phase-16.js created; test:all extended
+- ✅ C4: SKILLS-INDEX.md updated; /discover and /guardian commands added
+- ✅ C5: ADR-INFRA-003.md created and committed
 
-**Phase 16 (Chroma Search Quality) — IN PROGRESS:**
+**Phase 18 (Project Build Pipeline) — SPEC COMPLETE:**
 
-- 🔄 Diagnosed: chroma-ingest.js uses removed v1 API endpoint; context-assembly.js has invalid v2 route; embeddings missing
-- 🔄 Plan: chromadb JS client swap (Approach A); spec committed (2b8422a); implementation plan committed (214cf36)
-- ❌ Chroma ingestion pipeline non-functional until Phase 16 fix is applied
+- ✅ BR/FR/NFR written to Vault/09-Requirements/Project Build Pipeline/ (19 requirements)
+- ✅ Phase 18 added to roadmap (6 implementation stages)
+- Pipeline: interview → research → recommend → build → review → ship
 
 ### Roadmap Status
 
-- Phase 1–13: ✅ Complete
-- Phase 14: ✅ Complete (FSM + Vault Validator + MCP Whitelist)
-- Phase 15: ✅ Complete (Agent Memory System)
-- Phase 16: 🔄 In Progress (Chroma Search Quality — chromadb client fix)
-- Phase 17: 📋 Planned (Active Learning + Cleanup)
+- Phase 1–17: ✅ Complete
+- Phase 18: 📋 Planned (Project Build Pipeline — scaffold, discovery, cross-project Chroma, build loop)
 
 ### Blockers
 
-- Chroma semantic search non-functional (Phase 16 fix required before vector retrieval works)
+None. Chroma pipeline fully operational.
 
 ### What's Next
 
-**Phase 16 (Active):** Fix chromadb client in chroma-ingest.js and context-assembly.js; restore ingestion pipeline; validate with semantic queries.
-
-**Phase 17 (Planned):** Active learning loop, cleanup tasks (git rm --cached for 70+ tracked-ignored files, test side-effect isolation, full test suite coverage for Phases 15–16), ADR for Phase 16 Chroma strategy.
+**Phase 18:** Scaffold script, discovery skill update, Chroma cross-project indexing, phase plan generator, autonomous build loop, review/ship.
 
 ---
 
@@ -90,6 +90,7 @@ author: Claude-Builder-Agent
 
 | ADR | Title | Status | Date | Impact |
 |-----|-------|--------|------|--------|
+| [[07-Decisions/ADR-INFRA-003.md\|ADR-INFRA-003]] | chromadb JS SDK over direct HTTP | Accepted | 2026-06-10 | Official client replaces broken v1/v2 HTTP calls; Chroma pipeline now version-stable |
 | [[07-Decisions/ADR-INFRA-002.md\|ADR-INFRA-002]] | Phase 12 MCP Server Prioritization | Accepted | 2026-06-08 | GitHub + Filesystem in Phase 12; PostgreSQL/Jira/AWS deferred to Phase 13+ |
 | [[07-Decisions/ADR-INT-001.md\|ADR-INT-001]] | MCP Server Integration Policy | Accepted | 2026-06-07 | All agent integrations use MCP; defines access tiers; enforced Phase 12+ |
 | [[07-Decisions/ADR-SEC-001.md\|ADR-SEC-001]] | Human Approval Gate Requirements | Accepted | 2026-06-07 | 5 tiers of decision authority (Tier 1-5); integrated with Phase 10 review pipeline |
