@@ -13,7 +13,7 @@ last_updated: 2026-06-10
 
 # database — Database connection timeout
 
-**Status:** Open
+**Status:** open
 **Severity:** high
 **Occurrences:** 3
 **Affected Agents:** backend

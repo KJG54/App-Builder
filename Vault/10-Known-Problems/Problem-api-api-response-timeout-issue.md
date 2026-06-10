@@ -13,7 +13,7 @@ last_updated: 2026-06-10
 
 # api — API response timeout issue
 
-**Status:** Open
+**Status:** open
 **Severity:** high
 **Occurrences:** 5
 **Affected Agents:** backend

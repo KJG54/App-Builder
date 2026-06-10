@@ -13,9 +13,9 @@ last_updated: 2026-06-10
 
 # Security — Missing input validation
 
-**Status:** Open
+**Status:** open
 **Severity:** low
-**Occurrences:** 64
+**Occurrences:** 80
 **Affected Agents:** backend, api, frontend
 **Discovered:** 2026-06-10
 **Last Updated:** 2026-06-10
@@ -26,7 +26,7 @@ last_updated: 2026-06-10
 
 Missing input validation
 
-This issue has occurred 64 times across 3 agent(s).
+This issue has occurred 80 times across 3 agent(s).
 
 ---
 
@@ -46,7 +46,7 @@ This issue has occurred 64 times across 3 agent(s).
 
 ## Impact
 
-- **Frequency:** 64 occurrences (high)
+- **Frequency:** 80 occurrences (high)
 - **Affected Teams:** backend, api, frontend
 - **Quality Loss:** 0.0% compliance reduction
 

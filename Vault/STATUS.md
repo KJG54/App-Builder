@@ -1,14 +1,14 @@
 ---
 type: guide
 status: active
-last_updated: 2026-06-09
+last_updated: 2026-06-10
 author: Claude-Builder-Agent
 ---
 
 # Project Status Dashboard
 
-**Last Updated:** 2026-06-08, 23:30 UTC  
-**Updated By:** Claude (Session: Phase 13 Multi-Agent Collaboration — FINAL PHASE COMPLETE)
+**Last Updated:** 2026-06-10  
+**Updated By:** Claude (Session: Audit + Phase 16 Prep)
 
 ---
 
@@ -29,88 +29,60 @@ author: Claude-Builder-Agent
 | 11 | Known Problems KB | ✅ Complete | 100% | 2026-06-08 |
 | 12 | Advanced MCP Integration | ✅ Complete | 100% | 2026-06-08 |
 | 13 | Multi-Agent Collaboration | ✅ Complete | 100% | 2026-06-08 |
+| 14 | FSM + Vault Validator + MCP Whitelist | ✅ Complete | 100% | 2026-06-09 |
+| 15 | Agent Memory System | ✅ Complete | 100% | 2026-06-09 |
+| 16 | Chroma Search Quality (chromadb client fix) | 🔄 In Progress | ~10% | — |
+| 17 | Active Learning + Cleanup | 📋 Planned | 0% | — |
 
-**Overall:** 13/13 phases complete (100%) — ROADMAP COMPLETE
-**Latest Completion:** Phase 13 Multi-Agent Collaboration (Agent orchestrator, task decomposition, context sharing, 3 workflows, 10/10 tests passing)
+**Overall:** 15/17 phases complete (88%) — Phase 16 in progress
+**Latest Completion:** Phase 15 Memory System (agent memory, relationships, session handoff, known-problem lifecycle; commit 3aa3c68)
 
 ---
 
 ## Current Work In Progress
 
-**Latest Session:** 2026-06-08 (Phase 13: Multi-Agent Collaboration Complete — FINAL PHASE)
+**Latest Session:** 2026-06-10 (Audit + Phase 16 Prep)
 
-### What Was Completed
+### What Was Completed (Phases 14–15)
 
-**Phase 13 (Final Phase):**
-- ✅ **Phase 13.1:** Agent Orchestrator Framework (320 lines; task decomposition, routing, context sharing)
-- ✅ **Phase 13.2:** Slack Notifier (140 lines; optional notifications, graceful no-op)
-- ✅ **Phase 13.3:** Three Workflow Examples (880 lines; design→implement→test, bug→fix, code review)
-- ✅ **Phase 13.4:** ADR-ARCH-002 (Multi-agent orchestration design decisions)
-- ✅ **Phase 13.5:** Agent Collaboration Documentation (all 4 prompts updated with Phase 13 sections)
-- ✅ **Phase 13.6:** Test suite complete (10/10 tests passing, 100% success rate)
-- ✅ **Phase 13.7:** MCP config updated (Slack server added)
-- ✅ **Phase 13.8:** All status files updated (100% completion marked)
+**Phase 14 (FSM + Safety):**
 
-**Total Phase 13 Deliverables:**
-- Agent Orchestrator (task management, dependency tracking, context sharing)
-- Slack Notifier (optional alerts, graceful degradation)
-- 3 complete workflow examples with code
-- ADR-ARCH-002 (design rationale for orchestration)
-- Updated agent prompts (collaboration guidance for all 4 agents)
-- Validation suite (10/10 tests passing, 100% success rate)
-- Result: Multi-agent coordination with context flow between agents and Phase 10 approval gates
+- ✅ FSM state machine wired into agent-orchestrator.js
+- ✅ vault-validator.js integrated into chroma-ingest.js
+- ✅ mcp-whitelist.js integrated into mcp-authorization.js
+- ✅ 31 unit tests passing; validate-phase-14.js passing
 
-**Phase 13 Status:** ✅ COMPLETE. Full multi-agent collaboration system with human-guided task decomposition (10/10 tests passing).
+**Phase 15 (Memory System):**
+
+- ✅ Facts/entities/relationships in Vault/11-Facts, 12-Entities, 13-Relationships
+- ✅ Per-agent memory in Vault/14-Agent-Memory (architect, backend, devops, frontend, qa)
+- ✅ Metadata-enriched ingestion; handoff extraction
+- ✅ Known-Problem lifecycle (open → in_progress → resolved → wont_fix)
+- ✅ 74 files, +2,479 lines committed (3aa3c68)
+
+**Phase 16 (Chroma Search Quality) — IN PROGRESS:**
+
+- 🔄 Diagnosed: chroma-ingest.js uses removed v1 API endpoint; context-assembly.js has invalid v2 route; embeddings missing
+- 🔄 Plan: chromadb JS client swap (Approach A); spec committed (2b8422a); implementation plan committed (214cf36)
+- ❌ Chroma ingestion pipeline non-functional until Phase 16 fix is applied
 
 ### Roadmap Status
 
-**✅ ALL 13 PHASES COMPLETE (100%)**
-- Phase 1: Foundation ✅
-- Phase 2: Knowledge System ✅
-- Phase 3: Requirements Management ✅
-- Phase 4: Fact/Session Separation ✅
-- Phase 5: Chroma Integration ✅
-- Phase 6: Context Builder ✅
-- Phase 7: Skills System ✅
-- Phase 8: Verification Layer ✅
-- Phase 9: Metrics & Performance ✅
-- Phase 10: Review Pipeline ✅
-- Phase 11: Known Problems KB ✅
-- Phase 12: Advanced MCP Integration ✅
-- Phase 13: Multi-Agent Collaboration ✅
+- Phase 1–13: ✅ Complete
+- Phase 14: ✅ Complete (FSM + Vault Validator + MCP Whitelist)
+- Phase 15: ✅ Complete (Agent Memory System)
+- Phase 16: 🔄 In Progress (Chroma Search Quality — chromadb client fix)
+- Phase 17: 📋 Planned (Active Learning + Cleanup)
 
 ### Blockers
-- None. All 13 phases complete.
 
-### What's Next (Phase 14+)
+- Chroma semantic search non-functional (Phase 16 fix required before vector retrieval works)
 
-The initial 13-phase roadmap is **complete**. Future phases would add:
+### What's Next
 
-**Phase 14: Advanced Capabilities**
-- Auto task decomposition (agents propose subtasks)
-- Intelligent retry loops (agent healing on failure)
-- PostgreSQL MCP integration (database operations)
-- Jira/Linear integration (issue tracking linked to code)
-- AWS integration (cloud deployment)
-- ML-based task optimization
+**Phase 16 (Active):** Fix chromadb client in chroma-ingest.js and context-assembly.js; restore ingestion pipeline; validate with semantic queries.
 
-**Beyond Phase 14:**
-- Autonomous agent loops (agents decide what to work on)
-- Cross-project coordination (multiple teams)
-- HTML dashboard for visualization
-- Advanced anomaly detection
-- Predictive scaling
-
-**Current System is Feature-Complete:**
-The AI Software Factory now has:
-✅ Knowledge system (Obsidian + Chroma)
-✅ Quality gates (verification, review pipeline, observability)
-✅ Real-world tools (GitHub, Filesystem MCP)
-✅ Multi-agent coordination (task orchestration)
-✅ Human oversight (approval gates, escalations)
-✅ Audit trails (all operations logged)
-
-This foundation can support solo-developer workflows and is extensible for future phases.
+**Phase 17 (Planned):** Active learning loop, cleanup tasks (git rm --cached for 70+ tracked-ignored files, test side-effect isolation, full test suite coverage for Phases 15–16), ADR for Phase 16 Chroma strategy.
 
 ---
 
@@ -173,12 +145,11 @@ This foundation can support solo-developer workflows and is extensible for futur
 
 | Technology | Status | Reference |
 |----------|--------|-----------|
-| Obsidian + Vault | Active | [[02-Technologies/MCP_SERVERS.md|MCP: github-codebase, chroma]] |
-| Chroma (Vector DB) | Planned (Phase 5) | [[02-Technologies/Chroma-Indexing.md|Indexing Strategy]] |
-| Docker | Active | [[02-Technologies/Docker.md|Docker Standards]] |
-| FastAPI | Planned (Phase 5+) | [[04-Workflows/Build API.md|Build API Workflow]] |
-| PostgreSQL | Planned (Phase 5+) | [[07-Decisions/ADR-DATA-001.md|Data Storage Decision]] |
-| Python | Primary language | [[02-Technologies/Python.md|Python Guide]] |
+| Obsidian + Vault | Active | 02-Technologies/MCP_SERVERS.md |
+| Chroma (Vector DB) | Active (pipeline fix in Phase 16) | 02-Technologies/Chroma-Indexing.md |
+| Docker | Active | 02-Technologies/Docker.md |
+| Node.js | Primary runtime | .claude/scripts/ |
+| MCP Servers | Active (chroma, filesystem) | .mcp.json |
 
 **See full stack:** [[02-Technologies/README.md|Technologies Reference]]
 

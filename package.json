@@ -8,6 +8,13 @@
     "test:phase-9": "node ./.claude/scripts/validate-phase-9.js",
     "test:phase-10": "node ./.claude/scripts/validate-phase-10.js",
     "test:phase-11": "node ./.claude/scripts/validate-phase-11.js",
+    "test:phase-12": "node ./.claude/scripts/validate-phase-12.js",
+    "test:phase-13": "node ./.claude/scripts/validate-phase-13.js",
+    "test:phase-14": "node ./.claude/scripts/validate-phase-14.js",
+    "test:phase-14-fsm": "node ./.claude/scripts/test-phase-14-fsm.js",
+    "test:phase-14-validator": "node ./.claude/scripts/test-phase-14-validator.js",
+    "test:phase-14-whitelist": "node ./.claude/scripts/test-phase-14-whitelist.js",
+    "test:all": "node ./.claude/scripts/validate-phase-8.js && node ./.claude/scripts/validate-phase-9.js && node ./.claude/scripts/validate-phase-10.js && node ./.claude/scripts/validate-phase-11.js && node ./.claude/scripts/validate-phase-12.js && node ./.claude/scripts/validate-phase-13.js && node ./.claude/scripts/validate-phase-14.js",
     "test": "node ./.claude/scripts/validate-phase-11.js"
   },
   "keywords": [

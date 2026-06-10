@@ -37,9 +37,9 @@ class ProblemManager {
 
     // Build YAML frontmatter
     const frontmatter = `---
-type: KnownProblem
-status: Open
-severity: ${extractedIssue.calculated_severity || 'Medium'}
+type: knownproblem
+status: open
+severity: ${extractedIssue.calculated_severity || 'medium'}
 category: ${category}
 authority: sessions
 chroma_collection: ai-software-factory-known-problems
@@ -51,8 +51,8 @@ last_updated: ${new Date().toISOString().split('T')[0]}
 
 # ${category} — ${extractedIssue.message}
 
-**Status:** Open
-**Severity:** ${extractedIssue.calculated_severity || 'Medium'}
+**Status:** open
+**Severity:** ${extractedIssue.calculated_severity || 'medium'}
 **Occurrences:** ${extractedIssue.occurrences}
 **Affected Agents:** ${extractedIssue.agents_affected.join(', ')}
 **Discovered:** ${new Date().toISOString().split('T')[0]}
@@ -264,7 +264,7 @@ ${fixDescription}
   /**
    * Get problems by filters
    * @param {string} category - Optional category filter
-   * @param {string} status - Optional status filter (Open, Resolved, Workaround, Design Constraint)
+   * @param {string} status - Optional status filter (open, resolved, workaround, design_constraint)
    * @param {string} severity - Optional severity filter
    * @returns {Array} Filtered problem records
    */

@@ -461,3 +461,49 @@ Write `.claude/scripts/vault-auditor.js`:
 2. **Skills activation (16.3) can start before the Chroma re-index** — write skill content first, verify it, then ingest everything together during the Phase 16 re-index.
 3. **Phase 17 learning loop requires human approval gates.** The existing `approval-workflow.js` infrastructure handles this — memory writes are not automatic.
 4. **`documentation_score: 70` is the earliest actionable signal.** The documentation skill should be the first Beta skill activated in Phase 16.3, and is the expected first alert from Phase 17.3.
+
+---
+
+## Phase 17 Cleanup Backlog (from 2026-06-10 Audit)
+
+These items were identified during the first full system audit and deferred to Phase 17. They are pre-requisite hygiene work, not new features — complete them before or alongside Phase 17.1–17.6.
+
+### C1 — Remove tracked-but-ignored runtime files (H2 — Approval Required)
+
+**Problem:** `git ls-files -ci --exclude-standard` returns 70+ files that are gitignored but still tracked (`.claude/approvals/`, `.claude/reviews/`, `.claude/metrics/`, `.claude/scripts/.claude/`, `.vscode/`, `Vault/.obsidian/themes/`).
+
+**Action:** Run `git rm --cached` on all affected paths. Requires explicit human approval before execution.
+
+**Verification:** `git ls-files -ci --exclude-standard` returns empty.
+
+### C2 — Isolate test side effects from Vault source files (H1 residual)
+
+**Problem:** `npm test` (Phase 11 validator) writes to `Vault/10-Known-Problems/` as a side effect — incrementing occurrence counts on every run. The capitalization bug is fixed, but the root issue (tests mutating production Vault files) remains.
+
+**Action:** Modify `validate-phase-11.js` and `problem-manager.js` to write test artifacts to `.claude/.test-problems/` (already gitignored) instead of `Vault/10-Known-Problems/`.
+
+**Verification:** Running `npm test` three times produces no changes to `Vault/10-Known-Problems/`.
+
+### C3 — Add validate-phase-15 and validate-phase-16 scripts (M1 extension)
+
+**Problem:** Phases 15 and 16 have no validator scripts. `npm run test:all` covers only phases 8–14.
+
+**Action:** Write `.claude/scripts/validate-phase-15.js` and `.claude/scripts/validate-phase-16.js`; add `test:phase-15` and `test:phase-16` entries to `package.json`; include in `test:all`.
+
+**Verification:** `npm run test:all` exits 0 with all phase validators passing.
+
+### C4 — Move `.claude/scripts/*.md` docs to Vault (L3)
+
+**Problem:** `context-assembly-mcp.md` and `phase-14-integration.md` live in `.claude/scripts/` (a code directory). They are documentation, not scripts.
+
+**Action:** Move to `Vault/03-Projects/AI Software Factory/` with appropriate frontmatter.
+
+**Verification:** `.claude/scripts/` contains only `.js` files.
+
+### C5 — ADR for Phase 16 Chroma strategy change
+
+**Problem:** The switch from direct Chroma HTTP calls to the `chromadb` JS client is an architectural decision with no ADR.
+
+**Action:** Create `Vault/07-Decisions/ADR-INFRA-003.md` documenting the Chroma client strategy, the v1→v2 migration, and the choice of the JS SDK over raw HTTP.
+
+**Verification:** `Vault/07-Decisions/DECISIONS.md` includes ADR-INFRA-003.
