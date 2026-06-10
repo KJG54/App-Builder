@@ -85,6 +85,52 @@ Requirements capture **WHAT** the system must do and **WHY**. They are the north
 
 ---
 
+## Current Requirements for Project Build Pipeline
+
+### Business Requirements
+| ID | Title | Priority | Status |
+|---|---|---|---|
+| BR-PBP-001 | Seamless End-to-End Project Creation | Must Have | Approved |
+| BR-PBP-002 | Human Authority at Commit Boundaries | Must Have | Approved |
+| BR-PBP-003 | Universal + Project-Specific Governance | Must Have | Approved |
+| BR-PBP-004 | Knowledge Compounds Across Projects | Must Have | Approved |
+| BR-PBP-005 | Human + AI Readable at Every Layer | Must Have | Approved |
+
+**See:** [[Project Build Pipeline/Business Requirements|Full Business Requirements]]
+
+### Functional Requirements
+| ID | Title | Priority | Status |
+|---|---|---|---|
+| FR-PBP-001 | Structured Discovery Interview | Must Have | Approved |
+| FR-PBP-002 | Project-Specific Rulebook Capture | Must Have | Approved |
+| FR-PBP-003 | Autonomous Technology Research | Must Have | Approved |
+| FR-PBP-004 | Paid API and Cost Gate | Must Have | Approved |
+| FR-PBP-005 | AI-Recommended Phase Plan | Must Have | Approved |
+| FR-PBP-006 | File Structure Scaffold | Must Have | Approved |
+| FR-PBP-007 | Autonomous Phased Implementation | Must Have | Approved |
+| FR-PBP-008 | Self-Healing Blocker Escalation | Must Have | Approved |
+| FR-PBP-009 | Completion Verification | Must Have | Approved |
+| FR-PBP-010 | Diff Summary + Decision Log | Must Have | Approved |
+| FR-PBP-011 | Deployable Output | Must Have | Approved |
+| FR-PBP-012 | Post-Build Vault Record | Must Have | Approved |
+
+**See:** [[Project Build Pipeline/Functional Requirements|Full Functional Requirements]]
+
+### Non-Functional Requirements
+| ID | Title | Priority | Status |
+|---|---|---|---|
+| NFR-PBP-001 | Autonomous Execution with Bounded Escalation | Must Have | Approved |
+| NFR-PBP-002 | Phase Checkpoint Integrity | Must Have | Approved |
+| NFR-PBP-003 | Dual Readability (Human + AI) | Must Have | Approved |
+| NFR-PBP-004 | Cost and Paid API Transparency | Must Have | Approved |
+| NFR-PBP-005 | Reusability Detection Coverage | Should Have | Draft |
+| NFR-PBP-006 | Post-Ship Health Monitoring | Should Have | Draft |
+| NFR-PBP-007 | Technology Agnosticism | Must Have | Approved |
+
+**See:** [[Project Build Pipeline/Non-Functional Requirements|Full Non-Functional Requirements]]
+
+---
+
 ## Requirement Lifecycle
 
 ### 1. Draft

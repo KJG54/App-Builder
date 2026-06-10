@@ -1,13 +1,13 @@
 ---
 type: architecture
 status: active
-component: core-engine, state-machine, semantic-search, memory-system, observability
-tags: [phase-14, phase-15, phase-16, phase-17, fsm, memory, hybrid-search, vault-indexing, learning-loop]
-last_updated: 2026-06-09
+component: core-engine, state-machine, semantic-search, memory-system, observability, project-build-pipeline
+tags: [phase-14, phase-15, phase-16, phase-17, phase-18, fsm, memory, hybrid-search, vault-indexing, learning-loop, build-pipeline]
+last_updated: 2026-06-10
 author: Claude-Builder-Agent
 ---
 
-# Phase 14–17 Roadmap: Safety, Memory, Search Quality, and Active Learning
+# Phase 14–18 Roadmap: Safety, Memory, Search Quality, Active Learning, and Project Build Pipeline
 
 ## Overview
 
@@ -507,3 +507,125 @@ These items were identified during the first full system audit and deferred to P
 **Action:** Create `Vault/07-Decisions/ADR-INFRA-003.md` documenting the Chroma client strategy, the v1→v2 migration, and the choice of the JS SDK over raw HTTP.
 
 **Verification:** `Vault/07-Decisions/DECISIONS.md` includes ADR-INFRA-003.
+
+---
+
+## Phase 18: Project Build Pipeline
+
+**Goal:** Implement the end-to-end pipeline for scaffolding, building, verifying, and shipping new projects using the framework. This is the first phase that produces *output projects*, not framework improvements.
+
+**Prerequisites:** Phase 16 (Chroma pipeline working), Phase 17 cleanup complete.
+
+**Spec:** `Vault/09-Requirements/Project Build Pipeline/` (BR/FR/NFR — Approved 2026-06-10)
+
+---
+
+### 18.1 — Project Scaffold System
+
+Build the scaffold script that creates a new project from the framework template.
+
+**Deliverables:**
+- `.claude/scripts/scaffold-project.js` — copies `.claude/`, `Vault/`, `CLAUDE.md`, and scripts into `Projects/[category]/[project-name]/`; creates category folder on first use; appends project rules placeholder to project `CLAUDE.md`
+- `Vault/03-Projects/Registry.md` — project registry (name, category, Chroma collection, status, created date, GitHub repo)
+- `Projects/` added to root `.gitignore` (each project manages its own git)
+- `package.json` — add `scaffold` script: `node .claude/scripts/scaffold-project.js`
+
+**Verification:** Running `npm run scaffold` prompts for project name, type, and category; creates `Projects/[category]/[name]/` with full framework copy; registers project in Registry.md.
+
+---
+
+### 18.2 — Discovery Skill Update
+
+Extend the `/discover` skill to capture all required pipeline inputs.
+
+**Deliverables:**
+- Update `Vault/05-Prompts/Skills/Cross-Cutting/project-discovery-interview-v1.0.md` — add question areas: project-specific rules, soft budget ceiling, hosting/deployment target, paid API tolerance
+- Update `Vault/05-Prompts/Project-Discovery.md` — align with updated skill
+- Output template updated to include: Project Rules section, Budget Ceiling, Test Plan summary
+
+**Verification:** A `/discover` interview produces a spec with all required fields populated and no open questions.
+
+---
+
+### 18.3 — Chroma Cross-Project Indexing
+
+Register each scaffolded project's Vault into the framework's Chroma instance so future projects can query it.
+
+**Deliverables:**
+- Update `chroma-ingest.js` — add support for ingesting a named external Vault path into a named collection
+- Update scaffold script (18.1) — after creating project, register and ingest its Vault into framework Chroma
+- Reusability detection query added to research phase: queries all registered project collections before recommending new custom components
+- Match threshold: 0.85+ semantic similarity flags a component for reuse review
+
+**Verification:** After scaffolding a project and adding content to its Vault, a Chroma query from the framework returns results from the project collection.
+
+---
+
+### 18.4 — Phase Plan Generator
+
+Build the agent capability to produce a phased implementation plan from a completed discovery spec.
+
+**Deliverables:**
+- New skill: `Vault/05-Prompts/Skills/Cross-Cutting/phase-plan-generator-v1.0.md` — takes a project spec and produces: recommended phases with rationale, file structure scaffold, dependencies per phase, test plan summary per phase
+- Phase plan output saved to `Projects/[category]/[name]/Vault/03-Projects/[name]/Phase-Plan.md`
+- Human approval gate before any build phase begins
+
+**Verification:** Given a completed discovery spec, the skill produces a phase plan that covers all FR-PBP-005 acceptance criteria.
+
+---
+
+### 18.5 — Autonomous Build Loop
+
+Implement the per-phase build loop: implement → test → checkpoint → advance.
+
+**Deliverables:**
+- `.claude/scripts/build-runner.js` — orchestrates phased build: reads phase plan, executes each phase, runs tests, creates git checkpoint, advances to next phase
+- Blocker escalation ladder wired: fix → web search → escalate → log to Known Problems
+- Phase checkpoint: `git commit` at end of each passing phase, labeled `[phase-N] [project-name] checkpoint`
+- Regression guard: prior phase tests re-run at start of each new phase
+
+**Verification:** A two-phase build completes autonomously; each phase has a labeled git checkpoint; a regression introduced in phase 2 is detected before phase 3 begins.
+
+---
+
+### 18.6 — Review and Ship
+
+Implement the pre-commit review step and deployable output requirements.
+
+**Deliverables:**
+- Pre-commit review script: generates diff summary + decision log (what changed, why each significant decision was made)
+- Dockerfile scaffold included in all projects by default
+- Basic GitHub Actions CI scaffold (run tests on push)
+- `README.md` scaffold with deployment instructions
+- Post-build Vault record written to `Projects/[category]/[name]/Vault/03-Projects/[name]/`
+- Session summary written to project's `Vault/08-Retrospectives/`
+- Project status in Registry.md updated to `shipped`
+
+**Verification:** After build completes, human receives a diff summary + decision log; project contains Dockerfile, CI config, README, and Vault record; Registry.md shows `shipped`.
+
+---
+
+### Phase 18 File Summary
+
+| File | Action |
+|------|--------|
+| `.claude/scripts/scaffold-project.js` | New |
+| `.claude/scripts/build-runner.js` | New |
+| `Vault/03-Projects/Registry.md` | New |
+| `Vault/05-Prompts/Skills/Cross-Cutting/phase-plan-generator-v1.0.md` | New |
+| `Vault/05-Prompts/Skills/Cross-Cutting/project-discovery-interview-v1.0.md` | Update |
+| `Vault/05-Prompts/Project-Discovery.md` | Update |
+| `chroma-ingest.js` | Update |
+| `package.json` | Add scaffold script |
+| `.gitignore` | Add `Projects/` |
+| `SKILLS-INDEX.md` | Add phase-plan-generator skill |
+
+---
+
+### Phase 18 Notes
+
+1. **Phase 16 must complete first.** Chroma cross-project indexing (18.3) requires a working `chroma-ingest.js`.
+2. **18.1 scaffold can start immediately** after Phase 17 cleanup — it does not depend on Chroma.
+3. **18.4 phase plan generator** is where AI recommendations happen — the agent proposes phases, human reshapes and approves.
+4. **`Projects/` is gitignored at the framework level.** Each project runs `git init` independently and gets its own GitHub repo.
+5. **Soft budget gate** (NFR-PBP-004) is enforced by the build runner in 18.5 — discovery captures the ceiling, build runner checks against it.
