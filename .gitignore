@@ -211,6 +211,12 @@ out/
 !.gitkeep
 
 # ============================================================================
+# PROJECTS (each project is its own git repo)
+# ============================================================================
+# Scaffolded projects live here; each runs git init independently
+Projects/
+
+# ============================================================================
 # EXTERNAL REFERENCES (not part of this project)
 # ============================================================================
 # Obsidian reference materials (external documentation)
