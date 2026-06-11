@@ -266,8 +266,22 @@ class AgentOrchestrator {
       subtask.assigned_at = new Date().toISOString();
 
       // Update task status to in_progress on first assignment
+      const isFirstAssignment = task.status === 'pending';
       if (task.status === 'pending') {
         task.status = 'in_progress';
+      }
+
+      // Phase 14: Transition FSM PLANNING → EXECUTING on first subtask assignment
+      if (isFirstAssignment && this.fsm.currentState === STATES.PLANNING) {
+        try {
+          this.fsm.transition(STATES.EXECUTING, {
+            action: 'FIRST_SUBTASK_ASSIGNED',
+            taskId,
+            agentRole: subtask.agent
+          });
+        } catch (fsmError) {
+          console.warn(`[FSM] Warning during EXECUTING transition:`, fsmError.message);
+        }
       }
 
       this.writeTask(task);
@@ -374,6 +388,7 @@ class AgentOrchestrator {
       if (allComplete) {
         const taskStatus = this.getTaskStatus(taskId);
         this.slackNotifier.notifyTaskComplete(taskStatus);
+        await this.finalizeTask(taskId); // Phase 14: VERIFYING → CONSOLIDATING → IDLE
       }
 
       return {
@@ -384,6 +399,21 @@ class AgentOrchestrator {
     } finally {
       // Always release lock
       this.releaseLock(taskId);
+    }
+  }
+
+  /**
+   * Phase 14: Complete the FSM lifecycle after all subtasks finish.
+   * Transitions VERIFYING → CONSOLIDATING → IDLE to close the cycle.
+   */
+  async finalizeTask(taskId) {
+    try {
+      if (this.fsm.currentState === STATES.VERIFYING) {
+        this.fsm.transition(STATES.CONSOLIDATING, { action: 'TASK_VERIFIED', taskId });
+        this.fsm.transition(STATES.IDLE, { action: 'TASK_CONSOLIDATED', taskId });
+      }
+    } catch (fsmError) {
+      console.warn(`[FSM] Warning during finalization:`, fsmError.message);
     }
   }
 
