@@ -1,5 +1,15 @@
 # Getting Started with App Builder
 
+  How to start a new project
+
+  This repo IS the workbench — you don't copy it per project. The intended workflow:
+
+  1. Run /discover — Claude interviews you about the project (goals, tech, constraints). Produces a spec in Vault/.
+  2. Run /plan-project — Generates a phased implementation plan from the spec.
+  3. Run npm run scaffold — Creates a scaffolded project folder in Projects/ (gitignored). Each scaffolded project is its own directory with its own git repo.
+  4. Work on the project using the framework's agents, skills, and Chroma context.
+  5. Run npm run build / npm run ship — Build and ship pipeline.
+
 ## Introduction
 
 App Builder is a framework that helps you design, plan, build, and ship software projects using AI agents as collaborators. Instead of starting from a blank slate, you get a structured workflow, a shared knowledge base, and a set of specialized AI agents that know your project's context.
