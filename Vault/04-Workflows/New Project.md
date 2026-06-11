@@ -6,28 +6,23 @@ authority: facts
 chroma_collection: global-standards
 tags: [workflow, project-creation, planning]
 related: [Architect.md, 03-Projects README, Documentation Standards]
-last_updated: 2026-06-07
+last_updated: 2026-06-11
 ---
 
 # Workflow — New Project
 
 ## Trigger
 
-```bash
-./scripts/new-project.sh "Project Name"
-```
+Run `/discover` in Claude Code to begin the interview flow.
 
 ## Steps
 
-1. Run bootstrap script
-2. Confirm tech stack — fill in ADR-ARCH-001
-3. Define business requirements in `09-Requirements/[Project Name]/`
-4. Set current priorities in CLAUDE.md
-5. Write initial architecture in `03-Projects/[Project Name]/Architecture/v1.0.md`
-6. Copy v1.0.md to Current.md
-7. Add project to Docker Compose network
-8. Verify Chroma collections were created
-9. Run first session summary after initial setup
+1. Run `/discover` — Claude interviews you about goals, tech, and constraints. Spec saved to `Vault/09-Requirements/[Project Name]/`.
+2. Run `/plan-project` — Generates a phased implementation plan from the spec.
+3. Run `npm run scaffold` — Creates a scaffolded project folder in `Projects/` (gitignored). Each project gets its own git repo.
+4. Work on the project using agents, skills, and Chroma context.
+5. Run `npm run build` / `npm run ship` — Build and ship pipeline.
+6. Run `/remember` after initial setup to create the first session summary.
 
 ## Related
 
