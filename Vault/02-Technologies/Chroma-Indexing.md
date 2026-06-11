@@ -1,7 +1,7 @@
 ---
 type: guide
 status: active
-last_updated: 2026-06-09
+last_updated: 2026-06-11
 author: Claude-Builder-Agent
 ---
 
@@ -664,14 +664,91 @@ Before going live with Chroma indexing:
 
 ---
 
+## Current Implementation (Phase 16 — as of 2026-06-11)
+
+> This section reflects the actual running implementation. The Phase 4-5 sections above describe design intent; this section describes what the code actually does.
+
+**Script:** `.claude/scripts/chroma-ingest.js`  
+**SDK:** `chromadb` JS SDK + `@chroma-core/default-embed` (ADR-INFRA-003)  
+**Collections:** `global-standards`, `ai-software-factory-facts`, `ai-software-factory-sessions`
+
+### Chunking Strategy (Phase 16+)
+
+Documents are split into overlapping chunks at paragraph boundaries:
+
+- **Max chunk size:** 3,000 characters
+- **Overlap:** 300 characters (tail of previous chunk prepended to next)
+- **Split boundary:** Double newline (`\n\n`) — paragraph-aware, not arbitrary character position
+- **Oversized paragraphs:** Force-split at 3,000 chars with overlap
+
+Each chunk is stored as a separate Chroma document. Metadata added per chunk:
+
+```json
+{ "chunk_index": 0, "chunk_total": 3 }
+```
+
+**Chunk ID format:** `doc-{path-derived-slug}-c{n}`  
+Example: `doc-07-decisions-adr-arch-001-c0`, `doc-07-decisions-adr-arch-001-c1`
+
+### npm Commands
+
+```bash
+npm run ingest                    # Standard ingest (upserts chunks; safe to re-run)
+npm run ingest -- --reset         # Wipe collections first, then re-ingest (use after schema changes)
+npm run ingest:project <vault> <collection>  # Cross-project vault ingestion
+```
+
+---
+
+## Operational Runbook
+
+### Starting Fresh (first time or after Docker reset)
+
+```bash
+docker compose up -d             # Start Chroma
+npm run ingest -- --reset        # Full wipe + index
+```
+
+### Routine Re-index (after adding/editing vault docs)
+
+```bash
+docker compose up -d             # Ensure Chroma is running
+npm run ingest                   # Upsert changed docs; no wipe needed
+```
+
+### After a Chunking Schema Change
+
+If `chroma-ingest.js` changes how chunks are split, sized, or IDs are generated, old Chroma entries become orphaned (stale IDs from the previous scheme remain in the collection alongside the new ones). This causes retrieval duplicates.
+
+**Fix:** Run with `--reset` once to wipe and rebuild:
+
+```bash
+npm run ingest -- --reset
+```
+
+**How to detect you need a reset:** If `npm run doctor` warns that Chroma's last-ingest predates a known schema change, or if query results return duplicate content, run with `--reset`.
+
+> **History:** The 5,000-character truncation scheme (pre-2026-06-11) used ID format `doc-{slug}` (no `-c{n}` suffix). The overlapping-chunk scheme uses `doc-{slug}-c{n}`. Any environment that ran ingest before 2026-06-11 has stale `doc-{slug}` orphans. Run `npm run ingest -- --reset` once to clear them.
+
+### Checking Chroma Health
+
+```bash
+docker ps                        # Confirm app-builder-chroma is running
+cat .claude/logs/chroma-ingest-audit.json  # Last ingest stats
+node .claude/scripts/validate-phase-16.js  # Verify pipeline + chunking behavior
+```
+
+---
+
 ## References
 
 - [[ADR-DATA-001]] — Chroma Collection Schema & Facts/Sessions Separation
 - [[ADR-ARCH-001]] — Knowledge-First Pipeline Design
+- [[ADR-INFRA-003]] — chromadb JS SDK over direct HTTP (Phase 16 decision)
 - [[Architecture Standards]] — How to version and evolve architecture
-- Chroma documentation: https://docs.trychroma.com
+- [[10-Known-Problems/Problem-Chroma-stale-chunk-ids.md]] — Stale chunk ID migration issue
 
 ---
 
-**Last Updated:** 2026-06-07  
-**Next Review:** Phase 5 (when Chroma integration begins)
+**Last Updated:** 2026-06-11  
+**Next Review:** When chunking strategy changes or Chroma SDK is upgraded
