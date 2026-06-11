@@ -16,7 +16,7 @@ const ApprovalWorkflow = require('./approval-workflow');
 const { assembleContext } = require('./context-assembly');
 const SlackNotifier = require('./slack-notifier');
 const { StateMachineEngine, STATES } = require('./state-machine');
-const MemoryUpdater = require('./memory-updater');
+const { MemoryUpdater } = require('./memory-updater');
 
 class AgentOrchestrator {
   constructor(tasksDir = '.claude/tasks', projectName = 'ai-software-factory') {
