@@ -84,7 +84,7 @@ function searchDocs(index, docs, query, collectionKey, nResults = 20) {
   return ids
     .filter(id => docs[id] && docs[id].collectionKey === collectionKey)
     .slice(0, nResults)
-    .map((id, rank) => ({ ...docs[id], lexical_rank: rank }));
+    .map((id, i) => ({ ...docs[id], lexical_rank: i }));
 }
 
 module.exports = { loadVaultDocs, buildIndex, searchDocs };
