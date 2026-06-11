@@ -10,11 +10,12 @@ This guide walks you through your first project from start to finish, then gives
 
 This repo IS the workbench — you don't copy it per project. The intended workflow:
 
-1. Run `/discover` — Claude interviews you about the project (goals, tech, constraints). Produces a spec in `Vault/09-Requirements/`.
-2. Run `/plan-project` — Generates a phased implementation plan from the spec.
-3. Run `npm run scaffold` — Creates a scaffolded project folder in `Projects/` (gitignored). Each scaffolded project is its own directory with its own git repo.
-4. Work on the project using the framework's agents, skills, and Chroma context.
-5. Run `npm run build` / `npm run ship` — Build and ship pipeline.
+1. `npm run setup` — one-time setup: installs dependencies, starts Chroma, indexes the Vault.
+2. Run `/discover` — Claude interviews you about the project (goals, tech, constraints). Produces a spec in `Vault/09-Requirements/`.
+3. Run `/plan-project` — Generates a phased implementation plan from the spec.
+4. Run `npm run scaffold` — Creates a scaffolded project folder in `Projects/` (gitignored). Each scaffolded project is its own directory with its own git repo.
+5. Work on the project using the framework's agents, skills, and Chroma context.
+6. Run `npm run build` / `npm run ship` — Build and ship pipeline.
 
 ---
 
@@ -65,15 +66,32 @@ git --version    # should print git version 2.x.x
 
 We'll build a **Task Tracker API** together. By the end you'll have scaffolded a project, interviewed it into existence with AI, generated a phase plan, built it, and shipped it.
 
-### Step 1: Clone and install
+### Step 1: Clone, configure, and set up
 
 ```bash
 git clone <your-repo-url> my-task-tracker
 cd my-task-tracker
-npm install
+cp .env.example .env
 ```
 
-> **What just happened?** You now have the framework locally. `npm install` pulled in three dependencies: `chromadb` (the vector DB client), `@chroma-core/default-embed` (local text embeddings), and `proper-lockfile` (used by background scripts). The framework itself is in `.claude/scripts/` — those are the scripts behind every `npm run` command.
+Open `.env` and fill in `GITHUB_PERSONAL_ACCESS_TOKEN`. Get one at [github.com/settings/tokens](https://github.com/settings/tokens) — it only needs `repo` scope. The other variables (`CHROMA_SERVER_HOST`, `VAULT_PATH`, etc.) are pre-filled with working defaults; leave them unless you have a reason to change them.
+
+Then run the one-command setup:
+
+```bash
+npm run setup
+```
+
+This script:
+1. Validates Node ≥ 20 is installed
+2. Confirms Docker Desktop is running (start it if not, then re-run)
+3. Creates local directories that aren't tracked in git (`docker/volumes/chroma/`, `Projects/`)
+4. Installs npm dependencies (`chromadb`, `@chroma-core/default-embed`, `proper-lockfile`)
+5. Starts the Chroma vector database container (`docker-compose up -d chroma`)
+6. Waits for Chroma to become healthy
+7. Indexes all Vault documents into Chroma (`npm run ingest`)
+
+> **What stays local?** Your `.env` (credentials), the `Projects/` folder (everything you build), and `docker/volumes/` (Chroma's database files) are all gitignored — they never leave your machine. The framework code, Vault, and scripts are what's in the repo. Run `npm run doctor` any time to check that everything is still healthy.
 
 ---
 

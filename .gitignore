@@ -48,6 +48,9 @@ ehthumbs.db
 # IDE / EDITOR
 # ============================================================================
 # VS Code
+# settings.json and launch.json are machine-specific — keep local.
+# extensions.json is also excluded here; team extension recommendations
+# are handled via .vscode/tasks.json (which IS tracked).
 .vscode/settings.json
 .vscode/launch.json
 .vscode/extensions.json
