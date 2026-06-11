@@ -161,6 +161,7 @@ docker/data/
 .claude/settings.local.json
 
 # Runtime artifacts (never commit)
+Vault/14-Agent-Memory/**/memory-pending-*.yaml
 .claude/cache/
 .claude/metrics/
 .claude/logs/
