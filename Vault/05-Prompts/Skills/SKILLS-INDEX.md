@@ -1,5 +1,5 @@
 ---
-type: Index
+type: index
 phase: 7
 status: Active
 authority: facts

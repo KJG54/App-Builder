@@ -68,6 +68,10 @@ Permanent knowledge, source of truth. Discoverable via Chroma.
 | `08-Retrospectives/` | Session summaries |
 | `09-Requirements/` | Project specs and requirements |
 | `10-Known-Problems/` | Known issues and solutions |
+| `11-Facts/` | Approved, authoritative facts (Chroma `{project}-facts` collection) |
+| `12-Entities/` | Entity records (agents, scripts, systems) |
+| `13-Relationships/` | Relationship maps between entities |
+| `14-Agent-Memory/` | Agent memory seeds and handoff state |
 | `Templates/` | Document templates |
 | `Logs/` | Generated reports (guardian, vault health) |
 
