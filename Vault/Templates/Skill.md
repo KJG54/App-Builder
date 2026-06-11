@@ -8,7 +8,7 @@ authority: facts
 chroma_collection: ai-software-factory-skills
 tags: [skill, {{domain}}, {{pattern-type}}, {{additional-tags}}]
 related: [{{ADR-references}}, {{standard-references}}, {{agent-references}}]
-last_updated: "{{today}}"
+last_updated: YYYY-MM-DD
 created_date: {{today}}
 created_by: {{agent-or-person-name}}
 validation_status: Draft
