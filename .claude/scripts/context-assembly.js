@@ -16,7 +16,7 @@ const fs   = require('fs');
 const path = require('path');
 const { ChromaClient }           = require('chromadb');
 const { DefaultEmbeddingFunction } = require('@chroma-core/default-embed');
-const { loadVaultDocs, buildIndex, searchDocs } = require('./lexical-indexer');
+const { loadOrBuildIndex, searchDocs } = require('./lexical-indexer');
 const { rrfMerge } = require('./hybrid-search');
 
 // ── Configuration ─────────────────────────────────────────────────────────────
@@ -102,13 +102,13 @@ async function assembleContext(query, projectName, options = {}) {
   // Fetch 2× then re-rank down to maxResults for better relevance
   const fetchN = maxResults * 2;
 
-  // Lexical index — built in-memory once per call, degrades gracefully
+  // Lexical index — load from disk cache or rebuild; degrades gracefully
   let _lexDocs = null;
   let _lexIndex = null;
   try {
-    _lexDocs  = loadVaultDocs(VAULT_DIR);
-    _lexIndex = buildIndex(_lexDocs);
-    log(`Lexical index: ${_lexDocs.length} docs indexed`);
+    const lex = await loadOrBuildIndex(VAULT_DIR, { log });
+    _lexDocs  = lex.docs;
+    _lexIndex = lex.index;
   } catch (lexErr) {
     log(`Lexical index unavailable (degrading): ${lexErr.message}`);
   }

@@ -161,6 +161,7 @@ docker/data/
 .claude/settings.local.json
 
 # Runtime artifacts (never commit)
+.claude/cache/
 .claude/metrics/
 .claude/logs/
 .claude/reviews/
