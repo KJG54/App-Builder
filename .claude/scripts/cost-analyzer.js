@@ -33,7 +33,7 @@ function detectSpikes(records) {
   const spikes = [];
   for (const [agent, agentRecords] of Object.entries(byAgent)) {
     const costs  = agentRecords.map(r => r.performance?.cost_usd || 0).sort((a, b) => a - b);
-    const median = costs[Math.floor(costs.length / 2)];
+    const median = (costs[Math.floor((costs.length - 1) / 2)] + costs[Math.ceil((costs.length - 1) / 2)]) / 2;
     if (median === 0) continue;
     for (const r of agentRecords) {
       const cost = r.performance?.cost_usd || 0;
@@ -98,7 +98,7 @@ class CostAnalyzer {
     }
     for (const a of Object.keys(byAgent)) {
       const costs  = byAgent[a].costs.sort((x, y) => x - y);
-      byAgent[a].median  = costs[Math.floor(costs.length / 2)];
+      byAgent[a].median  = (costs[Math.floor((costs.length - 1) / 2)] + costs[Math.ceil((costs.length - 1) / 2)]) / 2;
       byAgent[a].average = byAgent[a].total / byAgent[a].count;
       delete byAgent[a].costs;
     }
@@ -163,7 +163,7 @@ class CostAnalyzer {
       lines.push(`|----|-------|--------|------|------|--------------------|`);
       for (const s of report.spikes) {
         const day = (s.timestamp || '').slice(0, 10);
-        lines.push(`| ${s.id} | ${s.agent_role} | ${s.domain || '-'} | ${day} | ${fmt(s.performance.cost_usd)} | ${s.multiple.toFixed(1)}× |`);
+        lines.push(`| ${s.id} | ${s.agent_role} | ${s.domain || '-'} | ${day} | ${fmt(s.performance?.cost_usd || 0)} | ${s.multiple.toFixed(1)}× |`);
       }
     } else {
       lines.push(`## Cost Spikes\nNone detected.`);
