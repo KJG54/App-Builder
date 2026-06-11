@@ -10,8 +10,7 @@
       "Bash(ls *)",
       "Bash(node .claude/scripts/*)",
       "Bash(npm run *)",
-      "Bash(npm test)",
-      "Bash(docker ps)"
+      "Bash(npm test)"
     ]
   },
   "attribution": {
@@ -25,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "docker ps > /dev/null 2>&1 && echo '{\"systemMessage\": \"Docker is running — Chroma available\"}' || echo '{\"systemMessage\": \"Docker is NOT running. npm run ingest will silently produce 0 docs.\"}'",
+            "command": "docker ps > /dev/null 2>&1 && echo '{\"systemMessage\": \"Docker is running\"}' || echo '{\"systemMessage\": \"Docker is NOT running. Services requiring Docker (e.g. Chroma) will be unavailable.\"}'",
             "timeout": 5,
             "statusMessage": "Checking Docker..."
           }

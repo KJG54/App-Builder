@@ -76,11 +76,14 @@ Skills for processes, practices applicable across all domains.
 | [[Cross-Cutting/project-discovery-interview-v1.0.md\|Project Discovery Interview]] | 1.1 | ✅ Active | Human | 2026-06-10 | 2026-09-10 | 0.90 |
 | [[Cross-Cutting/project-guardian-v1.0.md\|Project Guardian]] | 1.0 | ✅ Active | Human | 2026-06-10 | 2026-09-10 | 0.90 |
 | [[Cross-Cutting/phase-plan-generator-v1.0.md\|Phase Plan Generator]] | 1.0 | ✅ Active | Human | 2026-06-10 | 2026-09-10 | 0.92 |
+| [[Cross-Cutting/repository-curator-v1.0.md\|Repository Curator]] | 1.0 | ✅ Active | Human | 2026-06-11 | 2026-09-11 | 0.88 |
+| [[Cross-Cutting/runtime-efficiency-engineer-v1.0.md\|Runtime Efficiency Engineer]] | 1.0 | ✅ Active | Human | 2026-06-11 | 2026-09-11 | 0.88 |
+| [[Cross-Cutting/simplification-audit-v1.0.md\|Simplification Audit]] | 1.0 | ✅ Active | Human | 2026-06-11 | 2026-09-11 | 0.85 |
 | Code Review Process | 1.0 | ⏳ Beta | Engineering Lead | — | — | — |
 | Documentation Generation | 1.0 | ⏳ Beta | Tech Writer | — | — | — |
 | Performance Optimization | 1.0 | ⏳ Beta | Architecture Team | — | — | — |
 
-**Total:** 7 skills (1 Active, 3 Draft, 3 Beta)
+**Total:** 10 skills (7 Active, 3 Beta)
 
 ---
 
@@ -103,10 +106,10 @@ Skills superseded by newer versions.
 | Architecture | 1 | 3 | 0 | 4 |
 | Implementation | 0 | 4 | 0 | 4 |
 | Infrastructure | 0 | 4 | 0 | 4 |
-| Cross-Cutting | 4 | 0 | 0 | 7 |
-| **TOTAL** | **5** | **11** | **0** | **19** |
+| Cross-Cutting | 7 | 3 | 0 | 10 |
+| **TOTAL** | **8** | **14** | **0** | **22** |
 
-**Progress:** 5 skills fully Active (audit, discovery, guardian, phase-plan-generator, user-auth-design) + 11 in Beta validation pipeline
+**Progress:** 8 skills fully Active + 14 in Beta validation pipeline
 
 ---
 
