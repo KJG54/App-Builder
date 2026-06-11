@@ -27,7 +27,12 @@ author: Claude-Builder-Agent
 | 10 | Review Pipeline + Observability | ✅ Complete |
 | 11 | Known Problems KB | ✅ Complete |
 | 12 | Advanced MCP Integration | ✅ Complete |
-| 13 | Multi-Agent Collaboration | Not Started |
+| 13 | Multi-Agent Collaboration | ✅ Complete |
+| 14 | FSM + Vault Validator + MCP Whitelist | ✅ Complete |
+| 15 | Agent Memory System | ✅ Complete |
+| 16 | Chroma Search Quality | ✅ Complete |
+| 17 | Active Learning + Cleanup | ✅ Complete |
+| 18 | Project Build Pipeline | ✅ Complete |
 
 ## Completed Phases
 

@@ -16,7 +16,7 @@ Welcome to the AI Software Factory Vault. This is the central hub for knowledge 
 ## Quick Links
 
 🚀 **Status Dashboard** → [[STATUS.md|Current Phase Progress, Recent Work, Blockers]]  
-📋 **Project Roadmap** → [[03-Projects/AI Software Factory/Roadmap.md|13-Phase Plan (Complete)]]  
+📋 **Project Roadmap** → [[03-Projects/AI Software Factory/Roadmap.md|18-Phase Plan (Complete)]]  
 🏗️ **Architecture** → [[03-Projects/AI Software Factory/Architecture/Current.md|System Design v1.0]]  
 📚 **Decisions** → [[07-Decisions/DECISIONS.md|All Major ADRs and Architectural Decisions]]  
 

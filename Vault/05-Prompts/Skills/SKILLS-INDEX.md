@@ -73,9 +73,9 @@ Skills for processes, practices applicable across all domains.
 | Skill | Version | Status | Maintenance Owner | Last Updated | Next Review | Relevance |
 |-------|---------|--------|-------------------|--------------|-------------|-----------|
 | [[Cross-Cutting/ai-software-factory-audit-v1.0.md\|AI Software Factory Audit]] | 1.0 | ✅ Active | Human | 2026-06-10 | 2026-09-10 | 0.95 |
-| [[Cross-Cutting/project-discovery-interview-v1.0.md\|Project Discovery Interview]] | 1.1 | 🔧 Draft | Human | 2026-06-10 | 2026-09-10 | 0.90 |
-| [[Cross-Cutting/project-guardian-v1.0.md\|Project Guardian]] | 1.0 | 🔧 Draft | Human | 2026-06-10 | 2026-09-10 | 0.90 |
-| [[Cross-Cutting/phase-plan-generator-v1.0.md\|Phase Plan Generator]] | 1.0 | 🔧 Draft | Human | 2026-06-10 | 2026-09-10 | 0.92 |
+| [[Cross-Cutting/project-discovery-interview-v1.0.md\|Project Discovery Interview]] | 1.1 | ✅ Active | Human | 2026-06-10 | 2026-09-10 | 0.90 |
+| [[Cross-Cutting/project-guardian-v1.0.md\|Project Guardian]] | 1.0 | ✅ Active | Human | 2026-06-10 | 2026-09-10 | 0.90 |
+| [[Cross-Cutting/phase-plan-generator-v1.0.md\|Phase Plan Generator]] | 1.0 | ✅ Active | Human | 2026-06-10 | 2026-09-10 | 0.92 |
 | Code Review Process | 1.0 | ⏳ Beta | Engineering Lead | — | — | — |
 | Documentation Generation | 1.0 | ⏳ Beta | Tech Writer | — | — | — |
 | Performance Optimization | 1.0 | ⏳ Beta | Architecture Team | — | — | — |
@@ -103,10 +103,10 @@ Skills superseded by newer versions.
 | Architecture | 1 | 3 | 0 | 4 |
 | Implementation | 0 | 4 | 0 | 4 |
 | Infrastructure | 0 | 4 | 0 | 4 |
-| Cross-Cutting | 1 | 3 | 0 | 7 |
-| **TOTAL** | **2** | **14** | **0** | **19** |
+| Cross-Cutting | 4 | 0 | 0 | 7 |
+| **TOTAL** | **5** | **11** | **0** | **19** |
 
-**Progress:** 2 skills fully Active + 3 Draft (project-discovery, project-guardian, phase-plan-generator) + 14 in Beta validation pipeline
+**Progress:** 5 skills fully Active (audit, discovery, guardian, phase-plan-generator, user-auth-design) + 11 in Beta validation pipeline
 
 ---
 

@@ -420,6 +420,7 @@ These affect specific areas:
 | 2026-06-07 | Phase prioritization | PROC | Active |
 | 2026-06-08 | MCP server prioritization (GitHub + Filesystem Phase 12) | INFRA | Active |
 | 2026-06-08 | Multi-agent orchestration (Phase 13) | ARCH | Active |
+| 2026-06-10 | chromadb JS SDK over direct HTTP (Phase 16) | INFRA | Active |
 
 ---
 
@@ -439,8 +440,8 @@ These affect specific areas:
 
 ---
 
-**Last Updated:** 2026-06-08
-**Total Decisions:** 10 (all phases 1-13 complete)
-**Active Decisions:** 10
+**Last Updated:** 2026-06-11
+**Total Decisions:** 11 (all phases 1-18 complete)
+**Active Decisions:** 11
 **Pending Decisions:** 6 (for Phase 14+)
 **Superseded Decisions:** 0

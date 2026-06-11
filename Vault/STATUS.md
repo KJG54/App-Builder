@@ -42,47 +42,40 @@ author: Claude-Builder-Agent
 
 ## Current Work In Progress
 
-**Latest Session:** 2026-06-10 (Phase 16 Chroma Rebuild + Phase 17 Cleanup + Phase 18 Spec)
+**Latest Session:** 2026-06-11 (Settings cleanup, /wrap-up removal, full audit and doc drift fixes)
 
-### What Was Completed (Phases 16–17)
+### What Was Completed (Phases 16–18)
 
 **Phase 16 (Chroma Search Quality) — COMPLETE:**
 
-- ✅ Diagnosed: v1 HTTP API removed; v2 routes invalid; embeddings never generated
-- ✅ ADR-INFRA-003 written: chromadb JS SDK chosen over raw HTTP (commit 090f7a6)
-- ✅ chroma-ingest.js fully rewritten — chromadb JS SDK, idempotent upsert, standards classification fix
-- ✅ context-assembly.js fully rewritten — lazy client init, graceful Chroma degradation
-- ✅ Full Vault re-index: 146/148 docs (66 facts, 76 sessions, 4 standards), 0 errors
-- ✅ End-to-end context assembly verified: "design a database layer" → Standards: 4, Facts: 5
-- ✅ validate-phase-16.js: 6/6 passes (no warnings); added `npm run ingest` script
-- ✅ `chromadb` + `@chroma-core/default-embed` added to package.json
+- ✅ chromadb JS SDK chosen over direct HTTP (ADR-INFRA-003)
+- ✅ chroma-ingest.js and context-assembly.js fully rewritten
+- ✅ Full Vault re-index: 146/148 docs; validate-phase-16.js 6/6 passes
 
 **Phase 17 (Active Learning + Cleanup) — COMPLETE:**
 
-- ✅ C1: Known-Problem status/type normalization (lowercase casing enforcement)
-- ✅ C2: validate-phase-11.js temp-dir isolation (prevents Vault side effects in tests)
-- ✅ C3: validate-phase-15.js + validate-phase-16.js created; test:all extended
-- ✅ C4: SKILLS-INDEX.md updated; /discover and /guardian commands added
-- ✅ C5: ADR-INFRA-003.md created and committed
+- ✅ Known-Problem casing normalization, temp-dir isolation in tests
+- ✅ validate-phase-15.js + validate-phase-16.js added; SKILLS-INDEX updated
 
-**Phase 18 (Project Build Pipeline) — SPEC COMPLETE:**
+**Phase 18 (Project Build Pipeline) — COMPLETE:**
 
-- ✅ BR/FR/NFR written to Vault/09-Requirements/Project Build Pipeline/ (19 requirements)
-- ✅ Phase 18 added to roadmap (6 implementation stages)
-- Pipeline: interview → research → recommend → build → review → ship
+- ✅ scaffold-project.js, build-runner.js, ship-project.js
+- ✅ Cross-project Chroma indexing (npm run ingest:project)
+- ✅ Phase plan generator skill (/plan-project command)
+- ✅ Full pipeline: interview → research → recommend → build → review → ship
+- ✅ GETTING-STARTED.md guide published
 
 ### Roadmap Status
 
-- Phase 1–17: ✅ Complete
-- Phase 18: 📋 Planned (Project Build Pipeline — scaffold, discovery, cross-project Chroma, build loop)
+All 18 phases ✅ Complete. No active implementation work.
 
 ### Blockers
 
-None. Chroma pipeline fully operational.
+None.
 
 ### What's Next
 
-**Phase 18:** Scaffold script, discovery skill update, Chroma cross-project indexing, phase plan generator, autonomous build loop, review/ship.
+Post-completion maintenance: validator coverage for Phase 17/18, individual phase doc files for 15–18, ongoing Vault ingestion as docs are added.
 
 ---
 
