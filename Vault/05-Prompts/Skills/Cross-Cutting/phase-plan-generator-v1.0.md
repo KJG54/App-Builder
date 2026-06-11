@@ -123,6 +123,18 @@ Present the full phase plan and explicitly ask:
 
 **Do NOT begin any implementation until the human explicitly approves the plan.**
 
+### Step 6: Scaffold Before Building (MANDATORY)
+
+After the human approves, run the scaffold command BEFORE writing any source code:
+
+```
+npm run scaffold
+```
+
+This creates the project at `Projects/[category]/[slug]/`, sets up the full Vault structure, CLAUDE.md, framework scripts, and registers the project in `Vault/03-Projects/Registry.md`.
+
+**Never create project source code outside of `Projects/[category]/[slug]/`.** Writing code anywhere else (e.g., a sibling directory at the same level as the App Builder) skips the framework's project tracking, Chroma indexing, and governance structure.
+
 ---
 
 ## Output Template

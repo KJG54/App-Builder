@@ -1,7 +1,7 @@
 ---
 type: index
 status: active
-last_updated: 2026-06-10
+last_updated: 2026-06-11
 author: Claude-Builder-Agent
 ---
 
@@ -14,21 +14,22 @@ The framework's `Projects/` directory is gitignored — projects are independent
 
 ## Registry
 
-| Name | Category | Type | Chroma Collection | Status | Created | GitHub |
-|------|----------|------|-------------------|--------|---------|--------|
-| Home Media Server | personal | server | project-home-media-server | planning | 2026-06-10 | — |
+| Name                     | Category | Type        | Chroma Collection                | Status   | Created    | GitHub |
+| ------------------------ | -------- | ----------- | -------------------------------- | -------- | ---------- | ------ |
+| Home Media Server        | personal | server      | project-home-media-server        | planning | 2026-06-10 | —      |
+| Live Subtitle Translator | apps     | desktop-app | project-live-subtitle-translator | building | 2026-06-11 | —      |
 
 ## Status Values
 
-| Status | Meaning |
-|--------|---------|
+| Status       | Meaning                                          |
+| ------------ | ------------------------------------------------ |
 | `scaffolded` | Project directory created; discovery not started |
-| `discovery` | Requirements interview in progress |
-| `planning` | Phase plan being drafted |
-| `building` | Active implementation |
-| `review` | In pre-ship review |
-| `shipped` | Deployed / delivered |
-| `archived` | Inactive / completed |
+| `discovery`  | Requirements interview in progress               |
+| `planning`   | Phase plan being drafted                         |
+| `building`   | Active implementation                            |
+| `review`     | In pre-ship review                               |
+| `shipped`    | Deployed / delivered                             |
+| `archived`   | Inactive / completed                             |
 
 ## How Projects Are Created
 
@@ -51,5 +52,5 @@ The framework can query all project collections to detect reusable components be
 
 ## See Also
 
-- [[../AI Software Factory/Phase-14-17-Roadmap.md|Phase 18 Roadmap]] — build pipeline specification
+- [[../AI Software Factory/Phase-18-Build-Pipeline.md|Phase 18 Build Pipeline]] — build pipeline specification
 - [[../../09-Requirements/Project Build Pipeline/|Project Build Pipeline Requirements]]

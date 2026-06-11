@@ -6,7 +6,7 @@ authority: facts
 chroma_collection: global-standards
 tags: [skills, index, reference]
 related: [README.md, Templates/Skill.md]
-last_updated: 2026-06-08
+last_updated: 2026-06-11
 ---
 
 # Skills Index — Master Reference
@@ -28,11 +28,11 @@ Skills for system design, component architecture, data flow.
 | Skill | Version | Status | Maintenance Owner | Last Updated | Next Review | Relevance |
 |-------|---------|--------|-------------------|--------------|-------------|-----------|
 | [[Architecture/user-authentication-system-design-v1.0.md\|User Authentication System Design]] | 1.0 | ✅ Active | Security Team | 2026-06-08 | 2026-09-08 | 0.95 |
-| API Design | 1.0 | ⏳ Beta | Backend Team | — | — | — |
-| Microservice Architecture | 1.0 | ⏳ Beta | Architecture Team | — | — | — |
-| Database Schema Design | 1.0 | ⏳ Beta | Backend Team | — | — | — |
+| API Design | 1.0 | 🔧 Draft (planned) | Backend Team | — | — | — |
+| Microservice Architecture | 1.0 | 🔧 Draft (planned) | Architecture Team | — | — | — |
+| Database Schema Design | 1.0 | 🔧 Draft (planned) | Backend Team | — | — | — |
 
-**Total:** 4 skills (1 Active, 3 Beta)
+**Total:** 4 skills (1 Active, 3 Draft/planned)
 
 ---
 
@@ -42,12 +42,12 @@ Skills for code patterns, libraries, testing, error handling.
 
 | Skill | Version | Status | Maintenance Owner | Last Updated | Next Review | Relevance |
 |-------|---------|--------|-------------------|--------------|-------------|-----------|
-| OAuth 2.0 Implementation | 1.0 | ⏳ Beta | Backend Team | — | — | — |
-| REST API Implementation | 1.0 | ⏳ Beta | Backend Team | — | — | — |
-| Error Handling Patterns | 1.0 | ⏳ Beta | Backend Team | — | — | — |
-| Testing Strategy | 1.0 | ⏳ Beta | QA Team | — | — | — |
+| OAuth 2.0 Implementation | 1.0 | 🔧 Draft (planned) | Backend Team | — | — | — |
+| REST API Implementation | 1.0 | 🔧 Draft (planned) | Backend Team | — | — | — |
+| Error Handling Patterns | 1.0 | 🔧 Draft (planned) | Backend Team | — | — | — |
+| Testing Strategy | 1.0 | 🔧 Draft (planned) | QA Team | — | — | — |
 
-**Total:** 4 skills (0 Active, 4 Beta)
+**Total:** 4 skills (0 Active, 4 Draft/planned)
 
 ---
 
@@ -57,12 +57,12 @@ Skills for deployment, monitoring, operations, CI/CD.
 
 | Skill | Version | Status | Maintenance Owner | Last Updated | Next Review | Relevance |
 |-------|---------|--------|-------------------|--------------|-------------|-----------|
-| Docker Containerization | 1.0 | ⏳ Beta | DevOps Team | — | — | — |
-| Kubernetes Deployment | 1.0 | ⏳ Beta | DevOps Team | — | — | — |
-| CI/CD Pipeline | 1.0 | ⏳ Beta | DevOps Team | — | — | — |
-| Monitoring Setup | 1.0 | ⏳ Beta | DevOps Team | — | — | — |
+| Docker Containerization | 1.0 | 🔧 Draft (planned) | DevOps Team | — | — | — |
+| Kubernetes Deployment | 1.0 | 🔧 Draft (planned) | DevOps Team | — | — | — |
+| CI/CD Pipeline | 1.0 | 🔧 Draft (planned) | DevOps Team | — | — | — |
+| Monitoring Setup | 1.0 | 🔧 Draft (planned) | DevOps Team | — | — | — |
 
-**Total:** 4 skills (0 Active, 4 Beta)
+**Total:** 4 skills (0 Active, 4 Draft/planned)
 
 ---
 
@@ -79,11 +79,11 @@ Skills for processes, practices applicable across all domains.
 | [[Cross-Cutting/repository-curator-v1.0.md\|Repository Curator]] | 1.0 | ✅ Active | Human | 2026-06-11 | 2026-09-11 | 0.88 |
 | [[Cross-Cutting/runtime-efficiency-engineer-v1.0.md\|Runtime Efficiency Engineer]] | 1.0 | ✅ Active | Human | 2026-06-11 | 2026-09-11 | 0.88 |
 | [[Cross-Cutting/simplification-audit-v1.0.md\|Simplification Audit]] | 1.0 | ✅ Active | Human | 2026-06-11 | 2026-09-11 | 0.85 |
-| Code Review Process | 1.0 | ⏳ Beta | Engineering Lead | — | — | — |
-| Documentation Generation | 1.0 | ⏳ Beta | Tech Writer | — | — | — |
-| Performance Optimization | 1.0 | ⏳ Beta | Architecture Team | — | — | — |
+| Code Review Process | 1.0 | 🔧 Draft (planned) | Engineering Lead | — | — | — |
+| Documentation Generation | 1.0 | 🔧 Draft (planned) | Tech Writer | — | — | — |
+| Performance Optimization | 1.0 | 🔧 Draft (planned) | Architecture Team | — | — | — |
 
-**Total:** 10 skills (7 Active, 3 Beta)
+**Total:** 10 skills (7 Active, 3 Draft/planned)
 
 ---
 
@@ -101,15 +101,15 @@ Skills superseded by newer versions.
 
 ## Summary
 
-| Domain | Active | Beta | Deprecated | Total |
-|--------|--------|------|-----------|-------|
+| Domain | Active | Draft/Planned | Deprecated | Total |
+|--------|--------|---------------|-----------|-------|
 | Architecture | 1 | 3 | 0 | 4 |
 | Implementation | 0 | 4 | 0 | 4 |
 | Infrastructure | 0 | 4 | 0 | 4 |
 | Cross-Cutting | 7 | 3 | 0 | 10 |
 | **TOTAL** | **8** | **14** | **0** | **22** |
 
-**Progress:** 8 skills fully Active + 14 in Beta validation pipeline
+**Progress:** 8 skills fully Active (with files); 14 planned (no files yet — create file to promote to Beta)
 
 ---
 
@@ -246,6 +246,6 @@ To propose a new skill:
 
 ---
 
-**Last Updated:** 2026-06-10  
-**Total Skills:** 19 (2 Active, 3 Draft, 14 Beta)  
+**Last Updated:** 2026-06-11  
+**Total Skills:** 22 (8 Active with files, 14 Draft/planned — no files yet)  
 **Next Review:** Quarterly
