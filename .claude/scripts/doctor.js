@@ -94,8 +94,8 @@ const CHROMA_PORT = process.env.CHROMA_SERVER_HTTP_PORT || '8000';
 const CHROMA_BASE = `http://${CHROMA_HOST}:${CHROMA_PORT}`;
 
 Promise.all([
-  httpGet(`${CHROMA_BASE}/api/v1/heartbeat`),
-  httpGet(`${CHROMA_BASE}/api/v1/collections`),
+  httpGet(`${CHROMA_BASE}/api/v2/heartbeat`),
+  httpGet(`${CHROMA_BASE}/api/v2/tenants/default_tenant/databases/default_database/collections`),
 ]).then(([heartbeat, collections]) => {
   // 5. Chroma reachable
   if (heartbeat.status === 200) {
