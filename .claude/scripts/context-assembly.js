@@ -16,6 +16,8 @@ const fs   = require('fs');
 const path = require('path');
 const { ChromaClient }           = require('chromadb');
 const { DefaultEmbeddingFunction } = require('@chroma-core/default-embed');
+const { loadVaultDocs, buildIndex, searchDocs } = require('./lexical-indexer');
+const { rrfMerge } = require('./hybrid-search');
 
 // ── Configuration ─────────────────────────────────────────────────────────────
 
@@ -97,16 +99,37 @@ async function assembleContext(query, projectName, options = {}) {
   log(`Query: "${query}"`);
   log(`Project: ${projectName}, maxResults: ${maxResults}`);
 
+  // Fetch 2× then re-rank down to maxResults for better relevance
+  const fetchN = maxResults * 2;
+
+  // Lexical index — built in-memory once per call, degrades gracefully
+  let _lexDocs = null;
+  let _lexIndex = null;
+  try {
+    _lexDocs  = loadVaultDocs(VAULT_DIR);
+    _lexIndex = buildIndex(_lexDocs);
+    log(`Lexical index: ${_lexDocs.length} docs indexed`);
+  } catch (lexErr) {
+    log(`Lexical index unavailable (degrading): ${lexErr.message}`);
+  }
+
+  function hybridQuery(chromaResults, collectionKey) {
+    if (!_lexIndex || !_lexDocs) return chromaResults;
+    const lexResults = searchDocs(_lexIndex, _lexDocs, query, collectionKey, fetchN);
+    return rrfMerge(chromaResults, lexResults, fetchN);
+  }
+
   try {
     const client = getClient();
     const ef     = getEf();
-    // Fetch 2× then re-rank down to maxResults for better relevance
-    const fetchN = maxResults * 2;
 
     // 1. Global standards (mandatory constraints — no authority filter needed)
     log(`Querying global-standards...`);
     context.standards = rerankResults(
-      await queryCollection(client, ef, 'global-standards', query, fetchN, filters),
+      hybridQuery(
+        await queryCollection(client, ef, 'global-standards', query, fetchN, filters),
+        'standards'
+      ),
       agentRole
     ).slice(0, maxResults);
     log(`Found ${context.standards.length} standards`);
@@ -114,7 +137,10 @@ async function assembleContext(query, projectName, options = {}) {
     // 2. Project facts (authoritative decisions, requirements, architecture)
     log(`Querying ${projectName}-facts...`);
     context.facts = rerankResults(
-      await queryCollection(client, ef, `${projectName}-facts`, query, fetchN, { is_authoritative: true, ...filters }),
+      hybridQuery(
+        await queryCollection(client, ef, `${projectName}-facts`, query, fetchN, { is_authoritative: true, ...filters }),
+        'facts'
+      ),
       agentRole
     ).slice(0, maxResults);
     log(`Found ${context.facts.length} facts`);
@@ -123,7 +149,10 @@ async function assembleContext(query, projectName, options = {}) {
     if (includeSession) {
       log(`Querying ${projectName}-sessions...`);
       context.sessions = rerankResults(
-        await queryCollection(client, ef, `${projectName}-sessions`, query, Math.ceil(fetchN / 2), filters),
+        hybridQuery(
+          await queryCollection(client, ef, `${projectName}-sessions`, query, Math.ceil(fetchN / 2), filters),
+          'sessions'
+        ),
         agentRole
       ).slice(0, Math.ceil(maxResults / 2));
       log(`Found ${context.sessions.length} sessions`);
