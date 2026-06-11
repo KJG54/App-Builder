@@ -1,6 +1,8 @@
-# /simplify
+# /simplify-project
 
 Answer one question: what can be removed or simplified while preserving the core value of the project?
+
+> **Note:** This is the *project-level* audit. For simplifying a code diff (reuse, cleanup, efficiency), use the built-in `/simplify` system skill instead.
 
 ## What This Does
 
@@ -33,3 +35,4 @@ Default: recommendations only. No deletions or merges without explicit approval.
 - `Vault/05-Prompts/Skills/Cross-Cutting/simplification-audit-v1.0.md` — Full skill definition
 - `Vault/Templates/Strategic-Review-Prompt.md` — Annual "Day 0" strategic review (not a skill)
 - `/curator` — For relationship mapping and dead asset detection
+- `/simplify` — Built-in system skill for simplifying a code diff (different scope)

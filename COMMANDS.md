@@ -12,11 +12,11 @@ Custom commands built for this App Builder project. Source: `.claude/commands/`.
 |---------|-------------|-------------|
 | `/audit` | Full AI Software Factory audit — governance, Vault health, architecture consistency, scripts, tests, runtime artifacts | Periodic health check; before major milestones; when things feel out of sync |
 | `/curator` | Find and resolve redundant, dead, misplaced, and contradictory assets | Repository feels bloated; after a sprint; before a release |
-| `/discover` | Structured project discovery interview — extracts vision, personas, features, constraints, and automation opportunities | Starting any new project or feature; before planning |
+| `/discover` | Structured project discovery interview — extracts vision, personas, features, constraints, and automation opportunities; produces a formal Project Specification saved to `Vault/09-Requirements/` | Starting a **new project**; must complete before `/plan-project` |
 | `/efficiency` | Identify token waste, MCP cost, context bloat, and directory scope problems in the Claude Code runtime | Session feels slow or expensive; too many permission prompts; context window growing fast |
 | `/guardian` | Continuous quality monitoring — governance alignment, architecture consistency, dead code, documentation drift | Regular health check between audits; after big refactors |
-| `/plan-project` | Generate a phased implementation plan with deliverables, dependencies, estimates, and approval gate from a discovery spec | After `/discover` completes; before any build begins |
-| `/simplify` | Answer: "what can be removed while preserving 95% of the value?" | Project feels over-engineered; maintenance burden is high; before a major version |
+| `/plan-project` | Convert a completed `/discover` spec into a phased implementation plan with deliverables, dependencies, estimates, and a mandatory approval gate | After `/discover` completes; requires a spec as input; before any build begins |
+| `/simplify-project` | Answer: "what can be removed from the *project* while preserving 95% of the value?" — audits scripts, skills, MCPs, Vault docs, and over-engineering at repository scale | Project feels over-engineered; maintenance burden is high; before a major version |
 
 ---
 
@@ -26,8 +26,8 @@ Superpowers skills that govern *how* to approach work — invoke these before ac
 
 | Command | What it does | When to use |
 |---------|-------------|-------------|
-| `/brainstorming` | Explores user intent, requirements, and design before any implementation | Before creating features, building components, or modifying behavior |
-| `/writing-plans` | Writes a structured implementation plan from a spec or requirements | When you have a spec and need a multi-step plan before touching code |
+| `/brainstorming` | Explores user intent, requirements, and design for a **single feature or change** before any implementation — informal, no formal output | Before creating features, building components, or modifying behavior on an *existing* project |
+| `/writing-plans` | Writes a structured implementation plan for **any individual task** — no formal spec or approval gate required | Everyday planning for a feature, fix, or refactor; lighter-weight than `/plan-project` |
 | `/executing-plans` | Executes a written implementation plan in a separate session with review checkpoints | Multi-session plans with 5+ stages and hard-to-undo operations |
 | `/subagent-driven-development` | Executes implementation plans with independent tasks in the current session via subagents | Parallelizable implementation work within one session |
 | `/dispatching-parallel-agents` | Structured approach for dispatching 2+ independent tasks simultaneously | When 2+ tasks have no shared state or sequential dependencies |
@@ -120,6 +120,18 @@ Firecrawl-powered web tools for scraping, crawling, and searching the web.
 
 - **Project commands** (`/audit`, `/curator`, etc.) are defined locally in `.claude/commands/` and are specific to this repository.
 - **Superpowers commands** (prefixed with `superpowers:` internally) govern your working *process* — invoke them before acting, not after.
-- `/code-review` and `/simplify` overlap slightly: `code-review` hunts for bugs; `simplify` hunts for removal and reduction opportunities.
 - When starting a new project from scratch: `/discover` → `/plan-project` → `/brainstorming` → build.
 - When something feels broken: `/systematic-debugging` before any fix attempt.
+
+## Comparison Notes
+
+Commands that look similar but serve different purposes:
+
+| Pair | Distinction |
+|------|------------|
+| `/discover` vs `/brainstorming` | `/discover` is project-level: structured interview, produces a formal spec saved to the Vault, required input for `/plan-project`. `/brainstorming` is feature-level: informal creative exploration before implementing any single change. |
+| `/plan-project` vs `/writing-plans` | `/plan-project` consumes a `/discover` spec and produces a multi-phase roadmap with a human approval gate — for full software projects. `/writing-plans` is for any individual task; no spec or gate required. |
+| `/simplify-project` vs `/simplify` | `/simplify-project` (project command) audits the whole repository for what can be removed at architecture scale. `/simplify` (built-in system skill) reviews your current code diff for cleanup and reuse. |
+| `/audit` vs `/guardian` vs `/curator` | `/audit` = one-time comprehensive snapshot. `/guardian` = periodic trend-aware monitoring (tracks if health is improving or drifting). `/curator` = find dead, orphaned, misplaced, or contradictory assets. |
+| `/simplify-project` vs `/curator` | `/curator` finds dead/unreferenced things. `/simplify-project` finds live things that don't justify their complexity cost. Run both for thorough cleanup. |
+| `/verify` vs `/verification-before-completion` | `/verify` runs the app to confirm a specific change works. `/verification-before-completion` is a checklist skill to confirm all requirements are met before declaring a task done. |
