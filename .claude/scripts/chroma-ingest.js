@@ -129,25 +129,30 @@ async function processDocument(docPath, cols, ef) {
       return;
     }
 
-    const baseId = generateDocumentId(docPath);
-    const chunks = chunkText(body);
-    const meta   = buildMetadata(frontmatter, docPath, classification);
-    const col    = cols[classification.key];
+    const baseId    = generateDocumentId(docPath);
+    const chunkObjs = chunkDocument(body);
+    const meta      = buildMetadata(frontmatter, docPath, classification);
+    const col       = cols[classification.key];
 
     // Batch all chunks in one call — avoids N sequential round-trips per document
     // and ensures totalChunks is only incremented on a complete atomic write.
     await col.upsert({
-      ids:       chunks.map((_, i) => `${baseId}-c${i}`),
-      documents: chunks,
-      metadatas: chunks.map((_, i) => ({ ...meta, chunk_index: i, chunk_total: chunks.length })),
+      ids:       chunkObjs.map((_, i) => `${baseId}-c${i}`),
+      documents: chunkObjs.map(c => c.text),
+      metadatas: chunkObjs.map((c, i) => ({
+        ...meta,
+        chunk_index:    i,
+        chunk_total:    chunkObjs.length,
+        ...(c.sectionHeading ? { section_heading: c.sectionHeading } : {}),
+      })),
     });
 
-    auditLog.totalChunks += chunks.length;
+    auditLog.totalChunks += chunkObjs.length;
     auditLog.ingestions.push({
       file:        docPath,
       destination: classification.collection,
       id:          baseId,
-      chunks:      chunks.length,
+      chunks:      chunkObjs.length,
       authority:   frontmatter.authority,
       status:      frontmatter.status,
     });
@@ -158,8 +163,10 @@ async function processDocument(docPath, cols, ef) {
 
 // ── Text chunking ──────────────────────────────────────────────────────────────
 //
-// Splits document body into overlapping chunks at paragraph boundaries.
-// Avoids silently truncating large documents (the old body.substring(0,5000) flaw).
+// chunkText: paragraph-aware splitter (used internally by chunkDocument).
+// chunkDocument: heading-aware splitter — splits on markdown h1-h3 boundaries
+//   first, then applies chunkText within each section. Returns [{text, sectionHeading}].
+//   Prevents unrelated sections from bleeding into the same embedding chunk.
 //
 // maxChars: target chunk size in characters
 // overlap:  chars of tail from previous chunk prepended to the next
@@ -204,6 +211,27 @@ function chunkText(text, maxChars = 3000, overlap = 300) {
 
   if (current) chunks.push(current);
   return chunks.length > 0 ? chunks : [text.substring(0, maxChars)];
+}
+
+function chunkDocument(body, maxChars = 3000, overlap = 300) {
+  // Split on markdown headings (h1–h3) so sections stay coherent
+  const sections = body.split(/\n(?=#{1,3} )/);
+  const result = [];
+
+  for (const section of sections) {
+    if (!section.trim()) continue;
+
+    const firstNewline = section.indexOf('\n');
+    const firstLine = firstNewline === -1 ? section : section.slice(0, firstNewline);
+    const sectionHeading = /^#{1,3} /.test(firstLine.trim()) ? firstLine.trim() : null;
+
+    const subChunks = chunkText(section, maxChars, overlap);
+    for (const text of subChunks) {
+      result.push({ text, sectionHeading });
+    }
+  }
+
+  return result.length > 0 ? result : [{ text: body.substring(0, maxChars), sectionHeading: null }];
 }
 
 // ── Vault scanning ─────────────────────────────────────────────────────────────

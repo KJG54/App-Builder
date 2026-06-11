@@ -100,21 +100,32 @@ async function assembleContext(query, projectName, options = {}) {
   try {
     const client = getClient();
     const ef     = getEf();
+    // Fetch 2× then re-rank down to maxResults for better relevance
+    const fetchN = maxResults * 2;
 
     // 1. Global standards (mandatory constraints — no authority filter needed)
     log(`Querying global-standards...`);
-    context.standards = await queryCollection(client, ef, 'global-standards', query, maxResults, filters);
+    context.standards = rerankResults(
+      await queryCollection(client, ef, 'global-standards', query, fetchN, filters),
+      agentRole
+    ).slice(0, maxResults);
     log(`Found ${context.standards.length} standards`);
 
     // 2. Project facts (authoritative decisions, requirements, architecture)
     log(`Querying ${projectName}-facts...`);
-    context.facts = await queryCollection(client, ef, `${projectName}-facts`, query, maxResults, { is_authoritative: true, ...filters });
+    context.facts = rerankResults(
+      await queryCollection(client, ef, `${projectName}-facts`, query, fetchN, { is_authoritative: true, ...filters }),
+      agentRole
+    ).slice(0, maxResults);
     log(`Found ${context.facts.length} facts`);
 
     // 3. Sessions (optional background)
     if (includeSession) {
       log(`Querying ${projectName}-sessions...`);
-      context.sessions = await queryCollection(client, ef, `${projectName}-sessions`, query, Math.ceil(maxResults / 2), filters);
+      context.sessions = rerankResults(
+        await queryCollection(client, ef, `${projectName}-sessions`, query, Math.ceil(fetchN / 2), filters),
+        agentRole
+      ).slice(0, Math.ceil(maxResults / 2));
       log(`Found ${context.sessions.length} sessions`);
     }
   } catch (err) {
@@ -141,6 +152,26 @@ async function assembleContext(query, projectName, options = {}) {
   log(`Complete. Total items: ${context.standards.length + context.facts.length + context.sessions.length + context.relationships.length}`);
 
   return context;
+}
+
+// ── Re-ranking ─────────────────────────────────────────────────────────────────
+//
+// Boosts authoritative chunks (+0.1) and chunks matching the querying agent's
+// role via the agent_relevance metadata field (+0.15). Caller slices the result
+// to the desired maxResults after re-ranking.
+
+function rerankResults(results, agentRole) {
+  return results
+    .map(r => {
+      let score = r.relevance || 0;
+      if (r.metadata?.is_authoritative) score += 0.1;
+      if (agentRole && r.metadata?.agent_relevance) {
+        const roles = r.metadata.agent_relevance.split(',').map(s => s.trim());
+        if (roles.includes(agentRole)) score += 0.15;
+      }
+      return { ...r, relevance: score };
+    })
+    .sort((a, b) => b.relevance - a.relevance);
 }
 
 // ── Chroma query ───────────────────────────────────────────────────────────────
