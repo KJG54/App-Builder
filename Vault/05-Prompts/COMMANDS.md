@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-11
+author: Claude-Builder-Agent
+---
+
 # Slash Commands Reference
 
 All `/` commands available in this Claude Code session. Invoke any of these by typing `/<command>` in the prompt.

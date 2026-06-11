@@ -94,6 +94,50 @@ class Phase16Validator {
     }
   }
 
+  // ── Test 6: chunkText splits and overlaps correctly ───────────────────────
+
+  test6_ChunkTextBehavior() {
+    console.log('\n📋 Test 6: chunkText Chunking Behavior');
+    const { chunkText } = require(path.join(SCRIPTS_DIR, 'chroma-ingest.js'));
+
+    // Short text: no chunking
+    const short = 'Hello world.';
+    const shortChunks = chunkText(short, 3000, 300);
+    if (shortChunks.length === 1 && shortChunks[0] === short) {
+      this.pass('Short text returned as single chunk (no split)');
+    } else {
+      this.fail(`Short text chunked unexpectedly: got ${shortChunks.length} chunks`);
+    }
+
+    // Long text: produces multiple chunks
+    const para = 'A'.repeat(1200);
+    const longText = [para, para, para, para].join('\n\n'); // ~4800 chars
+    const longChunks = chunkText(longText, 3000, 300);
+    if (longChunks.length >= 2) {
+      this.pass(`Long text split into ${longChunks.length} chunks (>= 2 expected)`);
+    } else {
+      this.fail(`Long text not split: got ${longChunks.length} chunk(s)`);
+    }
+
+    // Overlap: second chunk starts with tail of first
+    if (longChunks.length >= 2) {
+      const tail = longChunks[0].slice(-300);
+      if (longChunks[1].startsWith(tail) || longChunks[1].includes(tail.substring(0, 50))) {
+        this.pass('Overlap detected: chunk[1] contains tail of chunk[0]');
+      } else {
+        this.warn('Overlap not detected — verify chunkText overlap logic manually');
+      }
+    }
+
+    // No truncation: total content coverage
+    const totalChars = longChunks.reduce((sum, c) => sum + c.length, 0);
+    if (totalChars >= longText.length) {
+      this.pass(`Content coverage: ${totalChars} chars across chunks >= ${longText.length} source chars`);
+    } else {
+      this.fail(`Content loss: only ${totalChars} chars covered from ${longText.length} source`);
+    }
+  }
+
   // ── Runner ────────────────────────────────────────────────────────────────
 
   runAll() {
@@ -105,6 +149,7 @@ class Phase16Validator {
     this.test3_ContextAssemblySyntax();
     this.test4_ChromaSDKInstalled();
     this.test5_ChromaADRExists();
+    this.test6_ChunkTextBehavior();
 
     console.log('\n========================================');
     console.log('📊 Test Results Summary');

@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-11
+author: Claude-Builder-Agent
+---
+
 # Project Specification — Home Media Server
 **Date:** 2026-06-11
 **Status:** Confirmed

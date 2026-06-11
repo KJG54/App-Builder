@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-11
+author: Claude-Builder-Agent
+---
+
 # Phase 16: Search Quality — Design Spec
 
 **Date:** 2026-06-09  

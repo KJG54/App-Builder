@@ -146,7 +146,7 @@ Research/
 
 ## Links
 
-- Related research: [[Other-Research.md]]
+- Related research: [[Other-Research.md|Replace with actual related research file path]]
 - If future ADR: Will become [[../07-Decisions/ADR-XXX-###.md|ADR-XXX-###]]
 
 ---

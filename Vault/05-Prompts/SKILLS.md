@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-11
+author: Claude-Builder-Agent
+---
+
 # Framework Skills Reference
 
 All available slash commands and their purposes. Type any command in Claude Code to invoke it.

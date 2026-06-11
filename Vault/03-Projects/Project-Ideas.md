@@ -1,3 +1,13 @@
+---
+type: index
+status: active
+last_updated: 2026-06-11
+author: Krystian Garcia
+chroma_collection: ai-software-factory-sessions
+tags: [ideas, projects, backlog]
+related: [Registry.md, ../04-Workflows/GETTING-STARTED.md]
+---
+
 # Project Ideas
 
 A running list of project concepts to build with the App Builder framework.

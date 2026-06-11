@@ -33,6 +33,8 @@ const COLLECTIONS = {
   standards: 'global-standards',
 };
 
+const RESET_COLLECTIONS = process.argv.includes('--reset');
+
 // ── State ─────────────────────────────────────────────────────────────────────
 
 const auditLog = {
@@ -40,6 +42,7 @@ const auditLog = {
   ingestions: [],
   rejections: [],
   errors:     [],
+  totalChunks: 0,
 };
 
 // ── Main ──────────────────────────────────────────────────────────────────────
@@ -69,8 +72,15 @@ async function main() {
     throw new Error(`Cannot reach Chroma at ${CHROMA_HOST}:${CHROMA_PORT} — ${err.message}`);
   }
 
-  // 2. Initialize collections
+  // 2. Initialize collections (--reset wipes before recreating to clear stale chunks)
   console.log(`\n2️⃣  INITIALIZING COLLECTIONS`);
+  if (RESET_COLLECTIONS) {
+    console.log(`   ⚠️  --reset: deleting existing collections`);
+    for (const name of Object.values(COLLECTIONS)) {
+      try { await client.deleteCollection({ name }); console.log(`      deleted ${name}`); }
+      catch { /* collection may not exist yet */ }
+    }
+  }
   const cols = {};
   for (const [key, name] of Object.entries(COLLECTIONS)) {
     cols[key] = await client.getOrCreateCollection({ name, embeddingFunction: ef });
@@ -119,24 +129,75 @@ async function processDocument(docPath, cols, ef) {
       return;
     }
 
-    const docId   = generateDocumentId(docPath);
-    const docText = body.substring(0, 5000);
-    const meta    = buildMetadata(frontmatter, docPath, classification);
-    const col     = cols[classification.key];
+    const baseId = generateDocumentId(docPath);
+    const chunks = chunkText(body);
+    const meta   = buildMetadata(frontmatter, docPath, classification);
+    const col    = cols[classification.key];
 
-    // Upsert so re-runs are idempotent
-    await col.upsert({ ids: [docId], documents: [docText], metadatas: [meta] });
+    for (let i = 0; i < chunks.length; i++) {
+      const chunkMeta = { ...meta, chunk_index: i, chunk_total: chunks.length };
+      await col.upsert({
+        ids:       [`${baseId}-c${i}`],
+        documents: [chunks[i]],
+        metadatas: [chunkMeta],
+      });
+    }
 
+    auditLog.totalChunks += chunks.length;
     auditLog.ingestions.push({
       file:        docPath,
       destination: classification.collection,
-      id:          docId,
+      id:          baseId,
+      chunks:      chunks.length,
       authority:   frontmatter.authority,
       status:      frontmatter.status,
     });
   } catch (err) {
     auditLog.errors.push({ file: docPath, error: err.message });
   }
+}
+
+// ── Text chunking ──────────────────────────────────────────────────────────────
+//
+// Splits document body into overlapping chunks at paragraph boundaries.
+// Avoids silently truncating large documents (the old body.substring(0,5000) flaw).
+//
+// maxChars: target chunk size in characters
+// overlap:  chars of tail from previous chunk prepended to the next
+
+function chunkText(text, maxChars = 3000, overlap = 300) {
+  if (text.length <= maxChars) return [text];
+
+  const paragraphs = text.split(/\n\n+/);
+  const chunks = [];
+  let current = '';
+
+  for (const para of paragraphs) {
+    // Force-split a paragraph that is itself larger than maxChars
+    if (para.length > maxChars) {
+      if (current) { chunks.push(current); current = ''; }
+      let pos = 0;
+      while (pos < para.length) {
+        chunks.push(para.substring(pos, pos + maxChars));
+        pos += maxChars - overlap;
+        if (pos >= para.length) break;
+      }
+      continue;
+    }
+
+    const sep = current ? '\n\n' : '';
+    const candidate = current + sep + para;
+    if (candidate.length > maxChars && current) {
+      chunks.push(current);
+      const overlapText = current.slice(-overlap);
+      current = overlapText + '\n\n' + para;
+    } else {
+      current = candidate;
+    }
+  }
+
+  if (current) chunks.push(current);
+  return chunks.length > 0 ? chunks : [text.substring(0, maxChars)];
 }
 
 // ── Vault scanning ─────────────────────────────────────────────────────────────
@@ -290,7 +351,9 @@ function reportResults() {
   console.log(`   ✓ Sessions:  ${totals.sessions} documents`);
   console.log(`   ✓ Standards: ${totals.standards} documents`);
   console.log(`   ─────────────────────────────────`);
-  console.log(`   Total Ingested: ${auditLog.ingestions.length}`);
+  const multiChunk = auditLog.ingestions.filter(i => i.chunks > 1).length;
+  console.log(`   Total Ingested: ${auditLog.ingestions.length} documents`);
+  console.log(`   Total Chunks:   ${auditLog.totalChunks} (${multiChunk} multi-chunk docs)`);
   console.log(`   Rejected:       ${auditLog.rejections.length}`);
   console.log(`   Errors:         ${auditLog.errors.length}`);
 
@@ -363,9 +426,9 @@ async function ingestProjectVault(vaultPath, collectionName) {
 
       if (!frontmatter) { projectLog.skipped++; continue; }
 
-      const docId   = 'proj-' + collectionName + '-' + generateDocumentId(docPath);
-      const docText = body.substring(0, 5000);
-      const meta    = {
+      const baseId = 'proj-' + collectionName + '-' + generateDocumentId(docPath);
+      const chunks = chunkText(body);
+      const meta   = {
         file:          docPath.replace(/\\/g, '/'),
         collection:    collectionName,
         project:       collectionName,
@@ -373,9 +436,16 @@ async function ingestProjectVault(vaultPath, collectionName) {
         status:        (frontmatter.status || 'draft').toLowerCase(),
         last_updated:  frontmatter.last_updated || new Date().toISOString().split('T')[0],
         tags:          Array.isArray(frontmatter.tags) ? frontmatter.tags.join(',') : (frontmatter.tags || ''),
+        chunk_total:   chunks.length,
       };
 
-      await col.upsert({ ids: [docId], documents: [docText], metadatas: [meta] });
+      for (let i = 0; i < chunks.length; i++) {
+        await col.upsert({
+          ids:       [`${baseId}-c${i}`],
+          documents: [chunks[i]],
+          metadatas: [{ ...meta, chunk_index: i }],
+        });
+      }
       projectLog.ingested++;
     } catch (err) {
       projectLog.errors.push({ file: docPath, error: err.message });
@@ -392,7 +462,7 @@ async function ingestProjectVault(vaultPath, collectionName) {
 
 // ── Exports / entry point ──────────────────────────────────────────────────────
 
-module.exports = { buildMetadata, deriveDocumentType, deriveDomain, classifyDocument, parseYamlFrontmatter, ingestProjectVault };
+module.exports = { buildMetadata, deriveDocumentType, deriveDomain, classifyDocument, parseYamlFrontmatter, ingestProjectVault, chunkText };
 
 if (require.main === module) {
   const args = process.argv.slice(2);

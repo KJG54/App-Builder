@@ -16,6 +16,7 @@ The framework's `Projects/` directory is gitignored — projects are independent
 
 | Name | Category | Type | Chroma Collection | Status | Created | GitHub |
 |------|----------|------|-------------------|--------|---------|--------|
+| Home Media Server | personal | server | project-home-media-server | planning | 2026-06-10 | — |
 
 ## Status Values
 

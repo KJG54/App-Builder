@@ -1,7 +1,7 @@
 ---
 type: guide
 status: active
-last_updated: 2026-06-09
+last_updated: 2026-06-11
 author: Claude-Builder-Agent
 ---
 
@@ -30,7 +30,7 @@ Welcome to the AI Software Factory Vault. This is the central hub for knowledge 
 | **01-Standards** | Governance rules everyone follows | [[01-Standards/README.md\|Standards Navigator]], Coding, Security, Architecture, Documentation |
 | **02-Technologies** | Technology reference guides | [[02-Technologies/README.md\|Tech Stack Reference]], Chroma, Docker, FastAPI, PostgreSQL |
 | **03-Projects** | Project specs, architecture, roadmap | [[03-Projects/README.md\|Project Structure]], AI Software Factory overview |
-| **04-Workflows** | Process choreography for common tasks | [[04-Workflows/README.md\|Workflow Guide]], Build API, Deploy Service, New Project |
+| **04-Workflows** | Process choreography for common tasks | [[04-Workflows/README.md\|Workflow Guide]], [[04-Workflows/GETTING-STARTED.md\|Getting Started]], Build API, Deploy Service, New Project |
 | **05-Prompts** | Agent instructions and capabilities | [[05-Prompts/README.md\|Agent Library]], Architect, Backend, Frontend, DevOps prompts |
 | **07-Decisions** | Architectural decision records (ADRs) | [[07-Decisions/README.md\|ADR Guide]], 8 decisions with rationale and alternatives |
 | **08-Retrospectives** | Session summaries and learnings | [[08-Retrospectives/README.md\|Session Index]], Work completed, decisions made, problems found |

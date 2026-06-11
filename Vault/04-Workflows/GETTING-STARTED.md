@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-11
+author: Claude-Builder-Agent
+---
+
 # Getting Started with App Builder
 
 ## Introduction

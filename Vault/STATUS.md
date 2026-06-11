@@ -63,7 +63,7 @@ author: Claude-Builder-Agent
 - ✅ Cross-project Chroma indexing (npm run ingest:project)
 - ✅ Phase plan generator skill (/plan-project command)
 - ✅ Full pipeline: interview → research → recommend → build → review → ship
-- ✅ GETTING-STARTED.md guide published
+- ✅ [[../04-Workflows/GETTING-STARTED.md|GETTING-STARTED.md]] guide published
 
 ### Roadmap Status
 

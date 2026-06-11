@@ -1,3 +1,10 @@
+---
+type: guide
+status: active
+last_updated: 2026-06-11
+author: Claude-Builder-Agent
+---
+
 # Phase Plan — Home Media Server
 **Date:** 2026-06-11
 **Based on spec:** Vault/09-Requirements/Home-Media-Server/Project-Spec.md
