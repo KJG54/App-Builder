@@ -134,14 +134,13 @@ async function processDocument(docPath, cols, ef) {
     const meta   = buildMetadata(frontmatter, docPath, classification);
     const col    = cols[classification.key];
 
-    for (let i = 0; i < chunks.length; i++) {
-      const chunkMeta = { ...meta, chunk_index: i, chunk_total: chunks.length };
-      await col.upsert({
-        ids:       [`${baseId}-c${i}`],
-        documents: [chunks[i]],
-        metadatas: [chunkMeta],
-      });
-    }
+    // Batch all chunks in one call — avoids N sequential round-trips per document
+    // and ensures totalChunks is only incremented on a complete atomic write.
+    await col.upsert({
+      ids:       chunks.map((_, i) => `${baseId}-c${i}`),
+      documents: chunks,
+      metadatas: chunks.map((_, i) => ({ ...meta, chunk_index: i, chunk_total: chunks.length })),
+    });
 
     auditLog.totalChunks += chunks.length;
     auditLog.ingestions.push({
@@ -180,7 +179,6 @@ function chunkText(text, maxChars = 3000, overlap = 300) {
       while (pos < para.length) {
         chunks.push(para.substring(pos, pos + maxChars));
         pos += maxChars - overlap;
-        if (pos >= para.length) break;
       }
       continue;
     }
@@ -190,7 +188,15 @@ function chunkText(text, maxChars = 3000, overlap = 300) {
     if (candidate.length > maxChars && current) {
       chunks.push(current);
       const overlapText = current.slice(-overlap);
-      current = overlapText + '\n\n' + para;
+      const newCurrent = overlapText + '\n\n' + para;
+      // Guard: overlap + separator + para can exceed maxChars; flush overlap
+      // as its own small chunk and start fresh with just the paragraph.
+      if (newCurrent.length > maxChars) {
+        if (overlapText) chunks.push(overlapText);
+        current = para;
+      } else {
+        current = newCurrent;
+      }
     } else {
       current = candidate;
     }
@@ -388,7 +394,7 @@ function reportResults() {
 // All documents are routed to one collection — no facts/sessions split.
 // Useful similarity threshold for reuse detection: 0.85+
 
-async function ingestProjectVault(vaultPath, collectionName) {
+async function ingestProjectVault(vaultPath, collectionName, reset = false) {
   const absVaultPath = path.resolve(vaultPath);
 
   if (!fs.existsSync(absVaultPath)) {
@@ -411,6 +417,10 @@ async function ingestProjectVault(vaultPath, collectionName) {
     throw new Error(`Cannot reach Chroma at ${CHROMA_HOST}:${CHROMA_PORT} — ${err.message}`);
   }
 
+  if (reset) {
+    try { await client.deleteCollection({ name: collectionName }); console.log(`   ⚠️  --reset: deleted ${collectionName}`); }
+    catch { /* collection may not exist yet */ }
+  }
   const col = await client.getOrCreateCollection({ name: collectionName, embeddingFunction: ef });
   console.log(`   ✓ Collection ready: ${collectionName}`);
 
@@ -439,13 +449,11 @@ async function ingestProjectVault(vaultPath, collectionName) {
         chunk_total:   chunks.length,
       };
 
-      for (let i = 0; i < chunks.length; i++) {
-        await col.upsert({
-          ids:       [`${baseId}-c${i}`],
-          documents: [chunks[i]],
-          metadatas: [{ ...meta, chunk_index: i }],
-        });
-      }
+      await col.upsert({
+        ids:       chunks.map((_, i) => `${baseId}-c${i}`),
+        documents: chunks,
+        metadatas: chunks.map((_, i) => ({ ...meta, chunk_index: i })),
+      });
       projectLog.ingested++;
     } catch (err) {
       projectLog.errors.push({ file: docPath, error: err.message });
@@ -473,7 +481,7 @@ if (require.main === module) {
       console.error('Usage: chroma-ingest.js --project-vault <vaultPath> <collectionName>');
       process.exit(1);
     }
-    ingestProjectVault(vaultPath, collectionName).catch(err => {
+    ingestProjectVault(vaultPath, collectionName, RESET_COLLECTIONS).catch(err => {
       console.error('Fatal:', err.message);
       process.exit(1);
     });

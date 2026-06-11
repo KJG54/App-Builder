@@ -122,11 +122,20 @@ class Phase16Validator {
     // Overlap: second chunk starts with tail of first
     if (longChunks.length >= 2) {
       const tail = longChunks[0].slice(-300);
-      if (longChunks[1].startsWith(tail) || longChunks[1].includes(tail.substring(0, 50))) {
-        this.pass('Overlap detected: chunk[1] contains tail of chunk[0]');
+      if (longChunks[1].startsWith(tail)) {
+        this.pass('Overlap detected: chunk[1] starts with tail of chunk[0]');
       } else {
-        this.warn('Overlap not detected — verify chunkText overlap logic manually');
+        this.fail('Overlap missing: chunk[1] does not start with last 300 chars of chunk[0]');
       }
+    }
+
+    // No chunk exceeds maxChars (regression for overlap-guard fix)
+    const allWithinBounds = longChunks.every(c => c.length <= 3000);
+    if (allWithinBounds) {
+      this.pass('All chunks are within maxChars=3000 limit');
+    } else {
+      const oversized = longChunks.filter(c => c.length > 3000).map(c => c.length);
+      this.fail(`Chunks exceed maxChars: ${oversized.join(', ')} chars`);
     }
 
     // No truncation: total content coverage
