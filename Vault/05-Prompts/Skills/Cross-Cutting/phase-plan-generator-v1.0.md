@@ -135,6 +135,21 @@ This creates the project at `Projects/[category]/[slug]/`, sets up the full Vaul
 
 **Never create project source code outside of `Projects/[category]/[slug]/`.** Writing code anywhere else (e.g., a sibling directory at the same level as the App Builder) skips the framework's project tracking, Chroma indexing, and governance structure.
 
+### Step 7: Python Projects — Validate requirements.txt (MANDATORY)
+
+When a phase plan includes a `requirements.txt`, always run after writing it:
+
+```
+npm run fix-requirements -- Projects/[category]/[slug]/requirements.txt
+```
+
+This validates all pinned versions against the user's Python version and auto-resolves any incompatible pins to the latest compatible version. **Never assume a pinned version (`==`) is installable — always validate.**
+
+**When writing requirements.txt:**
+- Use `==` for core runtime deps (e.g., `faster-whisper==1.1.1`) — reproducibility matters
+- Use `>=` for packaging/tooling deps (e.g., `pyinstaller>=6.0`, `setuptools>=65`) — these break across Python versions frequently
+- Always include a `# Python X.Y+ required` comment at the top so future readers know the target version
+
 ---
 
 ## Output Template

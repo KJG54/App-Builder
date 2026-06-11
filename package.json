@@ -28,7 +28,8 @@
     "test:all": "node ./.claude/scripts/validate-phase-8.js && node ./.claude/scripts/validate-phase-9.js && node ./.claude/scripts/validate-phase-10.js && node ./.claude/scripts/validate-phase-11.js && node ./.claude/scripts/validate-phase-12.js && node ./.claude/scripts/validate-phase-13.js && node ./.claude/scripts/validate-phase-14.js && node ./.claude/scripts/validate-phase-15.js && node ./.claude/scripts/validate-phase-16.js && node ./.claude/scripts/validate-phase-17.js && node ./.claude/scripts/validate-phase-18.js && node ./.claude/scripts/validate-phase-16-hybrid.js && node ./.claude/scripts/validate-phase-17-learning.js",
     "test": "node ./.claude/scripts/validate-phase-8.js && node ./.claude/scripts/validate-phase-9.js && node ./.claude/scripts/validate-phase-10.js && node ./.claude/scripts/validate-phase-11.js && node ./.claude/scripts/validate-phase-12.js && node ./.claude/scripts/validate-phase-13.js && node ./.claude/scripts/validate-phase-14.js && node ./.claude/scripts/validate-phase-15.js && node ./.claude/scripts/validate-phase-16.js && node ./.claude/scripts/validate-phase-17.js && node ./.claude/scripts/validate-phase-18.js && node ./.claude/scripts/validate-phase-16-hybrid.js && node ./.claude/scripts/validate-phase-17-learning.js",
     "setup": "node ./.claude/scripts/setup.js",
-    "doctor": "node ./.claude/scripts/doctor.js"
+    "doctor": "node ./.claude/scripts/doctor.js",
+    "fix-requirements": "node ./.claude/scripts/fix-requirements.js"
   },
   "keywords": [
     "ai",
