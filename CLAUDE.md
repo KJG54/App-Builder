@@ -410,6 +410,23 @@ Require explicit approval before implementation.
 
 ---
 
+## Task Completion Rule (CRITICAL)
+
+**Never return control to the user while todo items remain pending or in-progress.**
+
+When a todo list is active, the only valid stopping points are:
+
+1. Every todo item is marked `completed`, OR
+2. A genuine blocker exists that requires a human decision (missing input, ambiguous requirement, approval needed)
+
+Writing the last content block, running the last edit, or finishing the last code change is NOT a stopping point if commit, verify, or documentation steps remain on the list. Keep going until the list is empty.
+
+**Anti-pattern to avoid:** Producing output (a file, a section, a fix) and then returning control as if the task is done — when the todo list still shows `pending` items that are unblocked and straightforward to execute.
+
+**Why:** This pattern has caused repeated interruptions where the user must re-prompt to complete the final 10% of a task (commit, verify, update docs). It breaks the user's flow and erodes trust in autonomous execution.
+
+---
+
 ## Completion Checklist
 
 Before considering work complete:
