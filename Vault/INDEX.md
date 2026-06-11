@@ -19,6 +19,7 @@ Welcome to the AI Software Factory Vault. This is the central hub for knowledge 
 📋 **Project Roadmap** → [[03-Projects/AI Software Factory/Roadmap.md|18-Phase Plan (Complete)]]  
 🏗️ **Architecture** → [[03-Projects/AI Software Factory/Architecture/Current.md|System Design v1.0]]  
 📚 **Decisions** → [[07-Decisions/DECISIONS.md|All Major ADRs and Architectural Decisions]]  
+📜 **Repository Constitution** → [[03-Projects/AI Software Factory/Repository-Constitution.md|Project Standards and Governance Rules]]  
 
 ---
 

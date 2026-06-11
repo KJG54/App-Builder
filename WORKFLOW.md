@@ -6,36 +6,38 @@ This document defines the Git discipline, branching strategy, and approval gates
 
 ## Branch Strategy
 
-### Branch Names and Purposes
+This project uses a **single-branch workflow** with `main` as the only permanent branch. All phases are complete; the `develop` + feature-branch model described below is available for future multi-contributor or high-risk work but is not the current operating mode.
+
+### Current: Single-Branch (Active)
+
+All work commits directly to `main`:
+- Small changes, docs, validators, scripts → direct commit to `main`
+- Architectural changes or high-risk work → create a short-lived branch + PR
+
+### Available: Multi-Branch (When Needed)
 
 ```
 main                              # Production-ready, stable code
-develop                           # Integration branch for ongoing work
+develop                           # Integration branch (activate for multi-contributor work)
 feature/<description>             # New features (e.g., feature/chroma-integration)
 fix/<description>                 # Bug fixes (e.g., fix/vault-metadata)
-docs/<description>                # Documentation updates (e.g., docs/workflow-guide)
-infra/<description>               # Infrastructure changes (e.g., infra/docker-setup)
+docs/<description>                # Documentation updates
+infra/<description>               # Infrastructure changes
 ```
 
-### Branch Lifecycle
-
 **Main Branch (`main`):**
-- Always stable and deployable
-- Only receives merges from pull requests
-- Requires human approval before merge
-- All commits must be tracked in git history (no force-pushes)
+- Always stable
+- No force-pushes
+- All commits tracked in git history
 
 **Develop Branch (`develop`):**
-- Integration point for features
-- Used starting Phase 2+
-- Merges feature branches for testing before main
-- Can receive direct commits (e.g., version bumps)
+- Activate when multiple contributors are working in parallel
+- Integration point before merging to `main`
 
 **Feature Branches:**
 - Short-lived (days, not weeks)
-- Based on `develop` (Phase 2+) or `main` (Phase 1)
+- Used for changes that need review before reaching `main`
 - Delete after merge
-- Never push directly to main
 
 ---
 

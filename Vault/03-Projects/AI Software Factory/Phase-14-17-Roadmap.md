@@ -1,6 +1,6 @@
 ---
 type: architecture
-status: active
+status: deprecated
 component: core-engine, state-machine, semantic-search, memory-system, observability, project-build-pipeline
 tags: [phase-14, phase-15, phase-16, phase-17, phase-18, fsm, memory, hybrid-search, vault-indexing, learning-loop, build-pipeline]
 last_updated: 2026-06-10
