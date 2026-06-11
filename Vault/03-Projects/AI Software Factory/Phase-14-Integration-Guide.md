@@ -5,7 +5,7 @@ status: active
 authority: facts
 chroma_collection: ai-software-factory-facts
 tags: [phase-14, fsm, vault-validator, mcp-whitelist, integration, state-machine]
-related: [Phase-14-17-Roadmap.md, Context-Assembly-API.md, ADR-SEC-001]
+related: [Phase-14-Summary.md, Context-Assembly-API.md, ADR-SEC-001]
 last_updated: 2026-06-10
 author: Claude-Builder-Agent
 ---
@@ -258,6 +258,6 @@ In `.claude/settings.json`, the PostCompact hook runs the state machine log upda
 
 ## References
 
-- [[Phase-14-17-Roadmap.md]] — Phase 14 deliverables and context
+- [[Phase-14-Summary.md]] — Phase 14 deliverables and feature summary
 - [[Context-Assembly-API.md]] — VaultValidator integration point in Chroma ingest
 - [[ADR-SEC-001]] — Human Approval Gate (MCPWhitelister enforces Tier 4-5)

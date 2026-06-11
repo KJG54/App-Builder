@@ -1,7 +1,10 @@
 ---
-type: workflow
+type: retrospective
 status: complete
 last_updated: 2026-06-11
+archived: 2026-06-11
+archived_by: curator
+note: All items completed by 2026-06-11. Moved from 03-Projects to retrospectives.
 related: []
 ---
 
