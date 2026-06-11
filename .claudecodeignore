@@ -1,0 +1,12 @@
+# Runtime memory logs — not relevant to code tasks
+.remember/logs/
+.remember/tmp/
+.remember/archive.md
+
+# Vault runtime artifacts (already gitignored, also exclude from Claude scan)
+Vault/.smart-env/
+Vault/copilot/
+Vault/.obsidian/plugins/
+
+# Docker volumes — data, not code
+docker/volumes/
