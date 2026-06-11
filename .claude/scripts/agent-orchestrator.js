@@ -16,6 +16,7 @@ const ApprovalWorkflow = require('./approval-workflow');
 const { assembleContext } = require('./context-assembly');
 const SlackNotifier = require('./slack-notifier');
 const { StateMachineEngine, STATES } = require('./state-machine');
+const MemoryUpdater = require('./memory-updater');
 
 class AgentOrchestrator {
   constructor(tasksDir = '.claude/tasks', projectName = 'ai-software-factory') {
@@ -25,6 +26,7 @@ class AgentOrchestrator {
     this.authorization = new MCPAuthorization();
     this.approvalWorkflow = new ApprovalWorkflow('.claude/approvals');
     this.slackNotifier = new SlackNotifier();
+    this.memoryUpdater = new MemoryUpdater();
     this.locks = new Map(); // In-memory lock map for task IDs
 
     // Phase 14: Initialize FSM
@@ -361,6 +363,16 @@ class AgentOrchestrator {
 
       // Update subtask
       subtask.status = 'complete';
+      // Phase 17.1: queue memory update (non-blocking)
+      try {
+        await this.memoryUpdater.recordOutcome({
+          agent:  subtask.agent  || 'unknown',
+          domain: task.domain   || 'general',
+          scores: subtask.verificationResult || {},
+        });
+      } catch (muErr) {
+        console.warn('[MemoryUpdater] Non-blocking error:', muErr.message);
+      }
       subtask.completed_at = new Date().toISOString();
       subtask.output_file = outputPath;
 
