@@ -64,7 +64,17 @@ class MemoryUpdater {
       return;
     }
 
-    const current = yaml.load(fs.readFileSync(memFile, 'utf8'));
+    let current;
+    try {
+      current = yaml.load(fs.readFileSync(memFile, 'utf8'));
+    } catch (e) {
+      console.warn(`[MemoryUpdater] Could not parse memory.yaml for "${agent}": ${e.message}`);
+      return;
+    }
+    if (!current || typeof current !== 'object') {
+      console.warn(`[MemoryUpdater] Invalid memory.yaml for "${agent}" — skipping`);
+      return;
+    }
     const currentBaselines = current.score_baselines || {};
     const newBaselines     = computeNewBaselines(currentBaselines, scores);
     const regressions      = detectRegressions(currentBaselines, scores);
@@ -78,7 +88,7 @@ class MemoryUpdater {
         domain,
         incoming_scores: scores,
         regressions: regressions.length > 0
-          ? regressions.map(k => `⚠️ REGRESSION: ${k} dropped from ${currentBaselines[k].toFixed(1)} to ${scores[k]}`)
+          ? regressions.map(k => `⚠️ REGRESSION: ${k} dropped from ${(currentBaselines[k] || 0).toFixed(1)} to ${scores[k] ?? 'N/A'}`)
           : [],
       },
     };
@@ -138,6 +148,10 @@ class MemoryUpdater {
       if (!fs.existsSync(pendingFile)) continue;
 
       const data = yaml.load(fs.readFileSync(pendingFile, 'utf8'));
+      if (!data || typeof data !== 'object' || !data.score_baselines) {
+        console.error(`❌ Pending file for ${agent} appears malformed — aborting apply`);
+        process.exit(1);
+      }
       delete data._pending_meta;
       fs.writeFileSync(path.join(agentDir, 'memory.yaml'), yaml.dump(data), 'utf8');
       fs.unlinkSync(pendingFile);
