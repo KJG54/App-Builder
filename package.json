@@ -44,6 +44,7 @@
     "@chroma-core/default-embed": "^0.1.9",
     "chromadb": "^3.4.3",
     "flexsearch": "^0.7.31",
+    "js-yaml": "^4.2.0",
     "proper-lockfile": "^4.1.2"
   }
 }
