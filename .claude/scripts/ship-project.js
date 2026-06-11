@@ -23,7 +23,7 @@
 
 const fs   = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, spawnSync } = require('child_process');
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -50,12 +50,10 @@ function parseCLI() {
 // ── Diff Summary ───────────────────────────────────────────────────────────────
 
 function generateDiffSummary(projectDir) {
-  const log    = tryExec('git log --oneline --no-decorate', projectDir);
-  const stat   = tryExec('git diff --stat HEAD~1 HEAD', projectDir) ||
-                 tryExec('git show --stat --no-patch', projectDir);
-  const files  = tryExec('git diff --name-only HEAD~1 HEAD', projectDir);
-
-  return { log, stat, files };
+  const log  = tryExec('git log --oneline --no-decorate -20', projectDir);
+  const stat = tryExec('git diff --stat HEAD~5 HEAD', projectDir) ||
+               tryExec('git show --stat --no-patch', projectDir);
+  return { log, stat };
 }
 
 // ── Dockerfile Scaffold ────────────────────────────────────────────────────────
@@ -69,7 +67,8 @@ function scaffoldDockerfile(projectDir) {
 
   let content;
   if (isNode) {
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+    let pkg = {};
+    try { pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8')); } catch { /* malformed — use defaults */ }
     const startCmd = (pkg.scripts && pkg.scripts.start) ? 'npm start' : 'node index.js';
     content = [
       `FROM node:20-alpine`,
@@ -185,15 +184,15 @@ function scaffoldCI(projectDir) {
 
 // ── Post-Build Vault Record ────────────────────────────────────────────────────
 
-function writeVaultRecord(projectDir) {
+function writeVaultRecord(projectDir, diffSummary) {
   const projectName = path.basename(projectDir);
   const vaultDir    = path.join(projectDir, 'Vault', '03-Projects', projectName);
   const recordPath  = path.join(vaultDir, 'Build-Record.md');
 
   fs.mkdirSync(vaultDir, { recursive: true });
 
-  const gitLog = tryExec('git log --oneline --no-decorate -10', projectDir);
-  const gitStat = tryExec('git diff --stat HEAD~5 HEAD 2>/dev/null || git show --stat --no-patch', projectDir);
+  const gitLog  = diffSummary.log;
+  const gitStat = diffSummary.stat;
 
   const content = [
     `---`,
@@ -298,29 +297,41 @@ function updateRegistry(projectName) {
   const registryPath = path.join(__dirname, '..', '..', 'Vault', '03-Projects', 'Registry.md');
   if (!fs.existsSync(registryPath)) return false;
 
-  const slug    = projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  let content   = fs.readFileSync(registryPath, 'utf8');
+  const slug = projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  if (!slug || slug === '-') return false; // degenerate slug would match every row
 
-  // Replace "scaffolded", "discovery", "planning", "building", "review" with "shipped"
-  const rowRegex = new RegExp(`(\\|[^|]*${slug}[^|]*\\|[^|]*\\|[^|]*\\|[^|]*\\|)\\s*(scaffolded|discovery|planning|building|review)\\s*(\\|)`, 'i');
-  if (rowRegex.test(content)) {
-    content = content.replace(rowRegex, `$1 shipped $3`);
-    content = content.replace(/last_updated: \d{4}-\d{2}-\d{2}/, `last_updated: ${today()}`);
-    fs.writeFileSync(registryPath, content, 'utf8');
-    return true;
+  // Escape any regex metacharacters that survived the slug normalisation
+  const escapedSlug = slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  let content = fs.readFileSync(registryPath, 'utf8');
+
+  // Replace the status cell on the matching project row
+  const rowRegex = new RegExp(`(\\|[^|]*${escapedSlug}[^|]*\\|[^|]*\\|[^|]*\\|[^|]*\\|)\\s*(scaffolded|discovery|planning|building|review)\\s*(\\|)`, 'i');
+  if (!rowRegex.test(content)) return false;
+
+  content = content.replace(rowRegex, `$1 shipped $3`);
+
+  // Update last_updated only in the YAML front-matter block (before the first table row)
+  const fmEnd = content.indexOf('\n|');
+  if (fmEnd !== -1) {
+    const fm   = content.slice(0, fmEnd);
+    const rest = content.slice(fmEnd);
+    content = fm.replace(/last_updated: \d{4}-\d{2}-\d{2}/, `last_updated: ${today()}`) + rest;
   }
-  return false;
+
+  fs.writeFileSync(registryPath, content, 'utf8');
+  return true;
 }
 
 // ── Review Report ──────────────────────────────────────────────────────────────
 
-function writeReviewReport(projectDir, artifacts, dryRun) {
+function writeReviewReport(projectDir, artifacts, dryRun, diffSummary) {
   const reviewDir  = path.join(projectDir, '.claude', 'reviews');
   const reportPath = path.join(reviewDir, `ship-review-${today()}.md`);
 
   fs.mkdirSync(reviewDir, { recursive: true });
 
-  const { log, stat } = generateDiffSummary(projectDir);
+  const { log, stat } = diffSummary;
 
   const content = [
     `# Ship Review — ${path.basename(projectDir)}`,
@@ -378,7 +389,8 @@ async function main() {
   console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
   if (opts.dryRun) console.log(`Mode: DRY RUN\n`);
 
-  const artifacts = [];
+  const artifacts    = [];
+  const diffSummary  = generateDiffSummary(opts.projectDir);
 
   // 1. Dockerfile
   const dockerfile = scaffoldDockerfile(opts.projectDir);
@@ -403,7 +415,7 @@ async function main() {
 
   // 3. Post-build Vault record
   if (!opts.dryRun) {
-    const record = writeVaultRecord(opts.projectDir);
+    const record = writeVaultRecord(opts.projectDir, diffSummary);
     artifacts.push(`Vault build record: ${record}`);
     console.log(`   ✓ Vault build record written`);
 
@@ -423,18 +435,23 @@ async function main() {
   }
 
   // 6. Review report
-  const report = writeReviewReport(opts.projectDir, artifacts, opts.dryRun);
+  const report = writeReviewReport(opts.projectDir, artifacts, opts.dryRun, diffSummary);
   console.log(`\n📋 Ship review report: ${report}`);
 
   if (!opts.dryRun) {
-    // 7. Final git checkpoint
-    try {
-      execSync('git add -A', { cwd: opts.projectDir, stdio: 'pipe' });
-      execSync(`git commit -m "[ship] ${projectName}: add Dockerfile, CI, Vault record"`, {
-        cwd: opts.projectDir, stdio: 'pipe'
-      });
+    // 7. Final git checkpoint — stage only files this script created, use spawnSync
+    // to pass the commit message as an array arg and avoid shell quoting issues.
+    const shipFiles = ['Dockerfile', '.dockerignore', '.github', 'Vault', '.claude/reviews'];
+    const addResult = spawnSync('git', ['add', '--', ...shipFiles], {
+      cwd: opts.projectDir, stdio: 'pipe',
+    });
+    const commitResult = spawnSync('git', [
+      'commit', '-m', `[ship] ${projectName}: add Dockerfile, CI, Vault record`,
+    ], { cwd: opts.projectDir, stdio: 'pipe' });
+
+    if (commitResult.status === 0) {
       console.log(`\n   ✅ Final ship checkpoint committed`);
-    } catch {
+    } else {
       console.log(`\n   ✓ Nothing new to commit for ship checkpoint`);
     }
   }
