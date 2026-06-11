@@ -147,7 +147,7 @@ next_review_date: YYYY-MM-DD
 
 ## Valid Vault Document Types
 
-`spec | log | architecture | guide | decision | retrospective | session | workflow | skill | index | template`
+`spec | log | architecture | guide | decision | retrospective | session | workflow | skill | index | template | fact | entity | relationship | knownproblem | standard | phase | prompt | requirement | reference | project`
 
 ---
 
