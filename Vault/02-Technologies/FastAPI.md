@@ -26,3 +26,11 @@ Primary web framework for backend services.
 ## Related ADRs
 
 - [[ADR-ARCH-001]]
+
+## References
+
+- [FastAPI Documentation](https://fastapi.tiangolo.com)
+- [FastAPI Tutorial](https://fastapi.tiangolo.com/tutorial/)
+- [Pydantic v2 Docs](https://docs.pydantic.dev/latest/)
+- [Starlette (ASGI foundation)](https://www.starlette.io)
+- [Uvicorn ASGI Server](https://www.uvicorn.org)

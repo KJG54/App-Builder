@@ -26,6 +26,25 @@ MCP Servers provide extended capabilities to AI agents working with this project
 
 ---
 
+## Active MCP Servers Summary
+
+| Server | Package | Key Required | Purpose |
+|--------|---------|--------------|---------|
+| chroma | `chroma-mcp@v0.2.6` (uvx) | None (Docker) | Vector semantic search |
+| filesystem | `@modelcontextprotocol/server-filesystem` | None | File read/write |
+| github | `@modelcontextprotocol/server-github` | `GITHUB_PERSONAL_ACCESS_TOKEN` | Repo + PR management |
+| git | `mcp-server-git` (uvx) | None | Local git history, blame, diff |
+| context7 | `@upstash/context7-mcp` | None (optional) | Live library documentation |
+| sequential-thinking | `@modelcontextprotocol/server-sequential-thinking` | None | Structured chain-of-thought reasoning |
+| postgres | `@modelcontextprotocol/server-postgres` | `POSTGRES_CONNECTION_STRING` | SQL query + schema |
+| fetch | `@modelcontextprotocol/server-fetch` | None | HTTP content fetching |
+| memory | `@modelcontextprotocol/server-memory` | None | Persistent entity graph |
+| brave-search | `@modelcontextprotocol/server-brave-search` | `BRAVE_API_KEY` | Web search |
+| puppeteer | `@modelcontextprotocol/server-puppeteer` | None | Browser automation |
+| obsidian | `obsidian-mcp-server` | `OBSIDIAN_API_KEY` + REST plugin | Vault-native operations |
+
+---
+
 ## Currently Configured MCP Servers (Phase 1-2)
 
 ### Chroma MCP Server
@@ -138,6 +157,104 @@ Response: Returns relevant documents with similarity scores
 **Security:** Environment variable secrets, least-privilege accounts
 
 **Configuration:** [TBD Phase 13]
+
+---
+
+## Newly Added MCP Servers (2026-06-12)
+
+### Git MCP Server
+
+**Type:** Local Version Control
+**Purpose:** Read local git history, blame, diff, log, and branch info for agents
+**Status:** Active
+**Documentation:** [[GitMCP.md]]
+
+---
+
+### Sequential Thinking MCP Server
+
+**Type:** Reasoning / Planning
+**Purpose:** Structured chain-of-thought reasoning for complex agent tasks
+**Status:** Active
+**Documentation:** [[SequentialThinking.md]]
+
+---
+
+### Context7 MCP Server
+
+**Type:** Documentation / Knowledge
+**Purpose:** Fetches current, version-accurate library docs into agent context
+**Status:** Active
+**Documentation:** [[Context7.md]]
+
+---
+
+### Fetch MCP Server
+
+**Type:** HTTP Client
+**Purpose:** Fetch and convert web content to Markdown for LLM consumption
+**Status:** Active
+**Documentation:** [[Fetch.md]]
+
+---
+
+### Memory MCP Server
+
+**Type:** Knowledge Graph
+**Purpose:** Persistent entity/relationship store for agent state across tool calls
+**Status:** Active
+**Documentation:** [[Memory.md]]
+
+---
+
+### Brave Search MCP Server
+
+**Type:** Web Search
+**Purpose:** Live web search for research agents
+**Status:** Active (requires `BRAVE_API_KEY`)
+**Documentation:** [[BraveSearch.md]]
+
+---
+
+### Puppeteer MCP Server
+
+**Type:** Browser Automation
+**Purpose:** Interact with JavaScript-rendered pages, screenshots, UI testing
+**Status:** Active
+**Documentation:** [[Puppeteer.md]]
+
+---
+
+### Obsidian MCP Server
+
+**Type:** Vault-Native Operations
+**Purpose:** Frontmatter-aware read/write to Obsidian vault notes
+**Status:** Active (requires Obsidian Local REST API plugin + `OBSIDIAN_API_KEY`)
+**Documentation:** [[ObsidianMCP.md]]
+
+---
+
+## Quality & Security Tools (2026-06-12)
+
+These are CLI tools, not MCP servers. They integrate via npm scripts and git hooks.
+
+### Gitleaks
+
+**Type:** Secret Scanner (CLI)
+**Purpose:** Blocks commits containing hardcoded credentials; full-repo scanning
+**Status:** Active — pre-commit hook + `npm run scan:secrets`
+**Install:** `winget install gitleaks`
+**Documentation:** [[Gitleaks.md]]
+
+---
+
+### Semgrep
+
+**Type:** SAST / Code Quality (CLI)
+**Purpose:** Detects OWASP vulnerabilities and anti-patterns in generated and written code
+**Status:** Active — `npm run scan:code` (run before PRs)
+**Install:** `pip install semgrep`
+**Documentation:** [[Semgrep.md]]
 
 ---
 

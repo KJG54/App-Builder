@@ -28,3 +28,11 @@ Primary relational database.
 ## Known Issues
 
 - [[PostgreSQL-Issues]] (to be created as needed)
+
+## References
+
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/current/)
+- [SQLAlchemy ORM Docs](https://docs.sqlalchemy.org/en/20/)
+- [Alembic Migration Docs](https://alembic.sqlalchemy.org/en/latest/)
+- [PostgreSQL MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/postgres)
+- [psycopg3 Driver](https://www.psycopg.org/psycopg3/docs/)

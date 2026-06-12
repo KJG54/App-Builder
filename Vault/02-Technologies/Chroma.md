@@ -33,3 +33,11 @@ Facts and sessions must never be mixed. Contaminating `{project}-facts` with exp
 ## Related ADRs
 
 - [[ADR-INFRA-001]]
+
+## References
+
+- [Chroma Documentation](https://docs.trychroma.com)
+- [Chroma MCP Server (chroma-mcp)](https://pypi.org/project/chroma-mcp/)
+- [Chroma GitHub](https://github.com/chroma-core/chroma)
+- [Chroma Python Client API](https://docs.trychroma.com/reference/py-client)
+- [Embedding Functions Reference](https://docs.trychroma.com/guides/embeddings)

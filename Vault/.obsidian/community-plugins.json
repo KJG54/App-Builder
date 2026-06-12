@@ -3,5 +3,6 @@
   "copilot",
   "templater-obsidian",
   "dataview",
-  "obsidian-tasks-plugin"
+  "obsidian-tasks-plugin",
+  "obsidian-local-rest-api"
 ]

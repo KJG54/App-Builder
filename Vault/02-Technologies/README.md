@@ -30,14 +30,24 @@ This folder contains **technology reference guides** for tools and platforms use
 
 | Technology | Status | What It Is | Reference |
 |-----------|--------|-----------|-----------|
-| **Obsidian** | Active | Knowledge management tool; hosts this vault | [[Obsidian.md|Obsidian Guide]] |
-| **Chroma** | Planned (Phase 5) | Vector database for semantic search over vault | [[Chroma.md|Chroma Guide]], [[Chroma-Indexing.md|Indexing Strategy]] |
-| **Docker** | Active | Containerization for services and Chroma | [[Docker.md|Docker Guide]] |
-| **FastAPI** | Planned (Phase 5) | Async Python API framework | [[FastAPI.md|FastAPI Guide]] |
-| **PostgreSQL** | Planned (Phase 5) | Relational database for facts, requirements | [[PostgreSQL.md|PostgreSQL Guide]] |
-| **Python** | Active | Primary implementation language | [[Python.md|Python Guide]] |
-| **MCP (Model Context Protocol)** | Planned (Phase 3+) | Standard for AI agent integrations | [[MCP_SERVERS.md|MCP Servers Index]] |
-| **Git/GitHub** | Active | Version control and collaboration | See [[../04-Workflows/README.md|Workflows]] |
+| **Obsidian** | Active | Knowledge management tool; hosts this vault | [[Obsidian.md\|Obsidian Guide]] |
+| **Chroma** | Active | Vector database for semantic search over vault | [[Chroma.md\|Chroma Guide]], [[Chroma-Indexing.md\|Indexing Strategy]] |
+| **Docker** | Active | Containerization for services and Chroma | [[Docker.md\|Docker Guide]] |
+| **FastAPI** | Planned (Phase 5) | Async Python API framework | [[FastAPI.md\|FastAPI Guide]] |
+| **PostgreSQL** | Planned (Phase 5) | Relational database for facts, requirements | [[PostgreSQL.md\|PostgreSQL Guide]] |
+| **Python** | Active | Primary implementation language | [[Python.md\|Python Guide]] |
+| **MCP (Model Context Protocol)** | Active | Standard for AI agent integrations | [[MCP_SERVERS.md\|MCP Servers Index]] |
+| **Git/GitHub** | Active | Version control and collaboration | See [[../04-Workflows/README.md\|Workflows]] |
+| **Context7** | Active | Live library documentation for agents | [[Context7.md\|Context7 Guide]] |
+| **Brave Search** | Active | Web search for research agents | [[BraveSearch.md\|Brave Search Guide]] |
+| **Fetch** | Active | HTTP content fetching for agents | [[Fetch.md\|Fetch Guide]] |
+| **Memory (MCP)** | Active | Persistent entity/relationship graph for agents | [[Memory.md\|Memory Guide]] |
+| **Puppeteer** | Active | Browser automation and UI testing | [[Puppeteer.md\|Puppeteer Guide]] |
+| **Obsidian MCP** | Active (needs plugin) | Vault-native read/write for agents | [[ObsidianMCP.md\|Obsidian MCP Guide]] |
+| **Git MCP** | Active | Local git history/blame/diff for agents | [[GitMCP.md\|Git MCP Guide]] |
+| **Sequential Thinking MCP** | Active | Structured chain-of-thought for agents | [[SequentialThinking.md\|Sequential Thinking Guide]] |
+| **Gitleaks** | Active | Secret scanning; pre-commit hook | [[Gitleaks.md\|Gitleaks Guide]] |
+| **Semgrep** | Active | SAST / code quality for generated code | [[Semgrep.md\|Semgrep Guide]] |
 
 ---
 

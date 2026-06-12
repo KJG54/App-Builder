@@ -26,3 +26,12 @@ author: Claude-Builder-Agent
 ## Known Issues
 
 - [[Python-Issues]] (to be created as needed)
+
+## References
+
+- [Python Documentation](https://docs.python.org/3/)
+- [uv Package Manager](https://docs.astral.sh/uv/)
+- [pytest Docs](https://docs.pytest.org/en/stable/)
+- [SQLAlchemy ORM](https://docs.sqlalchemy.org/en/20/)
+- [Pydantic v2](https://docs.pydantic.dev/latest/)
+- [Python Type Hints (mypy)](https://mypy.readthedocs.io/en/stable/)

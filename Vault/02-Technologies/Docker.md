@@ -26,3 +26,11 @@ Execution environment for all services and agent workspaces.
 ## Known Issues
 
 - [[Docker-Issues]] (to be created as needed)
+
+## References
+
+- [Docker Documentation](https://docs.docker.com)
+- [Docker Compose Reference](https://docs.docker.com/compose/compose-file/)
+- [Docker Hub](https://hub.docker.com)
+- [Dockerfile Best Practices](https://docs.docker.com/build/building/best-practices/)
+- [Docker Networking](https://docs.docker.com/network/)
