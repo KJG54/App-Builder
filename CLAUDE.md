@@ -802,6 +802,46 @@ Do not assume missing context.
 
 ---
 
+# Multi-Agent Operating Model
+
+This project is operated by two specialist agents. The full workflow is
+[[Vault/04-Workflows/multi-agent-operating-model.md]]; the governing rules are here.
+
+## Roles
+
+* **Claude — Architect + Reviewer.** Owns thinking: architecture, feature design,
+  requirements, task decomposition, risk analysis, technical decisions,
+  documentation, and review (architecture/security/performance/maintainability).
+* **Codex — Builder + QA.** Owns execution: implementation, bug fixing,
+  refactoring, tests, build verification. Codex's contract is `AGENTS.md`.
+
+Claude and Codex must not perform the same work. If both are implementing, or both
+are planning, the workflow is misconfigured.
+
+## The Pipeline
+
+Agents run concurrently, not in lockstep. **Claude stays one task ahead** — planning
+the next task and reviewing the last while Codex builds the current one. The default
+loop: Claude designs → Codex builds → Claude reviews (`/code-review`,
+`/security-review`) → Codex fixes → close.
+
+## Rules
+
+* **Coordinate through existing systems, not new ones.** Handoffs and current-task
+  state go through the **Agent Mailbox**; structured multi-task work goes through the
+  **Agent Orchestrator**; permanent knowledge goes to the **Vault**. Do not create a
+  parallel `docs/` tree or duplicate the architecture/roadmap/decisions/standards
+  that already live in the Vault.
+* **Evidence with every handoff.** No completion or review claim without test/build
+  output or a diff (reinforces Verification + Error Reporting rules above).
+* **No two agents edit the same file without an active mailbox claim on it.** The
+  claim + `--files` list is the coordination primitive for parallel work.
+* **Stay in role.** When review surfaces large rework, Claude writes findings — it
+  does not silently reimplement (Scope Control). When a task needs an architecture or
+  roadmap decision, Codex blocks and hands to Claude rather than guessing.
+
+---
+
 # Success Criteria
 
 The Application Builder should become progressively:

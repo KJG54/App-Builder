@@ -85,7 +85,37 @@ Start a project with `/discover` to turn any idea into a full spec.
 - finance ai
 - skill builder
 - make children of this framework
--
+- Create Ai that creates 3D printable items
+Ai that can match any paint color
+microphone that detects movement and has robotic arm that moves with whoever is talking into it
+	◦	Creating app that eliminates delay to make music at the same time
+	◦	Dating app that scans your body with phone and uploads 3 image
+	◦	Create a device that can regulate how much of a substance lighter than air can be put in a container that can float. This is to make a floating device similar to a hot air balloon but with something reusable.
+	◦	Buy a lot of vr headsets and rent out space for games or different art based or interesting scenaries
+	◦	Make a Tik tok account that has brain rot videos but in the middle of the brain rot it says “get back to work” or something along this lines
+	◦	ABC’s of death horror game where there is a puzzle in each level that spells the type of phobia the level is based off
+	◦	Create app that collects brain waves to type whatever words that are being thought through internal monologue
+	◦	Tron type game
+	◦	Figure out how to get guitar cable to computer without interface
+	◦	Robot Venus fly trap
+	◦	Home gym that powers your home
+	◦	Create an app where you pick giant objects like an elephant or a plane and ask people to enter weight and how many push ups they did to calculate if you’ve lifted said object
+	◦	Create app that has a macro and micronutrient checklist where you input your food and ingredients and quantity and it tells you which nutrients you hit and what you need for the day, the week and the month. You input your shopping list and it tells you what you’re missing and what you can substitute for in supplements and other products
+	◦	Fact-check app that ends debates
+	◦	Videos, app, or website that show a trend in different tradeable assets and then asks user what they think the next candle will be and then show them if they got it right and have ranking for multiple people to play
+	◦	Apocalypse app
+	◦	Put another glass screen over computer screen that acts as a second screen for holographic effect or to switch screens and read what’s on screen without having to move your head or eyes
+	◦	Clear material that you put on device to make any screen touchscreen
+	◦	Benefits tracker app. You input what credit cards you have and it will tell you which card should be used whichever purchased for maximized return on cash back or points.
+	◦	Movie that changes for each user with Ai
+	◦	Use brainwaves to think out loud
+	◦	Make a game of a real life job
+	◦	Make a social media page that shows bloopers of people’s favorite movie (get in touch with producers and get connections)
+	◦	Dating app where you input a lot of information about yourself and it makes an ai of you so it can talk to potential matches for you
+	◦	App that makes other apps and has a tech stack based on what you want to make
+	◦	Create system where you can send social media videos to ai where is can reference it for projects
+	◦	Create a small device with a mic that has a second memory (references notes you give it) you can reference real in real time with voice
+	◦	App that create a visual representation of complex concepts like OOP or tech stacks, or the osi layers.
 
 ---
 

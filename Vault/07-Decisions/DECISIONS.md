@@ -332,6 +332,48 @@ author: Claude-Builder-Agent
 
 ---
 
+### Decision 12: Two-Agent Operating Model (Claude Architect/Reviewer + Codex Builder)
+
+**Date Decided:** 2026-06-12
+
+**Approved By:** Krystian Garcia (Project Lead)
+
+**Decision:** Adopt an explicit two-agent operating model — Claude owns thinking
+(architecture, planning, review); Codex owns execution (implementation, testing,
+verification) — running as a concurrent pipeline (Claude plans/reviews while Codex
+builds). The model is documented in [[04-Workflows/multi-agent-operating-model.md]]
+and is reconciled into existing systems rather than standing up new ones.
+
+**Context:** A proposed "AI Development Team Operating Manual" defined the roles well
+but specified a parallel `docs/` structure (architecture.md, roadmap.md, decisions.md,
+handoffs.md, standards.md, current_task.md) and new `SYNC`/`VAULT` keywords. Every one
+of those already exists in the Vault, the Agent Mailbox, the Orchestrator, or as a
+skill. A parallel structure would violate the single-source-of-truth rule
+(`CLAUDE.md` → File Organization) and create drift.
+
+**Alternatives Considered:**
+1. **Adopt the manual literally** — Pros: one self-contained document. Cons: two
+   architectures, two decision logs, two handoff systems; guaranteed drift.
+2. **Reject it** — Pros: no change. Cons: loses a genuinely good role/pipeline model.
+3. **Reconcile (CHOSEN)** — Keep the roles and the async pipeline; map every proposed
+   doc onto its existing canonical home; fold handoff formats into mailbox conventions
+   and `AGENTS.md`; map `SYNC`/`VAULT` to `/curator`, `session-handoff.js`, and Vault
+   rules. Pros: keeps the good thinking, no second source of truth. Cons: the model
+   spans Vault + mailbox + skills rather than one file.
+
+**Impact:**
+- `CLAUDE.md` gains a Multi-Agent Operating Model section (governance-level rules).
+- `AGENTS.md` gains Codex's role contract, handoff templates, and the file-claim rule.
+- New workflow doc: [[04-Workflows/multi-agent-operating-model.md]].
+- One hard rule added: no two agents edit the same file without an active mailbox claim.
+- Deferred follow-up: [[Information-Architecture-Optimization-Plan]] (structural pass).
+
+**Status:** Active
+
+**Related:** [[04-Workflows/multi-agent-operating-model.md]], [[04-Workflows/async-agent-collaboration.md]], [[ADR-ARCH-002]], Decision 7 (8 agent roles), Decision 11 (Agent Mailbox)
+
+---
+
 ## Pending Decisions (Phase 14+)
 
 | Decision | Timeline | Owner | Status |
@@ -447,6 +489,7 @@ These affect specific areas:
 | 2026-06-08 | Multi-agent orchestration (Phase 13) | ARCH | Active |
 | 2026-06-10 | chromadb JS SDK over direct HTTP (Phase 16) | INFRA | Active |
 | 2026-06-12 | Async Agent Mailbox + proper-lockfile dependency | ARCH | Active |
+| 2026-06-12 | Two-Agent Operating Model (Claude Architect + Codex Builder) | ARCH | Active |
 
 ---
 
@@ -467,7 +510,7 @@ These affect specific areas:
 ---
 
 **Last Updated:** 2026-06-12
-**Total Decisions:** 12 (all phases 1-18 complete)
-**Active Decisions:** 12
+**Total Decisions:** 13 (all phases 1-18 complete)
+**Active Decisions:** 13
 **Pending Decisions:** 6 (for Phase 14+)
 **Superseded Decisions:** 0

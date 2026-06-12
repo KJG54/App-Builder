@@ -16,6 +16,7 @@ Custom commands built for this App Builder project. Source: `.claude/commands/`.
 | `/discover` | Structured project discovery interview — extracts vision, personas, features, constraints, and automation opportunities; produces a formal Project Specification saved to `Vault/09-Requirements/` | Starting a **new project**; must complete before `/plan-project` |
 | `/efficiency` | Identify token waste, MCP cost, context bloat, and directory scope problems in the Claude Code runtime | Session feels slow or expensive; too many permission prompts; context window growing fast |
 | `/guardian` | Continuous quality monitoring — governance alignment, architecture consistency, dead code, documentation drift | Regular health check between audits; after big refactors |
+| `/handoff` | Save this session's state to the shared mailbox as a unique, non-overwriting handoff message — multi-session-safe alternative to `/remember` | Closing out a session; handing work to another concurrent Claude/Codex session |
 | `/plan-project` | Convert a completed `/discover` spec into a phased implementation plan with deliverables, dependencies, estimates, and a mandatory approval gate | After `/discover` completes; requires a spec as input; before any build begins |
 | `/simplify-project` | Answer: "what can be removed from the *project* while preserving 95% of the value?" — audits scripts, skills, MCPs, Vault docs, and over-engineering at repository scale | Project feels over-engineered; maintenance burden is high; before a major version |
 
