@@ -167,6 +167,7 @@ Vault/14-Agent-Memory/**/memory-pending-*.yaml
 .claude/logs/
 .claude/reviews/
 .claude/approvals/
+.claude/agent-mailbox/
 .claude/mcp-audit/
 .claude/plans/
 .claude/.fsm-state.json

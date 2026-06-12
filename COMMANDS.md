@@ -11,6 +11,7 @@ Custom commands built for this App Builder project. Source: `.claude/commands/`.
 | Command | What it does | When to use |
 |---------|-------------|-------------|
 | `/audit` | Full AI Software Factory audit — governance, Vault health, architecture consistency, scripts, tests, runtime artifacts | Periodic health check; before major milestones; when things feel out of sync |
+| `/agent-mailbox` | Shared async mailbox for Codex/Claude handoffs, ownership claims, blockers, and status updates | When another agent may continue the work later, or when receiving a handoff from another agent |
 | `/curator` | Find and resolve redundant, dead, misplaced, and contradictory assets | Repository feels bloated; after a sprint; before a release |
 | `/discover` | Structured project discovery interview — extracts vision, personas, features, constraints, and automation opportunities; produces a formal Project Specification saved to `Vault/09-Requirements/` | Starting a **new project**; must complete before `/plan-project` |
 | `/efficiency` | Identify token waste, MCP cost, context bloat, and directory scope problems in the Claude Code runtime | Session feels slow or expensive; too many permission prompts; context window growing fast |

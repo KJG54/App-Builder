@@ -307,6 +307,31 @@ author: Claude-Builder-Agent
 
 ---
 
+### Decision 11: Async Agent Mailbox + `proper-lockfile` Dependency
+
+**Date Decided:** 2026-06-12
+
+**Approved By:** Krystian Garcia (Project Lead)
+
+**Decision:** Add a lightweight file-backed async coordination layer (the Agent Mailbox, `.claude/scripts/agent-mailbox.js`) for Codex/Claude handoffs, and adopt `proper-lockfile@^4.1.2` as a runtime dependency to guard concurrent writes to the shared mailbox JSON.
+
+**Context:** The framework already has `agent-orchestrator.js` for structured multi-agent task DAGs. That is heavier than needed for "I'm handing this off / I claimed this / I'm blocked / here are the files" coordination between agents that do not share an orchestration session. The mailbox complements — does not replace — the orchestrator.
+
+**Alternatives Considered:**
+1. **Extend the orchestrator** — Pros: no new system. Cons: forces every handoff through full task-DAG machinery; wrong altitude for ad-hoc status.
+2. **Hand-rolled file locking** — Pros: no dependency. Cons: cross-platform lock correctness is easy to get wrong; reinvents a solved problem (`CLAUDE.md` Complexity Budget favors a maintained library here).
+3. **Mailbox + `proper-lockfile` (CHOSEN)** — Pros: minimal, well-known, single small dependency; correct stale-lock and retry handling. Cons: adds one runtime dependency.
+
+**Impact:**
+- Runtime state lives in `.claude/agent-mailbox/` (gitignored); coordination does not pollute git history.
+- One new runtime dependency (`proper-lockfile`). This entry closes the approval gate retroactively — the dependency was added during implementation before approval per `CLAUDE.md` → Approval Requirements; the user has since approved it.
+
+**Status:** Active
+
+**Related:** [[04-Workflows/async-agent-collaboration.md]], [[ADR-ARCH-002]] (Multi-agent orchestration)
+
+---
+
 ## Pending Decisions (Phase 14+)
 
 | Decision | Timeline | Owner | Status |
@@ -421,6 +446,7 @@ These affect specific areas:
 | 2026-06-08 | MCP server prioritization (GitHub + Filesystem Phase 12) | INFRA | Active |
 | 2026-06-08 | Multi-agent orchestration (Phase 13) | ARCH | Active |
 | 2026-06-10 | chromadb JS SDK over direct HTTP (Phase 16) | INFRA | Active |
+| 2026-06-12 | Async Agent Mailbox + proper-lockfile dependency | ARCH | Active |
 
 ---
 
@@ -440,8 +466,8 @@ These affect specific areas:
 
 ---
 
-**Last Updated:** 2026-06-11
-**Total Decisions:** 11 (all phases 1-18 complete)
-**Active Decisions:** 11
+**Last Updated:** 2026-06-12
+**Total Decisions:** 12 (all phases 1-18 complete)
+**Active Decisions:** 12
 **Pending Decisions:** 6 (for Phase 14+)
 **Superseded Decisions:** 0

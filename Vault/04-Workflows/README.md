@@ -15,7 +15,7 @@ author: Claude-Builder-Agent
 
 **Workflows** are documented processes for common tasks. Each workflow choreographs work across multiple roles (humans, agents) with clear handoff points.
 
-This folder contains **4 core workflows** for the Application Builder Framework.
+This folder contains **5 core workflows** for the Application Builder Framework.
 
 ---
 
@@ -27,6 +27,7 @@ This folder contains **4 core workflows** for the Application Builder Framework.
 | [[Build API.md|Build API]] | Design and implement a new REST API endpoint | Implementing backend features | 5+ |
 | [[Debug Application.md|Debug Application]] | Diagnose and fix issues | Any phase; when bugs found | All |
 | [[Deploy Service.md|Deploy Service]] | Release code to staging/production | After implementation; before release | 6+ |
+| [[async-agent-collaboration.md|Async Agent Collaboration]] | Coordinate Codex, Claude, and other agents across asynchronous sessions | When one agent hands off work to another | 13+ |
 
 ---
 
